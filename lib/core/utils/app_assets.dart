@@ -1,0 +1,53 @@
+abstract class AppAssets {
+  static const String basePath = "assets/images/";
+
+  static const String scaffoldBackground = "${basePath}scaffold_background.png";
+  static const String appLogo = "${basePath}dalilak.svg";
+
+  // static const String appLoading = "${basePath}app_loading.svg";
+  // static const String welcomeImage = "${basePath}welcome_image.png";
+  static const String welcomeImage = "${basePath}welcome_image.jpeg";
+
+  static const String donePrimary = "${basePath}primary_done_image.png";
+  static const String doneSecondary = "${basePath}secondary_done_image.png";
+
+  // home images
+  static const String chatImage = "${basePath}chat_image.png";
+  static const String profileImage = "${basePath}profile_image.png";
+  static const String notificationsImage = "${basePath}notification_icon.svg";
+  static const String dateImage = "${basePath}date.svg";
+  static const String orderImage = "${basePath}orders.svg";
+  static const String shopImage = "${basePath}shop.svg";
+  static const String testImage = "${basePath}test_image.png";
+
+  // main drawer
+  static const String appBranding = "${basePath}app_branding_image.png";
+  static const String newChat = "${basePath}new_chat_icon.svg";
+  static const String wallet = "${basePath}wallet.svg";
+  static const String compare = "${basePath}Compare.svg";
+
+  static const String bills = "${basePath}bills.svg";
+  static const String faz3a = "${basePath}fire.svg";
+  static const String settings = "${basePath}setting.svg";
+  static const String support = "${basePath}support.svg";
+
+  static const String friends = "${basePath}friends.svg";
+  static const String addUser = "${basePath}user_add.svg";
+  static const String logout = "${basePath}sign_out.svg";
+
+  // wallet icons
+  static const String homeIcon = "${basePath}home.svg";
+  static const String creditCardIcon = "${basePath}credit_card.svg";
+  static const String productsIcon = "${basePath}product.svg";
+  static const String mastercardLogo = "${basePath}master_card.png";
+  static const String visaLogo = "${basePath}visa.png";
+
+  // history icons
+  static const String onlineIcon = "${basePath}online.svg";
+  static const String offlineIcon = "${basePath}offline.svg";
+  static const String favoriteIcon = "${basePath}favorite.svg";
+
+  // settings icons
+  static const String copyIcon = "${basePath}copy_image.svg";
+  static const String cameraIcon = "${basePath}camera.svg";
+}
