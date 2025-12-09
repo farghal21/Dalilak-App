@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
           title: 'دليلك',
           theme: AppTheme.lightTheme,
           onGenerateRoute: onGenerateRoutes,
-          initialRoute: SplashView.routeName,
+          initialRoute: HomeView.routeName,
         );
       },
     );

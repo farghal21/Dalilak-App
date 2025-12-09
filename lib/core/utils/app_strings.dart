@@ -152,7 +152,7 @@ abstract class AppStrings {
   static const String wantAmountLabel = 'المبلغ المرغوب';
   static const String chargeSuscessful = 'تمت عملية الشحن بنجاح';
 
-  ///// billing screen /////
+  ///// chat_history screen /////
   static const String thisMonth = 'هذا الشهر';
   static const String last3Months = 'اخر 3 اشهر';
   static const String last90Days = 'اخر 90 يوم';
@@ -166,7 +166,7 @@ abstract class AppStrings {
   static const String lastMonth = 'اخر شهر';
   static const String completed = 'مكتمل';
   static const String notCompleted = 'غير مكتمل';
-  static const String book = 'حجز';
+  static const String details = 'التفاصيل';
   static const String buy = 'شراء';
 
   static const String search = 'البحث...';

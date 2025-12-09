@@ -8,8 +8,7 @@ import '../../features/auth/views/reset_password_done_view.dart';
 import '../../features/auth/views/reset_password_new_pass_view.dart';
 import '../../features/auth/views/reset_password_otp_view.dart';
 import '../../features/auth/views/reset_password_verify_email_view.dart';
-import '../../features/billing/views/billing_view.dart';
-import '../../features/history/views/history_view.dart';
+import '../../features/chat_history/views/history_view.dart';
 import '../../features/home/views/home_view.dart';
 import '../../features/on_boarding/views/on_boarding_view.dart';
 import '../../features/settings/views/delete_account_done_view.dart';
@@ -121,12 +120,6 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
     case WalletChargeDone.routeName:
       return MaterialPageRoute(
         builder: (context) => const WalletChargeDone(),
-        settings: settings,
-      );
-
-    case BillingView.routeName:
-      return MaterialPageRoute(
-        builder: (context) => const BillingView(),
         settings: settings,
       );
 

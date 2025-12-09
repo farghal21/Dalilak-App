@@ -22,7 +22,7 @@ class WithMediaMessageWidget extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Image.asset(
                 AppAssets.chatImage,

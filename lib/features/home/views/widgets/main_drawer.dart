@@ -1,3 +1,4 @@
+import 'package:dalilak_app/features/chat_history/views/history_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/cache/cache_helper.dart';
@@ -9,8 +10,6 @@ import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_text_styles.dart';
 import '../../../auth/views/login_view.dart';
-import '../../../billing/views/billing_view.dart';
-import '../../../history/views/history_view.dart';
 import '../../../settings/views/settings_view.dart';
 import '../../../wallet/views/wallet_view.dart';
 import '../home_view.dart';
@@ -44,21 +43,21 @@ class MainDrawer extends StatelessWidget {
               },
               isSelected: selectedIndex == 0,
             ),
-            SizedBox(height: MyResponsive.height(value: 45)),
+            SizedBox(height: MyResponsive.height(value: 25)),
             MainDrawerItem(
               imagePath: AppAssets.bills,
               title: AppStrings.history,
               onTap: () {
                 if (selectedIndex == 0) {
-                  Navigator.pushNamed(context, BillingView.routeName);
+                  Navigator.pushNamed(context, HistoryView.routeName);
                 } else {
                   Navigator.pushReplacementNamed(
-                      context, BillingView.routeName);
+                      context, HistoryView.routeName);
                 }
               },
               isSelected: selectedIndex == 2,
             ),
-            SizedBox(height: MyResponsive.height(value: 45)),
+            SizedBox(height: MyResponsive.height(value: 25)),
             MainDrawerItem(
               imagePath: AppAssets.favoriteIcon,
               title: AppStrings.favorite,
@@ -71,7 +70,7 @@ class MainDrawer extends StatelessWidget {
               },
               isSelected: selectedIndex == 1,
             ),
-            SizedBox(height: MyResponsive.height(value: 45)),
+            SizedBox(height: MyResponsive.height(value: 25)),
             MainDrawerItem(
               imagePath: AppAssets.faz3a,
               title: AppStrings.compare,
@@ -85,7 +84,7 @@ class MainDrawer extends StatelessWidget {
               },
               isSelected: selectedIndex == 3,
             ),
-            SizedBox(height: MyResponsive.height(value: 45)),
+            SizedBox(height: MyResponsive.height(value: 25)),
             MainDrawerItem(
               imagePath: AppAssets.settings,
               title: AppStrings.settings,
@@ -99,6 +98,8 @@ class MainDrawer extends StatelessWidget {
               },
               isSelected: selectedIndex == 4,
             ),
+            SizedBox(height: MyResponsive.height(value: 25)),
+
             // Spacer(),
             MainDrawerItem(
               imagePath: AppAssets.support,

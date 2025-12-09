@@ -19,70 +19,29 @@ class WithMediaListViewItemWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    hotel.name,
-                    style: AppTextStyles.semiBold15,
-                  ),
-                  SizedBox(height: MyResponsive.height(value: 5)),
-                  ...hotel.features.map(
-                    (feature) => Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "• ",
-                          style: AppTextStyles.light15.copyWith(
-                            height: 1.5,
-                            // fontSize: 16,
-                          ),
-                        ),
-                        Expanded(
-                            child: Text(
-                          feature,
-                          style: AppTextStyles.light15,
-                        )),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(width: MyResponsive.width(value: 10)),
-            Container(
-              decoration: BoxDecoration(
-                borderRadius:
-                    BorderRadius.circular(MyResponsive.radius(value: 20)),
-                border: Border.all(
-                  color: AppColors.white,
-                  width: MyResponsive.width(value: 2),
+        ClipRRect(
+          borderRadius: BorderRadius.circular(MyResponsive.radius(value: 20)),
+          child: hotel.image != null
+              ? CachedNetworkImageWrapper(
+                  imagePath: hotel.image!,
+                  width: MyResponsive.width(value: 186),
+                  height: MyResponsive.height(value: 150),
+                  fit: BoxFit.fill,
+                )
+              : Image.asset(
+                  AppAssets.testImage,
+                  width: MyResponsive.width(value: 186),
+                  height: MyResponsive.height(value: 150),
+                  fit: BoxFit.fill,
                 ),
-              ),
-              child: ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(MyResponsive.radius(value: 20)),
-                child: hotel.image != null
-                    ? CachedNetworkImageWrapper(
-                        imagePath: hotel.image!,
-                        width: MyResponsive.width(value: 186),
-                        height: MyResponsive.height(value: 150),
-                        fit: BoxFit.fill,
-                      )
-                    : Image.asset(
-                        AppAssets.testImage,
-                        width: MyResponsive.width(value: 186),
-                        height: MyResponsive.height(value: 150),
-                        fit: BoxFit.fill,
-                      ),
-              ),
-            )
-          ],
         ),
-        SizedBox(height: MyResponsive.height(value: 52)),
+        SizedBox(height: MyResponsive.height(value: 12)),
+        // SizedBox(height: MyResponsive.height(value: 52)),
+        Text(
+          hotel.name,
+          style: AppTextStyles.semiBold15,
+        ),
+        SizedBox(height: MyResponsive.height(value: 8)),
         Container(
           decoration: BoxDecoration(
             color: Color(0xff232138).withValues(alpha: .7),
@@ -93,7 +52,7 @@ class WithMediaListViewItemWidget extends StatelessWidget {
             ),
           ),
           child: CustomButton(
-            title: AppStrings.book,
+            title: AppStrings.details,
             onPressed: () {},
             height: MyResponsive.height(value: 50),
             backgroundColor: Colors.transparent,
