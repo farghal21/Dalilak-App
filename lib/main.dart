@@ -1,3 +1,4 @@
+import 'package:dalilak_app/features/car_details/car_details_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -49,7 +50,7 @@ class MyApp extends StatelessWidget {
           title: 'دليلك',
           theme: AppTheme.lightTheme,
           onGenerateRoute: onGenerateRoutes,
-          initialRoute: HomeView.routeName,
+          initialRoute: CarDetailsView.routeName,
         );
       },
     );

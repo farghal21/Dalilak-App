@@ -122,7 +122,7 @@ abstract class AppStrings {
   static const String addUser = 'اضافة حساب';
   static const String logout = 'تسجيل الخروج';
 
-  ////// wallet screen /////
+  ////// compare screen /////
 
   static const String myCharge = 'رصيدي';
   static const String addCharge = 'شحن رصيد';
@@ -198,6 +198,14 @@ abstract class AppStrings {
   static const String faz3aDialogSubtitle =
       'سيتم تنبيهك مباشرة بعد ان تتم الموافقة على طلب الفزعة من الصديق';
   static const String ok = 'حسنا';
+
+
+  ////// compare screen /////
+
+  static const String vs = 'VS';
+  static const String compareCarsTitle = 'قارن بين عربتين بسهولة';
+
+
 
   ///// settings screen /////
   static const String publicSettings = 'الاعدادات العامة';

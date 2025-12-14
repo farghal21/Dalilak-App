@@ -32,31 +32,28 @@ class CustomScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      bottom: false,
-      child: Scaffold(
-        resizeToAvoidBottomInset: true,
-        extendBodyBehindAppBar: isHomeScreen! ? true : false,
-        appBar: isHomeScreen! ? customAppBar(context) : appBar,
-        floatingActionButton: isHomeScreen! ? floatingActionButton : null,
-        bottomNavigationBar: isHomeScreen! ? bottomNavigationBar : null,
-        drawer: showDrawer!
-            ? MainDrawer(selectedIndex: drawerSelectedIndex ?? 0)
-            : null,
-        endDrawer: isHomeScreen! ? NotificationDrawer() : endDrawer,
-        body: Stack(
-          children: [
-            Image.asset(
-              AppAssets.scaffoldBackground,
-              fit: BoxFit.fill,
-              width: double.infinity,
-              height: double.infinity,
-            ),
+    return Scaffold(
+      resizeToAvoidBottomInset: true,
+      extendBodyBehindAppBar: isHomeScreen! ? true : false,
+      appBar: isHomeScreen! ? customAppBar(context) : appBar,
+      floatingActionButton: isHomeScreen! ? floatingActionButton : null,
+      bottomNavigationBar: isHomeScreen! ? bottomNavigationBar : null,
+      drawer: showDrawer!
+          ? MainDrawer(selectedIndex: drawerSelectedIndex ?? 0)
+          : null,
+      endDrawer: isHomeScreen! ? NotificationDrawer() : endDrawer,
+      body: Stack(
+        children: [
+          Image.asset(
+            AppAssets.scaffoldBackground,
+            fit: BoxFit.fill,
+            width: double.infinity,
+            height: double.infinity,
+          ),
 
-            // body
-            body,
-          ],
-        ),
+          // body
+          body,
+        ],
       ),
     );
   }

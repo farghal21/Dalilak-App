@@ -8,7 +8,10 @@ import '../../features/auth/views/reset_password_done_view.dart';
 import '../../features/auth/views/reset_password_new_pass_view.dart';
 import '../../features/auth/views/reset_password_otp_view.dart';
 import '../../features/auth/views/reset_password_verify_email_view.dart';
+import '../../features/car_details/car_details_view.dart';
 import '../../features/chat_history/views/history_view.dart';
+import '../../features/compare/views/compare_view.dart';
+import '../../features/favorite/view/favorite_view.dart';
 import '../../features/home/views/home_view.dart';
 import '../../features/on_boarding/views/on_boarding_view.dart';
 import '../../features/settings/views/delete_account_done_view.dart';
@@ -19,11 +22,6 @@ import '../../features/settings/views/profile_setting_view.dart';
 import '../../features/settings/views/public_settings_view.dart';
 import '../../features/settings/views/settings_view.dart';
 import '../../features/splash/views/splash_view.dart';
-import '../../features/wallet/views/adding_card_view.dart';
-import '../../features/wallet/views/charge_type_view.dart';
-import '../../features/wallet/views/wallet_charge_done_view.dart';
-import '../../features/wallet/views/wallet_otp_view.dart';
-import '../../features/wallet/views/wallet_view.dart';
 
 Route<dynamic> onGenerateRoutes(RouteSettings settings) {
   switch (settings.name) {
@@ -93,39 +91,26 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
         settings: settings,
       );
 
-    case WalletView.routeName:
+      case CarDetailsView.routeName:
       return MaterialPageRoute(
-        builder: (context) => const WalletView(),
+        builder: (context) => CarDetailsView(),
         settings: settings,
       );
 
-    case ChargeTypeView.routeName:
+    case CompareView.routeName:
       return MaterialPageRoute(
-        builder: (context) => const ChargeTypeView(),
-        settings: settings,
-      );
-
-    case AddingCardView.routeName:
-      return MaterialPageRoute(
-        builder: (context) => const AddingCardView(),
-        settings: settings,
-      );
-
-    case WalletOtpView.routeName:
-      return MaterialPageRoute(
-        builder: (context) => const WalletOtpView(),
-        settings: settings,
-      );
-
-    case WalletChargeDone.routeName:
-      return MaterialPageRoute(
-        builder: (context) => const WalletChargeDone(),
+        builder: (context) => const CompareView(),
         settings: settings,
       );
 
     case HistoryView.routeName:
       return MaterialPageRoute(
         builder: (context) => const HistoryView(),
+        settings: settings,
+      );
+    case FavoriteView.routeName:
+      return MaterialPageRoute(
+        builder: (context) => const FavoriteView(),
         settings: settings,
       );
 

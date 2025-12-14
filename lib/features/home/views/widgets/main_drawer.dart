@@ -1,4 +1,6 @@
 import 'package:dalilak_app/features/chat_history/views/history_view.dart';
+import 'package:dalilak_app/features/compare/views/compare_view.dart';
+import 'package:dalilak_app/features/favorite/view/favorite_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/cache/cache_helper.dart';
@@ -11,7 +13,6 @@ import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_text_styles.dart';
 import '../../../auth/views/login_view.dart';
 import '../../../settings/views/settings_view.dart';
-import '../../../wallet/views/wallet_view.dart';
 import '../home_view.dart';
 import 'main_drawer_item.dart';
 
@@ -45,7 +46,7 @@ class MainDrawer extends StatelessWidget {
             ),
             SizedBox(height: MyResponsive.height(value: 25)),
             MainDrawerItem(
-              imagePath: AppAssets.bills,
+              imagePath: AppAssets.history,
               title: AppStrings.history,
               onTap: () {
                 if (selectedIndex == 0) {
@@ -55,31 +56,31 @@ class MainDrawer extends StatelessWidget {
                       context, HistoryView.routeName);
                 }
               },
-              isSelected: selectedIndex == 2,
-            ),
-            SizedBox(height: MyResponsive.height(value: 25)),
-            MainDrawerItem(
-              imagePath: AppAssets.favoriteIcon,
-              title: AppStrings.favorite,
-              onTap: () {
-                if (selectedIndex == 0) {
-                  Navigator.pushNamed(context, WalletView.routeName);
-                } else {
-                  Navigator.pushReplacementNamed(context, WalletView.routeName);
-                }
-              },
               isSelected: selectedIndex == 1,
             ),
             SizedBox(height: MyResponsive.height(value: 25)),
             MainDrawerItem(
-              imagePath: AppAssets.faz3a,
+              imagePath: AppAssets.compare,
               title: AppStrings.compare,
               onTap: () {
                 if (selectedIndex == 0) {
-                  Navigator.pushNamed(context, HistoryView.routeName);
+                  Navigator.pushNamed(context, CompareView.routeName);
+                } else {
+                  Navigator.pushReplacementNamed(context, CompareView.routeName);
+                }
+              },
+              isSelected: selectedIndex == 2,
+            ),
+            SizedBox(height: MyResponsive.height(value: 25)),
+            MainDrawerItem(
+              imagePath: AppAssets.favorite,
+              title: AppStrings.favorite,
+              onTap: () {
+                if (selectedIndex == 0) {
+                  Navigator.pushNamed(context, FavoriteView.routeName);
                 } else {
                   Navigator.pushReplacementNamed(
-                      context, HistoryView.routeName);
+                      context, FavoriteView.routeName);
                 }
               },
               isSelected: selectedIndex == 3,

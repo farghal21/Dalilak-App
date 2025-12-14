@@ -15,7 +15,7 @@ class HistoryView extends StatelessWidget {
     return BlocProvider(
       create: (context) => HistoryCubit(),
       child: CustomScaffold(
-        drawerSelectedIndex: 2,
+        drawerSelectedIndex: 1,
         isHomeScreen: true,
         body: HistoryViewBody(),
       ),

@@ -23,19 +23,18 @@ abstract class AppAssets {
   // main drawer
   static const String appBranding = "${basePath}app_branding_image.png";
   static const String newChat = "${basePath}new_chat_icon.svg";
-  static const String wallet = "${basePath}wallet.svg";
-  static const String compare = "${basePath}Compare.svg";
 
-  static const String bills = "${basePath}bills.svg";
-  static const String faz3a = "${basePath}fire.svg";
+  static const String history = "${basePath}bills.svg";
+  static const String compare = "${basePath}fire.svg";
   static const String settings = "${basePath}setting.svg";
   static const String support = "${basePath}support.svg";
+  static const String favorite = "${basePath}favorite.svg";
 
   static const String friends = "${basePath}friends.svg";
   static const String addUser = "${basePath}user_add.svg";
   static const String logout = "${basePath}sign_out.svg";
 
-  // wallet icons
+  // compare icons
   static const String homeIcon = "${basePath}home.svg";
   static const String creditCardIcon = "${basePath}credit_card.svg";
   static const String productsIcon = "${basePath}product.svg";
@@ -45,9 +44,15 @@ abstract class AppAssets {
   // history icons
   static const String onlineIcon = "${basePath}online.svg";
   static const String offlineIcon = "${basePath}offline.svg";
-  static const String favoriteIcon = "${basePath}favorite.svg";
+  static const String favoriteIcon = "${basePath}compare.svg";
 
   // settings icons
   static const String copyIcon = "${basePath}copy_image.svg";
   static const String cameraIcon = "${basePath}camera.svg";
+
+// cars Images
+  static const String car1 = "${basePath}593baca3556375a432fe5de71bf12e71.png";
+  static const String car2 = "${basePath}f42a66fa6206c8da34bc72c64709cc7c.png";
+
+
 }

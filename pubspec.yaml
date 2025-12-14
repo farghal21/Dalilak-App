@@ -36,6 +36,8 @@ dependencies:
   flutter_svg:
   get_it: ^9.1.1
   modal_progress_hud_nsn: ^0.5.1
+  carousel_slider:
+  smooth_page_indicator: 1.1.0
 
   flutter_localizations:
     sdk: flutter
