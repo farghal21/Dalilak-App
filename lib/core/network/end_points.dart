@@ -1,6 +1,12 @@
 abstract class EndPoints {
-  static const String baseUrl = 'http://10.0.2.2:5002';
-  static const String login = '/api/auth/login';
-  static const String refreshToken = 'refresh_token';
-  static const String sendMessage = '/api/chat/send';
+  static const String baseUrl = 'https://jrkmal-001-site1.jtempurl.com/api/';
+  static const String login = 'Auth/login';
+  static const String register = 'Auth/register';
+  static const String refreshToken = 'Auth/refresh-token';
+  static const String forgotPassword = 'Auth/forgot-password';
+  static const String verifyEmail = 'Auth/verify-email';
+  static const String verifyOtp = 'Auth/verify-reset-otp';
+  static const String resendOtp = 'Auth/resend-otp';
+  static const String resetPassword = 'Auth/reset-password';
+  static const String sendMessage = 'chat/send';
 }

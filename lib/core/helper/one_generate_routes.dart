@@ -44,14 +44,20 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
       );
 
     case ResetPasswordOtpView.routeName:
+      final email = settings.arguments as String;
       return MaterialPageRoute(
-        builder: (context) => const ResetPasswordOtpView(),
+        builder: (context) => ResetPasswordOtpView(
+          email: email,
+        ),
         settings: settings,
       );
 
     case ResetPasswordNewPassView.routeName:
+      final email = settings.arguments as String;
       return MaterialPageRoute(
-        builder: (context) => ResetPasswordNewPassView(),
+        builder: (context) => ResetPasswordNewPassView(
+          email: email,
+        ),
         settings: settings,
       );
 
@@ -68,8 +74,11 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
       );
 
     case RegisterOtpView.routeName:
+      final email = settings.arguments as String;
       return MaterialPageRoute(
-        builder: (context) => const RegisterOtpView(),
+        builder: (context) => RegisterOtpView(
+          email: email,
+        ),
         settings: settings,
       );
 
@@ -91,7 +100,7 @@ Route<dynamic> onGenerateRoutes(RouteSettings settings) {
         settings: settings,
       );
 
-      case CarDetailsView.routeName:
+    case CarDetailsView.routeName:
       return MaterialPageRoute(
         builder: (context) => CarDetailsView(),
         settings: settings,

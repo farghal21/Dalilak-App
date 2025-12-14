@@ -1,10 +1,10 @@
 import 'package:dalilak_app/features/auth/views/widgets/done_widget.dart';
+import 'package:dalilak_app/features/home/views/home_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../core/shared_widgets/custom_scaffold.dart';
 import '../../../core/utils/app_assets.dart';
 import '../../../core/utils/app_strings.dart';
-import '../../on_boarding/views/on_boarding_view.dart';
 
 class RegisterDoneView extends StatelessWidget {
   const RegisterDoneView({super.key});
@@ -20,7 +20,7 @@ class RegisterDoneView extends StatelessWidget {
       isResetPass: false,
       onPressed: () {
         Navigator.pushNamedAndRemoveUntil(
-            context, OnBoardingView.routeName, (route) => false);
+            context, HomeView.routeName, (route) => false);
       },
     ));
   }

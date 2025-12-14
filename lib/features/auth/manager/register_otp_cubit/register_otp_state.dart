@@ -4,9 +4,17 @@ class RegisterOtpInitial extends RegisterOtpState {}
 
 class RegisterOtpLoading extends RegisterOtpState {}
 
-class RegisterOtpVerified extends RegisterOtpState {}
+class RegisterOtpVerified extends RegisterOtpState {
+  final String message;
 
-class RegisterOtpResent extends RegisterOtpState {}
+  RegisterOtpVerified(this.message);
+}
+
+class RegisterOtpResend extends RegisterOtpState {
+  final String message;
+
+  RegisterOtpResend(this.message);
+}
 
 class RegisterOtpFailure extends RegisterOtpState {
   final String errorMessage;

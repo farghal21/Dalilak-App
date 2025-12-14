@@ -28,7 +28,7 @@ class HomeRepoImpl implements HomeRepo {
         isProtected: true,
       );
 
-      if (response.status == false) {
+      if (response.success == false) {
         return Left(response.message);
       }
 

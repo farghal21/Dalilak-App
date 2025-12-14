@@ -1,10 +1,12 @@
+import 'package:dalilak_app/features/auth/data/repo/auth_repo.dart';
 import 'package:dalilak_app/features/auth/manager/reset_password_new_password_cubit/reset_password_new_password_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ResetPasswordNewPasswordCubit
     extends Cubit<ResetPasswordNewPasswordState> {
-  ResetPasswordNewPasswordCubit() : super(ResetPasswordNewPasswordInitial());
+  ResetPasswordNewPasswordCubit(this.repo)
+      : super(ResetPasswordNewPasswordInitial());
 
   static ResetPasswordNewPasswordCubit get(context) => BlocProvider.of(context);
 
@@ -13,16 +15,22 @@ class ResetPasswordNewPasswordCubit
   GlobalKey<FormState> passwordFormKey = GlobalKey<FormState>();
   bool obsecure = true;
   bool confirmObsecure = true;
+  AuthRepo repo;
 
-  void submitNewPassword() {
+  void submitNewPassword(String email) async {
     if (!passwordFormKey.currentState!.validate()) {
       return;
     }
     emit(ResetPasswordNewPasswordLoading());
-    // Simulate a network call or any async operation
-    Future.delayed(Duration(seconds: 2), () {
-      emit(ResetPasswordNewPasswordSuccess());
-    });
+    var result = await repo.resetPassword(
+      email: email,
+      password: passwordController.text,
+    );
+
+    result.fold(
+      (error) => emit(ResetPasswordNewPasswordFailure(error)),
+      (message) => emit(ResetPasswordNewPasswordSuccess(message)),
+    );
   }
 
   void changeObsecurePassword() {
