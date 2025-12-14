@@ -1,5 +1,7 @@
 
 
+import 'package:dalilak_app/core/shared_widgets/svg_wrapper.dart';
+import 'package:dalilak_app/core/utils/app_assets.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helper/my_responsive.dart';
@@ -24,38 +26,32 @@ class FirstSectionDetails extends StatelessWidget {
             children: [
               Expanded(
                 child: Text(
-                  'Pyramids of Giza',
+                  'مرسيدس C200',
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
                   style: AppTextStyles.bold20,
                 ),
               ),
               SizedBox(width: MyResponsive.width(value: 6)),
-              // RatingBarWrapper(
-              //   rating: 5,
-              //   starSize: 15,
-              //   spaceBetweenStars: 1,
-              // ),
-              SizedBox(width: MyResponsive.width(value: 6)),
-              Text(
-                "(4)",
-                style: AppTextStyles.semiBold14.copyWith(
-                  color: Colors.deepOrange,
-                ),
+              IconButton(
+                onPressed: () {},
+                  icon: SvgWrapper(path: AppAssets.favorite , width: MyResponsive.width(value: 30),)
+
               ),
+              IconButton(
+                onPressed: () {},
+
+                icon: SvgWrapper(path: AppAssets.compare , width: MyResponsive.width(value: 30),)
+              ),
+
             ],
           ),
           SizedBox(height: MyResponsive.height(value: 8)),
           Row(
             children: [
-              Icon(
-                Icons.location_on_outlined,
-                color: AppColors.black.withValues(alpha: .5),
-                size: MyResponsive.fontSize(value: 20),
-              ),
-              SizedBox(width: MyResponsive.width(value: 4)),
+
               Text(
-                'Giza, Egypt, Elharam St.',
+                'sub title',
                 overflow: TextOverflow.ellipsis,
                 maxLines: 1,
                 style: AppTextStyles.semiBold14
@@ -64,7 +60,7 @@ class FirstSectionDetails extends StatelessWidget {
           ),
           SizedBox(height: MyResponsive.height(value: 15)),
           Text(
-            'The Pyramids of Giza, located on the outskirts of Cairo, Egypt, are one of the most iconic and enduring symbols of ancient civilization.',
+            'وصف العربيه',
               style: AppTextStyles.semiBold14
           ),
         ],

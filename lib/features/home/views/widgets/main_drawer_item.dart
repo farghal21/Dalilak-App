@@ -34,6 +34,7 @@ class MainDrawerItem extends StatelessWidget {
             SvgWrapper(
               path: imagePath,
               color: isSelected ? AppColors.white : AppColors.gray,
+              width: MyResponsive.width(value: 30) ,
             ),
             SizedBox(width: MyResponsive.width(value: 22)),
             Expanded(

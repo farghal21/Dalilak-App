@@ -1,11 +1,3 @@
-<svg xmlns:xlink="http://www.w3.org/1999/xlink" fill="none" height="30" viewBox="0 0 30 30"
-    width="30" xmlns="http://www.w3.org/2000/svg">
-    <rect fill="url(#pattern0_254_464)" height="30" width="30" />
-    <defs>
-        <pattern height="1" id="pattern0_254_464" patternContentUnits="objectBoundingBox" width="1">
-            <use transform="scale(0.0111111)" xlink:href="#image0_254_464" />
-        </pattern>
-        <image height="90" id="image0_254_464" preserveAspectRatio="none" width="90"
-            xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFoAAABaCAYAAAA4qEECAAAACXBIWXMAAAsTAAALEwEAmpwYAAACIUlEQVR4nO3cXU7cMBSGYatSRyorKEsEFtDbXPa6UMGGYKrCWmgFtLdvZTEjBpifOnFOjk++5xpZnpcoE9kTpyQiIiIiIiIiMmPAEfAd+M10noAb4BT4mCICrvDlFvicIgE+AH/x52eoK9tx6OwkReLw1rF2kyIBPgHnwC98eZi6TTjsMPW8wkGhbaDQNlBoGyi0DRR6P+BrpXEUeh+eDY6t0AfwYlBshT6A13rHVugDeK9XbIU+gO2KY88i9Eg7LF3hHGYReqxl0q5gDrFDGyz8d/85D4VW6Ep062h7h6UrnEP80EPQMzKwAM6A5eo3HVPJF9dFvtiSZ/SLfAzc4ctV8ox+V7K3yNmf/GCQvKL86SLfLjxqInRX8Pc/8OkyeUb508UjvtwD39x/GZba9WmLB5L9FNoICm0DhbaBQttgzqE9vMOSJnjUnOUP0dPwz9DV+oeFfrUiVYg8dJxRtR6ajchDxjHR6q2DN5H7jjOrd1hShch9xgmLCqF3RQ69w2IdunLkdnZYLEOPGNn/wn8phW4g9Mixfe+wWIceIbZ2WPYBvtQYJywqhd4Vu/6MG0XF0Nti151tw6gc+m3sejNtHCOE3oxdZ5YBMFLoJhb+o4SWDQptBIW2gULbQKFtoNA2gAd8CbvDssSncDssp/gUbuF/sTpN15tYobN8ZPHqNF1PYu2wrOUji/NpusD1xO+1xNxhERERERERERFJZf4BLRdSg3d39HYAAAAASUVORK5CYII=" />
-    </defs>
+<svg width="60" height="60" viewBox="0 0 60 60" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M45 20V38.25C45 41.0503 45 42.4505 44.455 43.52C43.9757 44.4608 43.2108 45.2257 42.27 45.705C41.2005 46.25 39.8003 46.25 37 46.25H30M45 20C48.4517 20 51.25 17.2018 51.25 13.75C51.25 10.2982 48.4517 7.5 45 7.5C41.5483 7.5 38.75 10.2982 38.75 13.75C38.75 17.2018 41.5483 20 45 20ZM30 46.25L35 40M30 46.25L35 52.5M15 40V21.75C15 18.9497 15 17.5496 15.545 16.4801C16.0243 15.5392 16.7892 14.7743 17.7301 14.295C18.7996 13.75 20.1997 13.75 23 13.75H30M15 40C11.5482 40 8.75 42.7983 8.75 46.25C8.75 49.7017 11.5482 52.5 15 52.5C18.4518 52.5 21.25 49.7017 21.25 46.25C21.25 42.7983 18.4518 40 15 40ZM30 13.75L25 20M30 13.75L25 7.5" stroke="#83868F" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

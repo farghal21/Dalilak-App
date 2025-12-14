@@ -1,3 +1,4 @@
+import 'package:dalilak_app/features/car_details/car_details_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helper/my_responsive.dart';
@@ -53,7 +54,10 @@ class WithMediaListViewItemWidget extends StatelessWidget {
           ),
           child: CustomButton(
             title: AppStrings.details,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, CarDetailsView.routeName);
+
+            },
             height: MyResponsive.height(value: 50),
             backgroundColor: Colors.transparent,
           ),

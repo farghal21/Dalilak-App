@@ -12,8 +12,6 @@ class CarDetailsSlider extends StatelessWidget {
     AppAssets.car1,
     AppAssets.car1,
     AppAssets.car1,
-    AppAssets.car1,
-    AppAssets.car1,
   ];
 
   @override

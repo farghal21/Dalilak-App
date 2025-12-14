@@ -50,7 +50,7 @@ class MyApp extends StatelessWidget {
           title: 'دليلك',
           theme: AppTheme.lightTheme,
           onGenerateRoute: onGenerateRoutes,
-          initialRoute: CarDetailsView.routeName,
+          initialRoute: HomeView.routeName,
         );
       },
     );

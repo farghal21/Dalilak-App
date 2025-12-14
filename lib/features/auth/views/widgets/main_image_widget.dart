@@ -11,7 +11,7 @@ class MainImageWidget extends StatelessWidget {
     return Column(
       children: [
         SizedBox(
-          height: MyResponsive.height(value: 45),
+          height: MyResponsive.height(value: 70),
         ),
         Padding(
           padding: MyResponsive.paddingSymmetric(horizontal: 12),

@@ -42,9 +42,7 @@ class UserDiscoverAppSourcePageWidget extends StatelessWidget {
             ),
           ),
 
-          SizedBox(
-            height: MyResponsive.height(value: 48),
-          ),
+
 
           // ListView
           BlocBuilder<OnboardingCubit, OnboardingState>(

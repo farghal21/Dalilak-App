@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/shared_widgets/custom_text_form_field.dart';
+import '../../../../core/utils/app_strings.dart';
 import 'history_app_bar.dart';
 import 'history_list_view.dart';
 
@@ -22,9 +23,9 @@ class HistoryViewBody extends StatelessWidget {
           child: Column(
             children: [
               SizedBox(
-                height: MyResponsive.height(value: 100),
+                height: MyResponsive.height(value: 140),
               ),
-              HistoryAppBar(),
+              HistoryAppBar(title: AppStrings.searchYourChat,),
               SizedBox(
                 height: MyResponsive.height(value: 30),
               ),

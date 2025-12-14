@@ -26,7 +26,7 @@ class HomeViewBody extends StatelessWidget {
         padding: MyResponsive.paddingSymmetric(horizontal: 20),
         child: Column(
           children: [
-            SizedBox(height: MyResponsive.height(value: 50)),
+            SizedBox(height: MyResponsive.height(value: 100)),
             Expanded(
               child: BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {

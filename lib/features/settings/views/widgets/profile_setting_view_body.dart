@@ -25,7 +25,7 @@ class ProfileSettingViewBody extends StatelessWidget {
         child: Column(
           children: [
             SizedBox(
-              height: MyResponsive.height(value: 110),
+              height: MyResponsive.height(value: 140),
             ),
             Align(
               alignment: AlignmentDirectional.centerStart,

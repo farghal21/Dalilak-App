@@ -25,7 +25,7 @@ abstract class AppAssets {
   static const String newChat = "${basePath}new_chat_icon.svg";
 
   static const String history = "${basePath}bills.svg";
-  static const String compare = "${basePath}fire.svg";
+  static const String compare = "${basePath}compare.svg";
   static const String settings = "${basePath}setting.svg";
   static const String support = "${basePath}support.svg";
   static const String favorite = "${basePath}favorite.svg";

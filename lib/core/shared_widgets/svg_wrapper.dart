@@ -23,7 +23,7 @@ class SvgWrapper extends StatelessWidget {
       path,
       fit: fit!,
       colorFilter:
-          color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
+      color != null ? ColorFilter.mode(color!, BlendMode.srcIn) : null,
       width: width,
       height: height,
     );

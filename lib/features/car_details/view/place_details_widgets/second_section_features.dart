@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../../core/helper/my_responsive.dart';
@@ -13,24 +12,24 @@ class SecondSectionFeatures extends StatelessWidget {
 
   final List<Map<String, dynamic>> features = const [
     {
-      'icon': Icons.bookmark,
-      'title': 'Catergory',
-      'subtitle': 'Historical',
+
+      'title': 'ناقل الحركه',
+      'subtitle': 'اوتوماتيك',
     },
     {
-      'icon': Icons.price_change,
-      'title': 'Price',
-      'subtitle': 'Free',
+
+      'title': 'نوع الوقود',
+      'subtitle': 'كهربائيه',
     },
     {
-      'icon': Icons.timelapse,
-      'title': 'openingHours',
-      'subtitle': '8:00 AM - 5:00 PM daily',
+
+      'title': 'قوة المحرك(حصان)',
+      'subtitle': '149 hp',
     },
     {
-      'icon': Icons.airplane_ticket,
-      'title': 'Ticket',
-      'subtitle': '240 EGP',
+
+      'title': 'السرعة القصوى ',
+      'subtitle': '180 الى 185 كم/س',
     },
   ];
 
@@ -42,23 +41,22 @@ class SecondSectionFeatures extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            AppStrings.favorite,
+            AppStrings.details,
             style: AppTextStyles.bold20,
           ),
-          SizedBox(height: MyResponsive.height(value: 4)),
+          SizedBox(height: MyResponsive.height(value: 10)),
           Row(
             children: [
-              Icon(
-                Icons.calendar_month_outlined,
-                color: AppColors.black.withValues(alpha: .4),
-                size: MyResponsive.fontSize(value: 18),
-              ),
-              SizedBox(width: MyResponsive.width(value: 4)),
-              Text(
-                'created at: 20/10/2023',
-                  style: AppTextStyles.bold20,
-
-              ),
+              // Icon(
+              //   Icons.calendar_month_outlined,
+              //   color: AppColors.black.withValues(alpha: .4),
+              //   size: MyResponsive.fontSize(value: 18),
+              // ),
+              // SizedBox(width: MyResponsive.width(value: 4)),
+              // Text(
+              //   'created at: 20/10/2023',
+              //   style: AppTextStyles.bold20,
+              // ),
             ],
           ),
           SizedBox(height: MyResponsive.height(value: 12)),
@@ -76,7 +74,7 @@ class SecondSectionFeatures extends StatelessWidget {
               ),
               itemBuilder: (context, index) {
                 return FeatureGridItem(
-                  icon: features[index]['icon'],
+                  // icon: features[index]['icon'],
                   title: features[index]['title'],
                   subtitle: features[index]['subtitle'],
                 );
@@ -93,12 +91,12 @@ class SecondSectionFeatures extends StatelessWidget {
 class FeatureGridItem extends StatelessWidget {
   const FeatureGridItem({
     super.key,
-    required this.icon,
+    // required this.icon,
     required this.title,
     required this.subtitle,
   });
 
-  final dynamic icon;
+  // final dynamic icon;
   final String title;
   final String subtitle;
 
@@ -119,11 +117,11 @@ class FeatureGridItem extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(
-                icon,
-                color: AppColors.primary,
-                size: MyResponsive.fontSize(value: 20),
-              ),
+              // Icon(
+              //   icon,
+              //   color: AppColors.primary,
+              //   size: MyResponsive.fontSize(value: 20),
+              // ),
               SizedBox(width: MyResponsive.width(value: 4)),
               Text(
                 title,
@@ -143,8 +141,6 @@ class FeatureGridItem extends StatelessWidget {
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
             style: AppTextStyles.bold20,
-
-
           ),
         ],
       ),

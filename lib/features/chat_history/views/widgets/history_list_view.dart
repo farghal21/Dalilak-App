@@ -24,7 +24,7 @@ class HistoryListView extends StatelessWidget {
           // physics: const NeverScrollableScrollPhysics(),
           itemBuilder: (context, index) {
             var historyItem = data[index];
-            return BillDetailsWidget(
+            return HistoryDetailsWidget(
               name: historyItem["name"],
               time: historyItem["lastInteraction"],
             );
@@ -39,8 +39,8 @@ class HistoryListView extends StatelessWidget {
   }
 }
 
-class BillDetailsWidget extends StatelessWidget {
-  const BillDetailsWidget({
+class HistoryDetailsWidget extends StatelessWidget {
+  const HistoryDetailsWidget({
     super.key,
     required this.name,
     required this.time,
@@ -51,7 +51,8 @@ class BillDetailsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return
+      Container(
       width: double.infinity,
       padding: MyResponsive.paddingSymmetric(
         horizontal: 20,

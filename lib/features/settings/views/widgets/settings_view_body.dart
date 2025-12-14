@@ -21,7 +21,7 @@ class SettingsViewBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: MyResponsive.height(value: 110),
+            height: MyResponsive.height(value: 140),
           ),
           Text(
             AppStrings.settings,

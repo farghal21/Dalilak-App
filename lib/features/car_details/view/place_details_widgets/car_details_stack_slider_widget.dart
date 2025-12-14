@@ -18,38 +18,38 @@ class CarDetailsStackSliderWidget extends StatelessWidget {
     return Stack(
       children: [
         CarDetailsSlider(),
-        Positioned(
-          top: MyResponsive.height(value: 30),
-          left: MyResponsive.width(value: 15),
-          child: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            style: IconButton.styleFrom(
-              shape: CircleBorder(),
-              backgroundColor: AppColors.white.withValues(alpha: 0.4),
-            ),
-            icon: Icon(
-              Icons.arrow_back_ios_new,
-              size: MyResponsive.fontSize(value: 25),
-            ),
-          ),
-        ),
-        Positioned(
-          top: MyResponsive.height(value: 30),
-          right: MyResponsive.width(value: 15),
-          child: IconButton(
-            onPressed: () {},
-            style: IconButton.styleFrom(
-              shape: CircleBorder(),
-              backgroundColor: AppColors.white.withValues(alpha: 0.4),
-            ),
-            icon: Icon(
-              Icons.favorite_border,
-              size: MyResponsive.fontSize(value: 25),
-            ),
-          ),
-        ),
+        // Positioned(
+        //   top: MyResponsive.height(value: 30),
+        //   left: MyResponsive.width(value: 15),
+        //   child: IconButton(
+        //     onPressed: () {
+        //       Navigator.pop(context);
+        //     },
+        //     style: IconButton.styleFrom(
+        //       shape: CircleBorder(),
+        //       backgroundColor: AppColors.white.withValues(alpha: 0.4),
+        //     ),
+        //     icon: Icon(
+        //       Icons.arrow_back_sharp,
+        //       size: MyResponsive.fontSize(value: 25),
+        //     ),
+        //   ),
+        // ),
+        // Positioned(
+        //   top: MyResponsive.height(value: 30),
+        //   right: MyResponsive.width(value: 15),
+        //   child: IconButton(
+        //     onPressed: () {},
+        //     style: IconButton.styleFrom(
+        //       shape: CircleBorder(),
+        //       backgroundColor: AppColors.white.withValues(alpha: 0.4),
+        //     ),
+        //     icon: Icon(
+        //       Icons.favorite_border,
+        //       size: MyResponsive.fontSize(value: 25),
+        //     ),
+        //   ),
+        // ),
         Positioned(
           bottom: MyResponsive.height(value: 15),
           left: MyResponsive.width(value: 170),
@@ -58,7 +58,7 @@ class CarDetailsStackSliderWidget extends StatelessWidget {
             builder: (context, state) {
               return AnimatedSmoothIndicator(
                 activeIndex: SliderCubit.get(context).currentIndex,
-                count: 5,
+                count: 3,
                 effect: ExpandingDotsEffect(
                   dotHeight: MyResponsive.height(value: 10),
                   dotWidth: MyResponsive.width(value: 10),

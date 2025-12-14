@@ -39,9 +39,6 @@ class UserGoalPageWidget extends StatelessWidget {
             ),
           ),
 
-          SizedBox(
-            height: MyResponsive.height(value: 50),
-          ),
 
           // list view
           BlocBuilder<OnboardingCubit, OnboardingState>(

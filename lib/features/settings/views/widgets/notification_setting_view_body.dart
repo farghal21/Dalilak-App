@@ -18,14 +18,14 @@ class NotificationSettingViewBody extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           SizedBox(
-            height: MyResponsive.height(value: 110),
+            height: MyResponsive.height(value: 140),
           ),
           Text(
             AppStrings.notifications,
             style: AppTextStyles.semiBold24,
           ),
           SizedBox(
-            height: MyResponsive.height(value: 92),
+            height: MyResponsive.height(value: 50),
           ),
           SettingDropdownWidget(
             title: AppStrings.internalNotifications,

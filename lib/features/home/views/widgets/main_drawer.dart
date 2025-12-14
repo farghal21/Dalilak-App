@@ -31,7 +31,7 @@ class MainDrawer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // SvgWrapper(path: AppAssets.appBranding),
-            SizedBox(height: MyResponsive.height(value: 20)),
+            SizedBox(height: MyResponsive.height(value: 50)),
             Image.asset(AppAssets.appBranding),
 
             SizedBox(height: MyResponsive.height(value: 38)),
