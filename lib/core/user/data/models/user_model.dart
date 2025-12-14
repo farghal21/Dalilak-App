@@ -1,36 +1,41 @@
 class UserModel {
-  String? id;
-  String? name;
+  int? id;
+  String? firstName;
+  String? lastName;
   String? email;
-  String? role;
-  bool? isAccountVerified;
   String? phone;
+  String? profileImageUrl;
+  bool? isEmailVerified;
+  bool? isActive;
+  String? createdAt;
+  String? lastLoginAt;
+  String? fullName;
 
   UserModel(
       {this.id,
-      this.name,
-      this.email,
-      this.role,
-      this.isAccountVerified,
-      this.phone});
+        this.firstName,
+        this.lastName,
+        this.email,
+        this.phone,
+        this.profileImageUrl,
+        this.isEmailVerified,
+        this.isActive,
+        this.createdAt,
+        this.lastLoginAt,
+        this.fullName});
 
   UserModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
     email = json['email'];
-    role = json['role'];
-    isAccountVerified = json['isAccountVerified'];
     phone = json['phone'];
+    profileImageUrl = json['profileImageUrl'];
+    isEmailVerified = json['isEmailVerified'];
+    isActive = json['isActive'];
+    createdAt = json['createdAt'];
+    lastLoginAt = json['lastLoginAt'];
+    fullName = json['fullName'];
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = Map<String, dynamic>();
-    data['id'] = id;
-    data['name'] = name;
-    data['email'] = email;
-    data['role'] = role;
-    data['isAccountVerified'] = isAccountVerified;
-    data['phone'] = phone;
-    return data;
-  }
 }

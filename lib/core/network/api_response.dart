@@ -1,16 +1,14 @@
 import 'package:dio/dio.dart';
-
 import '../helper/custom_logger.dart';
-import '../utils/app_strings.dart';
 
 class ApiResponse {
-  final bool status;
+  final bool success;
   final int statusCode;
   final dynamic data;
   final String message;
 
   ApiResponse({
-    required this.status,
+    required this.success,
     required this.statusCode,
     this.data,
     required this.message,
@@ -19,21 +17,21 @@ class ApiResponse {
   // Factory method to handle Dio responses
   factory ApiResponse.fromResponse(Response response) {
     return ApiResponse(
-      status: response.data["success"] ?? false,
+      success: response.data["success"] ?? false,
       statusCode: response.statusCode ?? 500,
       data: response.data,
-      message: response.data["message"]['ar'] ?? AppStrings.unknownError['ar'],
+      message: response.data["message"] ?? 'An error occurred.',
     );
   }
 
   // Factory method to handle Dio or other exceptions
   factory ApiResponse.fromError(dynamic error) {
     // ignore: avoid_print
-    CustomLogger.red(error.toString());
+    print(error.toString());
     if (error is DioException) {
       // ignore: avoid_print
       return ApiResponse(
-        status: false,
+        success: false,
         data: error.response?.data,
         statusCode:
         error.response != null ? error.response!.statusCode ?? 500 : 500,
@@ -41,9 +39,9 @@ class ApiResponse {
       );
     } else {
       return ApiResponse(
-        status: false,
+        success: false,
         statusCode: 500,
-        message: AppStrings.unknownError['ar']!,
+        message: 'An error occurred.',
       );
     }
   }
@@ -51,31 +49,33 @@ class ApiResponse {
   static String _handleDioError(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
-        return AppStrings.connectionTimeout['ar']!;
+        return "Connection timeout, please try again.";
       case DioExceptionType.sendTimeout:
-        return AppStrings.sendTimeout['ar']!;
+        return "Send timeout, please check your internet.";
       case DioExceptionType.receiveTimeout:
-        return AppStrings.receiveTimeout['ar']!;
+        return "Receive timeout, please try again later.";
       case DioExceptionType.badResponse:
         return _handleServerError(error.response);
       case DioExceptionType.cancel:
-        return AppStrings.requestCancelled['ar']!;
+        return "Request was cancelled.";
       case DioExceptionType.connectionError:
-        return AppStrings.noInternet['ar']!;
+        return "No internet connection.";
       default:
-        return AppStrings.unknownError['ar']!;
+        return "Unknown error occurred.";
     }
   }
 
   /// Handling errors from the server response
   static String _handleServerError(Response? response) {
-    if (response == null) return AppStrings.noResponse['ar']!;
+    if (response == null) return "No response from server.";
     if (response.data is Map<String, dynamic>) {
       if (response.data["message"] != null) {
-        return response.data["message"]['ar'] ?? AppStrings.serverError['ar']!;
+        CustomLogger.red(
+            "----- Handle Server Error ${response.data["message"]}");
+        return response.data["message"];
       }
-      return AppStrings.serverError['ar']!;
+      return "An error occurred.";
     }
-    return "${AppStrings.serverError['ar']!}: ${response.statusMessage}";
+    return "Server error: ${response.statusMessage}";
   }
 }

@@ -1,3 +1,4 @@
+import 'package:dalilak_app/features/auth/views/register_otp_view.dart';
 import 'package:dalilak_app/features/auth/views/widgets/login_view_body.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,10 +31,20 @@ class LoginView extends StatelessWidget {
                 MySnackbar.error(context, state.errorMessage);
               }
               if (state is LoginSuccess) {
-                // MySnackbar.success(context, "");
-                // Navigator
-                Navigator.pushNamedAndRemoveUntil(
-                    context, HomeView.routeName, (route) => false);
+                if (state.user.isEmailVerified!) {
+                  MySnackbar.success(context, 'Login successfully');
+                  Navigator.pushNamedAndRemoveUntil(
+                      context, HomeView.routeName, (route) => false);
+                } else {
+                  MySnackbar.error(
+                      context, 'Please verify your email to continue');
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    RegisterOtpView.routeName,
+                    (route) => false,
+                    arguments: state.user.email!,
+                  );
+                }
               }
             },
             builder: (context, state) {

@@ -4,7 +4,12 @@ class RegisterInitial extends RegisterState {}
 
 class RegisterLoading extends RegisterState {}
 
-class RegisterSuccess extends RegisterState {}
+class RegisterSuccess extends RegisterState {
+  final String message;
+  final String email;
+
+  RegisterSuccess(this.message, this.email);
+}
 
 class RegisterFailure extends RegisterState {
   final String errorMessage;
@@ -13,15 +18,3 @@ class RegisterFailure extends RegisterState {
 }
 
 class VisibilityToggled extends RegisterState {}
-
-class OtpUpdated extends RegisterState {}
-
-class OtpResent extends RegisterState {}
-
-class OtpVerified extends RegisterState {}
-
-class OtpVerificationFailed extends RegisterState {
-  final String errorMessage;
-
-  OtpVerificationFailed(this.errorMessage);
-}

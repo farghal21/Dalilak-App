@@ -1,8 +1,10 @@
+import 'package:dalilak_app/core/helper/get_it.dart';
+import 'package:dalilak_app/core/helper/my_snackbar.dart';
+import 'package:dalilak_app/features/auth/data/repo/auth_repo.dart';
 import 'package:dalilak_app/features/auth/views/reset_password_otp_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../core/helper/my_snackbar.dart';
 import '../../../core/shared_widgets/custom_progress_hud.dart';
 import '../../../core/shared_widgets/custom_scaffold.dart';
 import '../../../core/shared_widgets/custom_text_form_field.dart';
@@ -19,17 +21,22 @@ class ResetPasswordVerifyEmailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => ResetPasswordVerifyEmailCubit(),
+      create: (context) => ResetPasswordVerifyEmailCubit(
+        getIt<AuthRepo>(),
+      ),
       child: CustomScaffold(
         body: BlocConsumer<ResetPasswordVerifyEmailCubit,
             ResetPasswordVerifyEmailState>(
           listener: (context, state) {
             if (state is ResetPasswordVerifyEmailSuccess) {
-              Navigator.pushReplacementNamed(
+              MySnackbar.success(context, state.message);
+              Navigator.pushNamed(
                 context,
                 ResetPasswordOtpView.routeName,
+                arguments: state.email,
               );
-            } else if (state is ResetPasswordVerifyEmailFailure) {
+            }
+            if (state is ResetPasswordVerifyEmailFailure) {
               MySnackbar.error(context, state.errorMessage);
             }
           },

@@ -4,9 +4,17 @@ class ResetPasswordOtpInitial extends ResetPasswordOtpState {}
 
 class ResetPasswordOtpLoading extends ResetPasswordOtpState {}
 
-class ResetPasswordOtpVerified extends ResetPasswordOtpState {}
+class ResetPasswordOtpVerified extends ResetPasswordOtpState {
+  final String message;
 
-class ResetPasswordOtpResent extends ResetPasswordOtpState {}
+  ResetPasswordOtpVerified(this.message);
+}
+
+class ResetPasswordOtpResend extends ResetPasswordOtpState {
+  final String message;
+
+  ResetPasswordOtpResend(this.message);
+}
 
 class ResetPasswordOtpFailure extends ResetPasswordOtpState {
   final String errorMessage;

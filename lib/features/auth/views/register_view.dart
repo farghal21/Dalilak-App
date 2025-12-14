@@ -1,4 +1,6 @@
-import 'package:dalilak_app/features/auth/views/register_otp_view.dart';
+import 'package:dalilak_app/core/helper/get_it.dart';
+import 'package:dalilak_app/features/auth/data/repo/auth_repo.dart';
+import 'package:dalilak_app/features/auth/views/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +19,9 @@ class RegisterView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => RegisterCubit(),
+      create: (context) => RegisterCubit(
+        getIt<AuthRepo>(),
+      ),
       child: PopScope(
         canPop: false,
         child: CustomScaffold(
@@ -28,14 +32,14 @@ class RegisterView extends StatelessWidget {
                   MySnackbar.error(context, state.errorMessage);
                 }
                 if (state is RegisterSuccess) {
-                  // MySnackbar.success(context, "تم التسجيل بنجاح");
-                  // Navigator
-                  Navigator.pushNamed(context, RegisterOtpView.routeName);
+                  MySnackbar.success(context,
+                      'Registration successfully, Login to Verify Your Account');
+                  Navigator.pushReplacementNamed(context, LoginView.routeName);
                 }
               },
               builder: (context, state) {
                 return CustomProgressHud(
-                  isLoading: state is RegisterLoading ? true : false,
+                  isLoading: state is RegisterLoading,
                   child: RegisterViewBody(),
                 );
               },
