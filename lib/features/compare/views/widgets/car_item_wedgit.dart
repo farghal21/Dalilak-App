@@ -1,52 +1,50 @@
 import 'package:dalilak_app/core/helper/my_responsive.dart';
+import 'package:dalilak_app/core/shared_widgets/cached_network_image_wrapper.dart';
 import 'package:dalilak_app/core/utils/app_text_styles.dart';
+import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
 import 'package:flutter/material.dart';
 
 class CarItemWidget extends StatelessWidget {
-  final String image;
-  final String title;
-  final String subtitle;
-  final String price;
+  final CarModel car;
+  final VoidCallback onRemove;
 
   const CarItemWidget({
     super.key,
-    required this.image,
-    required this.title,
-    required this.subtitle,
-    required this.price,
+    required this.car,
+    required this.onRemove,
   });
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: Image.asset(
-              image,
-              height: MyResponsive.height(value: 80),
-              fit: BoxFit.contain,
-            ),
+          Stack(
+            alignment: Alignment.topRight,
+            children: [
+              CachedNetworkImageWrapper(
+                imagePath: car.images.first,
+                width: MyResponsive.width(value: 130),
+                height: MyResponsive.height(value: 80),
+                fit: BoxFit.fill,
+              ),
+              IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: onRemove,
+              ),
+            ],
           ),
-           SizedBox(height: MyResponsive.height(value: 8)),
+          SizedBox(height: MyResponsive.height(value: 12)),
           Text(
-            title,
-            style: AppTextStyles.bold20,
-            textAlign: TextAlign.center,
+            car.name,
+            style: AppTextStyles.bold16,
           ),
+          // Text(car.model, style: AppTextStyles.regular14),
+          SizedBox(height: MyResponsive.height(value: 12)),
           Text(
-            subtitle,
+            car.price,
             style: AppTextStyles.semiBold16,
-            textAlign: TextAlign.center,
-          ),
-          SizedBox(height: MyResponsive.height(value: 4)),
-          Text(
-            price,
-            style: AppTextStyles.semiBold13,
-
-
-            textAlign: TextAlign.center,
           ),
         ],
       ),

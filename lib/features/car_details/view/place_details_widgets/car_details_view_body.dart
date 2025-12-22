@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 import '../../../../core/helper/my_responsive.dart';
@@ -26,7 +25,6 @@ class CarDetailsViewBody extends StatelessWidget {
           SizedBox(
             height: MyResponsive.height(value: 20),
           ),
-
           SizedBox(
             height: MyResponsive.height(value: 40),
           ),

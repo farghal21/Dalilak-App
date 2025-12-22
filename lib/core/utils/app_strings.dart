@@ -100,7 +100,7 @@ abstract class AppStrings {
   static const String compareCarsSubtitle =
       'نعملك مقارنة بسيطة بين الموديلات من ناحية المواصفات والتجهيزات. ';
 
-  static const String chatLoadingTitle = 'خليني القطا لك';
+  static const String chatLoadingTitle = 'ثواني و هرد عليك';
 
   static const String chatLoadingSubTitle = 'جاري جمع الموارد ...';
 

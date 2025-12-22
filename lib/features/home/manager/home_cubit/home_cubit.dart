@@ -1,4 +1,3 @@
-import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -75,6 +74,16 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeMessagesUpdated());
     _scrollToBottom();
 
+    // Loading bubble
+    final loadingMessage = MessageModel(
+      message: '',
+      messageType: MessageType.loading,
+      sender: MessageSender.bot,
+    );
+    messages.add(loadingMessage);
+    emit(HomeMessagesUpdated());
+    _scrollToBottom();
+
     // 3️⃣ إرسال الرسالة
     final result = await repo.sendMessage(
       sessionId: sessionId!,
@@ -82,25 +91,36 @@ class HomeCubit extends Cubit<HomeState> {
       userId: userId,
     );
 
+    // شيل الـ loading
+    messages.remove(loadingMessage);
+
     result.fold(
-      (error) {
-        emit(HomeError(error: error));
+          (error) {
+        messages.add(
+          MessageModel(
+            message: error,
+            messageType: MessageType.error,
+            sender: MessageSender.bot,
+          ),
+        );
+        emit(HomeMessagesUpdated());
       },
-      (chatResponse) {
+          (chatResponse) {
         messages.add(
           MessageModel(
             message: chatResponse.message,
             messageType: chatResponse.cars.isEmpty
                 ? MessageType.text
                 : MessageType.hasData,
-            cars: chatResponse.cars,
             sender: MessageSender.bot,
+            cars: chatResponse.cars,
           ),
         );
         emit(HomeMessagesUpdated());
-        _scrollToBottom();
       },
     );
+
+    _scrollToBottom();
   }
 
   void _scrollToBottom() {

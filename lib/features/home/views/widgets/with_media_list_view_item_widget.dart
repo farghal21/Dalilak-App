@@ -1,3 +1,5 @@
+import 'package:dalilak_app/core/helper/my_navigator.dart';
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:dalilak_app/features/car_details/car_details_view.dart';
 import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
 import 'package:flutter/material.dart';
@@ -20,29 +22,39 @@ class WithMediaListViewItemWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(MyResponsive.radius(value: 20)),
-          child: car.images.isNotEmpty
-              ? CachedNetworkImageWrapper(
-                  imagePath: car.images.first,
-                  width: MyResponsive.width(value: 186),
+        car.images.isNotEmpty
+            ? Center(
+                child: SizedBox(
                   height: MyResponsive.height(value: 150),
-                  fit: BoxFit.fill,
-                )
-              : Image.asset(
+                  child: ClipRRect(
+                    borderRadius:
+                        BorderRadius.circular(MyResponsive.radius(value: 20)),
+                    child: CachedNetworkImageWrapper(
+                      imagePath: car.images.first,
+                      width: MyResponsive.width(value: 210),
+                      height: MyResponsive.height(value: 150),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              )
+            : ClipRRect(
+                borderRadius:
+                    BorderRadius.circular(MyResponsive.radius(value: 20)),
+                child: Image.asset(
                   AppAssets.testImage,
                   width: MyResponsive.width(value: 186),
                   height: MyResponsive.height(value: 150),
                   fit: BoxFit.fill,
                 ),
-        ),
-        SizedBox(height: MyResponsive.height(value: 12)),
+              ),
+        SizedBox(height: MyResponsive.height(value: 14)),
         // SizedBox(height: MyResponsive.height(value: 52)),
         Text(
           car.name,
           style: AppTextStyles.semiBold15,
         ),
-        SizedBox(height: MyResponsive.height(value: 8)),
+        SizedBox(height: MyResponsive.height(value: 18)),
         Container(
           decoration: BoxDecoration(
             color: Color(0xff232138).withValues(alpha: .7),
@@ -55,7 +67,8 @@ class WithMediaListViewItemWidget extends StatelessWidget {
           child: CustomButton(
             title: AppStrings.details,
             onPressed: () {
-              Navigator.pushNamed(context, CarDetailsView.routeName);
+              UserCubit.get(context).selectedCar = car;
+              MyNavigator.goTo(screen: CarDetailsView());
             },
             height: MyResponsive.height(value: 50),
             backgroundColor: Colors.transparent,

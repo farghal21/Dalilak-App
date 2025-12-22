@@ -5,15 +5,12 @@ import 'package:dalilak_app/features/compare/views/compare_view.dart';
 import 'package:dalilak_app/features/favorite/view/favorite_view.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/cache/cache_helper.dart';
-import '../../../../core/cache/cache_key.dart';
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/shared_widgets/svg_wrapper.dart';
 import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_text_styles.dart';
-import '../../../auth/views/login_view.dart';
 import '../../../settings/views/settings_view.dart';
 import '../home_view.dart';
 import 'main_drawer_item.dart';

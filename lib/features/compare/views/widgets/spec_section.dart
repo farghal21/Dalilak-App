@@ -3,7 +3,6 @@ import 'package:dalilak_app/core/utils/app_text_styles.dart';
 import 'package:dalilak_app/features/compare/views/widgets/spec_row.dart';
 import 'package:flutter/material.dart';
 
-
 class SpecsSection extends StatelessWidget {
   final String sectionTitle;
   final List<SpecRow> specs;
@@ -20,7 +19,10 @@ class SpecsSection extends StatelessWidget {
       color: AppColors.fillColor,
       elevation: 0,
       child: ExpansionTile(
-        title: Text(sectionTitle, style: AppTextStyles.bold20),
+        title: Text(
+          sectionTitle,
+          style: AppTextStyles.bold20,
+        ),
         children: specs,
       ),
     );

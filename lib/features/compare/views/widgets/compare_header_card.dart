@@ -1,38 +1,44 @@
 import 'package:dalilak_app/core/helper/my_responsive.dart';
 import 'package:dalilak_app/core/utils/app_colors.dart';
 import 'package:dalilak_app/features/compare/views/widgets/vs_cycle_widget.dart';
+import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/utils/app_assets.dart';
 import 'car_item_wedgit.dart';
 
 class CompareHeaderCard extends StatelessWidget {
-  const CompareHeaderCard({super.key});
+  final CarModel leftCar;
+  final CarModel rightCar;
+  final VoidCallback onRemoveLeft;
+  final VoidCallback onRemoveRight;
+
+  const CompareHeaderCard({
+    super.key,
+    required this.leftCar,
+    required this.rightCar,
+    required this.onRemoveLeft,
+    required this.onRemoveRight,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
-    color: AppColors.fillColor,
-
+      color: AppColors.fillColor,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(14),
       ),
       child: Padding(
         padding: MyResponsive.paddingAll(value: 16),
         child: Row(
-          children: const [
+          children: [
             CarItemWidget(
-              image: AppAssets.car1,
-              title: 'T01 2026 212',
-              subtitle: '2.0T Adventurer',
-              price: '3,200,000 ج.م',
+              car: leftCar,
+              onRemove: onRemoveLeft,
             ),
-            VsCircleWidget(),
+            const VsCircleWidget(),
             CarItemWidget(
-              image: AppAssets.car2,
-              title: 'BMW 118i',
-              subtitle: 'Series 2026',
-              price: '2,200,000 ج.م',
+              car: rightCar,
+              onRemove: onRemoveRight,
             ),
           ],
         ),

@@ -5,6 +5,7 @@ import 'package:dalilak_app/core/user/data/models/user_model.dart';
 import 'package:dalilak_app/core/user/data/repo/user_repo.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_state.dart';
 import 'package:dalilak_app/features/auth/views/login_view.dart';
+import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -21,6 +22,9 @@ class UserCubit extends Cubit<UserState> {
 
   /// Data
   UserModel userModel = UserModel();
+  CarModel? selectedCar;
+  List<CarModel> favoriteCars = [];
+  List<CarModel> comparedCars = [];
 
   final UserRepo userRepo;
 
