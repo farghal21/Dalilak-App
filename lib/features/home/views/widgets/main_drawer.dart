@@ -1,3 +1,5 @@
+import 'package:dalilak_app/core/shared_widgets/cached_network_image_wrapper.dart';
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:dalilak_app/features/chat_history/views/history_view.dart';
 import 'package:dalilak_app/features/compare/views/compare_view.dart';
 import 'package:dalilak_app/features/favorite/view/favorite_view.dart';
@@ -23,6 +25,7 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cubit = UserCubit.get(context);
     return Drawer(
       backgroundColor: AppColors.black,
       child: Padding(
@@ -66,7 +69,8 @@ class MainDrawer extends StatelessWidget {
                 if (selectedIndex == 0) {
                   Navigator.pushNamed(context, CompareView.routeName);
                 } else {
-                  Navigator.pushReplacementNamed(context, CompareView.routeName);
+                  Navigator.pushReplacementNamed(
+                      context, CompareView.routeName);
                 }
               },
               isSelected: selectedIndex == 2,
@@ -102,19 +106,19 @@ class MainDrawer extends StatelessWidget {
             SizedBox(height: MyResponsive.height(value: 25)),
 
             // Spacer(),
-            MainDrawerItem(
-              imagePath: AppAssets.support,
-              title: AppStrings.support,
-              onTap: () {
-                // Navigator.pushNamed(context, routeName);
-              },
-              isSelected: false,
-            ),
-            SizedBox(height: MyResponsive.height(value: 18)),
+            // MainDrawerItem(
+            //   imagePath: AppAssets.support,
+            //   title: AppStrings.support,
+            //   onTap: () {
+            //     // Navigator.pushNamed(context, routeName);
+            //   },
+            //   isSelected: false,
+            // ),
+            // SizedBox(height: MyResponsive.height(value: 18)),
             Spacer(),
             Container(
               padding:
-                  MyResponsive.paddingSymmetric(horizontal: 8, vertical: 4),
+                  MyResponsive.paddingSymmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: AppColors.fillColor,
                 borderRadius:
@@ -126,7 +130,9 @@ class MainDrawer extends StatelessWidget {
                   ListTile(
                     contentPadding: EdgeInsets.zero,
                     title: Text(
-                      AppStrings.userName,
+                      cubit.userModel.fullName ?? '',
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 2,
                       style: AppTextStyles.bold20,
                     ),
                     // subtitle: Text(
@@ -142,33 +148,23 @@ class MainDrawer extends StatelessWidget {
                     leading: ClipRRect(
                       borderRadius:
                           BorderRadius.circular(MyResponsive.radius(value: 10)),
-                      child: Image.asset(
-                        AppAssets.profileImage,
-                        width: MyResponsive.width(value: 53),
-                      ),
+                      child: cubit.userModel.profileImageUrl != null
+                          ? CachedNetworkImageWrapper(
+                              imagePath: cubit.userModel.profileImageUrl!,
+                              width: MyResponsive.width(value: 60),
+                            )
+                          : Image.asset(
+                              AppAssets.profileImage,
+                              width: MyResponsive.width(value: 60),
+                            ),
                     ),
                   ),
-                  SizedBox(height: MyResponsive.height(value: 14)),
-                  GestureDetector(
-                    onTap: () {},
-                    child: Row(
-                      children: [
-                        SizedBox(width: MyResponsive.width(value: 10)),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: MyResponsive.height(value: 5)),
+                  SizedBox(height: MyResponsive.height(value: 8)),
                   Divider(color: AppColors.gray),
-                  SizedBox(height: MyResponsive.height(value: 5)),
+                  SizedBox(height: MyResponsive.height(value: 8)),
                   GestureDetector(
-                    onTap: () async {
-                      await CacheHelper.removeData(key: CacheKeys.accessToken);
-                      await CacheHelper.removeData(key: CacheKeys.refreshToken);
-                      Navigator.pushNamedAndRemoveUntil(
-                        context,
-                        LoginView.routeName,
-                        (route) => false,
-                      );
+                    onTap: () {
+                      cubit.logout();
                     },
                     child: Row(
                       children: [
@@ -176,10 +172,10 @@ class MainDrawer extends StatelessWidget {
                           path: AppAssets.logout,
                           color: AppColors.red,
                         ),
-                        SizedBox(width: MyResponsive.width(value: 10)),
+                        SizedBox(width: MyResponsive.width(value: 16)),
                         Text(
                           AppStrings.logout,
-                          style: AppTextStyles.semiBold11
+                          style: AppTextStyles.semiBold16
                               .copyWith(color: AppColors.red),
                         )
                       ],
@@ -189,7 +185,7 @@ class MainDrawer extends StatelessWidget {
                 ],
               ),
             ),
-            SizedBox(height: MyResponsive.height(value: 50)),
+            SizedBox(height: MyResponsive.height(value: 30)),
           ],
         ),
       ),

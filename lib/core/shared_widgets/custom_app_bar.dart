@@ -1,4 +1,6 @@
+import 'package:dalilak_app/core/shared_widgets/cached_network_image_wrapper.dart';
 import 'package:dalilak_app/core/shared_widgets/svg_wrapper.dart';
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 
 import '../helper/my_responsive.dart';
@@ -37,6 +39,7 @@ class AppBarTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var cubit = UserCubit.get(context);
     return Container(
       padding: MyResponsive.paddingSymmetric(
         horizontal: 12,
@@ -50,9 +53,20 @@ class AppBarTitle extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           CircleAvatar(
-            radius: MyResponsive.radius(value: 16),
-            backgroundImage: AssetImage(AppAssets.profileImage),
-          ),
+              radius: MyResponsive.radius(value: 16),
+              child: ClipRRect(
+                borderRadius:
+                    BorderRadius.circular(MyResponsive.radius(value: 30)),
+                child: cubit.userModel.profileImageUrl != null
+                    ? CachedNetworkImageWrapper(
+                        imagePath: cubit.userModel.profileImageUrl!,
+                        fit: BoxFit.cover,
+                      )
+                    : Image.asset(
+                        AppAssets.profileImage,
+                        fit: BoxFit.cover,
+                      ),
+              )),
           SizedBox(
             width: MyResponsive.width(value: 8),
           ),
@@ -61,7 +75,7 @@ class AppBarTitle extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                AppStrings.userName,
+                cubit.userModel.fullName ?? 'User Name',
                 style: AppTextStyles.bold11,
               ),
             ],
