@@ -14,40 +14,45 @@ class HistoryViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<HistoryCubit, HistoryState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        var cubit = HistoryCubit.get(context);
-        return Padding(
-          padding: MyResponsive.paddingSymmetric(horizontal: 20),
-          child: Column(
-            children: [
-              SizedBox(
-                height: MyResponsive.height(value: 140),
-              ),
-              HistoryAppBar(title: AppStrings.searchYourChat,),
-              SizedBox(
-                height: MyResponsive.height(value: 30),
-              ),
-              CustomTextFormField(
-                type: TextFieldType.search,
-                searchOnChange: (value) {
-                  cubit.historySearch(value);
-                },
-              ),
-              SizedBox(
-                height: MyResponsive.height(value: 30),
-              ),
-              Expanded(
-                child: HistoryListView(),
-              ),
-              SizedBox(
-                height: MyResponsive.height(value: 20),
-              ),
-            ],
-          ),
-        );
+    return RefreshIndicator(
+      onRefresh: () async {
+        HistoryCubit.get(context).fetchChatHistory();
       },
+      child: BlocConsumer<HistoryCubit, HistoryState>(
+        listener: (context, state) {},
+        builder: (context, state) {
+          var cubit = HistoryCubit.get(context);
+          return Padding(
+            padding: MyResponsive.paddingSymmetric(horizontal: 20),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: MyResponsive.height(value: 120),
+                ),
+                HistoryAppBar(title: AppStrings.searchYourChat,),
+                SizedBox(
+                  height: MyResponsive.height(value: 30),
+                ),
+                CustomTextFormField(
+                  type: TextFieldType.search,
+                  searchOnChange: (value) {
+                    cubit.historySearch(value);
+                  },
+                ),
+                SizedBox(
+                  height: MyResponsive.height(value: 30),
+                ),
+                Expanded(
+                  child: HistoryListView(),
+                ),
+                SizedBox(
+                  height: MyResponsive.height(value: 20),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 }

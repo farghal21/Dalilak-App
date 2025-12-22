@@ -1,5 +1,7 @@
 import 'package:dalilak_app/core/user/data/repo/user_repo.dart';
 import 'package:dalilak_app/core/user/data/repo/user_repo_impl.dart';
+import 'package:dalilak_app/features/chat_history/data/repos/chat_history_repo.dart';
+import 'package:dalilak_app/features/chat_history/data/repos/chat_history_repo_impl.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/auth/data/repo/auth_repo.dart';
@@ -22,5 +24,9 @@ void setupGetIt() {
 
   getIt.registerSingleton<UserRepo>(
     UserRepoImpl(apiHelper: getIt<ApiHelper>()),
+  );
+
+  getIt.registerSingleton<ChatHistoryRepo>(
+    ChatHistoryRepoImpl(apiHelper: getIt<ApiHelper>()),
   );
 }

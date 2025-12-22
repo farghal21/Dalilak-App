@@ -50,7 +50,6 @@ dependencies:
   dartz: ^0.10.1
   get: ^4.7.2
 
-
   # حل مشكلة fl_chart
   fl_chart: ^0.63.0
 

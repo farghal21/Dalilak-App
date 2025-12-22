@@ -1,55 +1,87 @@
+import 'package:dalilak_app/features/chat_history/data/models/get_chat_history_response_model.dart';
+import 'package:dalilak_app/features/chat_history/data/repos/chat_history_repo.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'history_state.dart';
 
 class HistoryCubit extends Cubit<HistoryState> {
-  HistoryCubit() : super(HistoryInitial());
-
+  HistoryCubit(this.repo) : super(HistoryInitial());
   static HistoryCubit get(context) => BlocProvider.of(context);
 
-  // -------------------- Data --------------------
-  final List<Map<String, dynamic>> historyData = [
-    {
-      "name": "مشاكل الفتيس",
-      "lastInteraction": 1, // يوم
-    },
-    {
-      "name": "سعر تغيير طقم دبرياج",
-      "lastInteraction": 3,
-    },
-    {
-      "name": "افضل عربية في فئتها",
-      "lastInteraction": 7,
-    },
-    {
-      "name": "صرف بنزين عالي",
-      "lastInteraction": 2,
-    },
-    {
-      "name": "مقارنة كيا ضد هوندا",
-      "lastInteraction": 5,
-    },
-    {
-      "name": "علامات تلف البوجيهات",
-      "lastInteraction": 10,
-    },
-    {
-      "name": "ايه احسن زيت للموتور",
-      "lastInteraction": 14,
-    },
-  ];
+  final ChatHistoryRepo repo;
 
+  final List<Sessions> _allHistory = [];
+
+  // ---------- Fetch ----------
+  Future<void> fetchChatHistory() async {
+    emit(HistoryLoading());
+
+    final result = await repo.fetchChatHistory();
+    result.fold(
+      (error) {
+        emit(HistoryError(error: error));
+      },
+      (data) {
+        _allHistory
+          ..clear()
+          ..addAll(data);
+
+        emit(HistoryLoadSuccess(history: List.from(_allHistory)));
+      },
+    );
+  }
+
+  // ---------- Search (local) ----------
   void historySearch(String query) {
-    final q = query.trim().toLowerCase();
-
-    if (q.isEmpty) {
-      emit(HistorySearchState(results: historyData));
+    if (query.isEmpty) {
+      emit(HistoryLoadSuccess(history: List.from(_allHistory)));
       return;
     }
 
-    final results = historyData.where((item) {
-      return item["name"].toString().toLowerCase().contains(q);
-    }).toList();
+    final filtered = _allHistory
+        .where(
+          (s) => s.name!.toLowerCase().contains(query.toLowerCase()),
+        )
+        .toList();
 
-    emit(HistorySearchState(results: results));
+    emit(HistoryLoadSuccess(history: filtered));
+  }
+
+  // ---------- Rename (API) ----------
+  Future<void> renameSession({
+    required String newName,
+    required String sessionId,
+  }) async {
+    emit(HistoryLoading());
+
+    final result = await repo.renameSession(
+      newName: newName,
+      sessionId: sessionId,
+    );
+
+    result.fold(
+      (error) {
+        emit(HistoryError(error: error));
+      },
+      (message) {
+        emit(HistoryAction(message: message));
+        fetchChatHistory();
+      },
+    );
+  }
+
+  // ---------- Delete (API) ----------
+  Future<void> deleteSession(String sessionId) async {
+    emit(HistoryLoading());
+
+    final result = await repo.removeSession(sessionId: sessionId);
+    result.fold(
+      (error) {
+        emit(HistoryError(error: error));
+      },
+      (message) {
+        emit(HistoryAction(message: message));
+        fetchChatHistory();
+      },
+    );
   }
 }

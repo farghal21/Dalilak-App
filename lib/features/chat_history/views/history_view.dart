@@ -1,3 +1,5 @@
+import 'package:dalilak_app/core/helper/get_it.dart';
+import 'package:dalilak_app/features/chat_history/data/repos/chat_history_repo.dart';
 import 'package:dalilak_app/features/chat_history/manager/history_cubit/history_cubit.dart';
 import 'package:dalilak_app/features/chat_history/views/widgets/history_view_body.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +15,8 @@ class HistoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => HistoryCubit(),
+      create: (context) =>
+          HistoryCubit(getIt<ChatHistoryRepo>())..fetchChatHistory(),
       child: CustomScaffold(
         drawerSelectedIndex: 1,
         isHomeScreen: true,
