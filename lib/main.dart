@@ -1,3 +1,5 @@
+import 'package:dalilak_app/core/user/data/repo/user_repo.dart';
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:dalilak_app/features/auth/views/login_view.dart';
 import 'package:dalilak_app/features/car_details/car_details_view.dart';
 import 'package:flutter/material.dart';
@@ -36,23 +38,30 @@ class MyApp extends StatelessWidget {
       minTextAdapt: true,
       splitScreenMode: true,
       builder: (context, child) {
-        return GetMaterialApp(
-          navigatorKey: AppConstants.navigatorKey,
-          // localization
-          localizationsDelegates: [
-            S.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
+        return MultiBlocProvider(
+          providers: [
+            BlocProvider<UserCubit>(
+              create: (context) => UserCubit(getIt<UserRepo>()),
+            ),
           ],
-          supportedLocales: S.delegate.supportedLocales,
-          locale: const Locale("ar"),
+          child: GetMaterialApp(
+            navigatorKey: AppConstants.navigatorKey,
+            // localization
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            locale: const Locale("ar"),
 
-          debugShowCheckedModeBanner: false,
-          title: 'دليلك',
-          theme: AppTheme.lightTheme,
-          onGenerateRoute: onGenerateRoutes,
-          initialRoute: LoginView.routeName,
+            debugShowCheckedModeBanner: false,
+            title: 'دليلك',
+            theme: AppTheme.lightTheme,
+            onGenerateRoute: onGenerateRoutes,
+            initialRoute: SplashView.routeName,
+          ),
         );
       },
     );

@@ -1,3 +1,5 @@
+import 'package:dalilak_app/core/user/data/repo/user_repo.dart';
+import 'package:dalilak_app/core/user/data/repo/user_repo_impl.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/auth/data/repo/auth_repo.dart';
@@ -16,5 +18,9 @@ void setupGetIt() {
 
   getIt.registerSingleton<HomeRepo>(
     HomeRepoImpl(getIt<ApiHelper>()),
+  );
+
+  getIt.registerSingleton<UserRepo>(
+    UserRepoImpl(apiHelper: getIt<ApiHelper>()),
   );
 }

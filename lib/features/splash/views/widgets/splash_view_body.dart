@@ -1,4 +1,10 @@
 import 'dart:async';
+import 'package:dalilak_app/core/cache/cache_data.dart';
+import 'package:dalilak_app/core/cache/cache_helper.dart';
+import 'package:dalilak_app/core/cache/cache_key.dart';
+import 'package:dalilak_app/core/helper/my_navigator.dart';
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
+import 'package:dalilak_app/features/home/views/home_view.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helper/my_responsive.dart';
@@ -32,10 +38,20 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     if (!mounted || _navigated) return;
 
     _navigated = true;
-    Navigator.of(context).pushNamedAndRemoveUntil(
-      LoginView.routeName,
-      (route) => false,
-    );
+    CacheData.accessToken = CacheHelper.getData(key: CacheKeys.accessToken);
+    if (CacheData.accessToken != null) {
+      UserCubit.get(context).getUserData().then((bool result) {
+        if (result) {
+          MyNavigator.goTo(screen: HomeView(), isReplace: true);
+        } else {
+          MyNavigator.goTo(screen: LoginView(), isReplace: true);
+        }
+      });
+    }
+    else {
+      // goto login
+      MyNavigator.goTo(screen: LoginView(), isReplace: true);
+    }
   }
 
   @override

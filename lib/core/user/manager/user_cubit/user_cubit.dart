@@ -1,8 +1,53 @@
+import 'package:dalilak_app/core/cache/cache_helper.dart';
+import 'package:dalilak_app/core/cache/cache_key.dart';
+import 'package:dalilak_app/core/helper/my_navigator.dart';
+import 'package:dalilak_app/core/user/data/models/user_model.dart';
+import 'package:dalilak_app/core/user/data/repo/user_repo.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_state.dart';
+import 'package:dalilak_app/features/auth/views/login_view.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class UserCubit extends Cubit<UserState> {
-  UserCubit() : super(UserInitial());
+  UserCubit(this.userRepo) : super(UserInitial());
 
   static UserCubit get(context) => BlocProvider.of(context);
+
+  /// Controllers
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  /// Data
+  UserModel userModel = UserModel();
+
+  final UserRepo userRepo;
+
+  /// get user data
+  Future<bool> getUserData() async {
+    emit(UserLoading());
+    var response = await userRepo.getUserData();
+    return response.fold(
+      (error) {
+        emit(UserGetError(error: error));
+        return false;
+      },
+      (user) {
+        userModel = user;
+
+        nameController.text = userModel.fullName ?? '';
+        phoneController.text = userModel.phone ?? '';
+
+        emit(UserGetSuccess(userModel: user));
+        return true;
+      },
+    );
+  }
+
+  Future<void> logout() async {
+    await CacheHelper.removeData(key: CacheKeys.accessToken);
+    await CacheHelper.removeData(key: CacheKeys.refreshToken);
+    MyNavigator.goTo(screen: LoginView(), isReplace: true);
+  }
 }
