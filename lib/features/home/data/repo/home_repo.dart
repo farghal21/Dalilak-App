@@ -1,9 +1,16 @@
+import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
 import 'package:dartz/dartz.dart';
 
-import '../models/chat_response_model.dart';
-
 abstract class HomeRepo {
-  Future<Either<String, ChatResponseModel>> sendMessage({
+  Future<Either<String, String>> startChat();
+
+  // Future<Either<String, ChatResponseModel>> fetchChatMessages({
+  //   required String sessionId,
+  // });
+
+  Future<Either<String, SendMessageData>> sendMessage({
+    required String sessionId,
+    required int userId,
     required String message,
   });
 }

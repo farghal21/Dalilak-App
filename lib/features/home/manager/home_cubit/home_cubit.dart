@@ -1,3 +1,4 @@
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,16 +8,63 @@ import 'home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   final HomeRepo repo;
+  String? sessionId;
+  int userId;
 
-  HomeCubit(this.repo) : super(HomeInitial());
+  static HomeCubit get(context) => BlocProvider.of(context);
 
-  static HomeCubit get(BuildContext context) => BlocProvider.of(context);
+  HomeCubit(this.repo, {this.sessionId, required this.userId})
+      : super(HomeInitial());
 
   final List<MessageModel> messages = [];
   final ScrollController scrollController = ScrollController();
 
-  void sendUserMessage(String message) async {
-    // user message
+  // ---------------- INIT ----------------
+  // void init() {
+  //   if (sessionId != null) {
+  //     fetchOldMessages();
+  //   }
+  // }
+
+  // ---------------- OLD CHAT ----------------
+  // Future<void> fetchOldMessages() async {
+  //   emit(HomeLoading());
+  //
+  //   final result = await repo.fetchMessages(sessionId!);
+  //
+  //   result.fold(
+  //     (error) {
+  //       emit(HomeError(error: error));
+  //     },
+  //     (oldMessages) {
+  //       messages
+  //         ..clear()
+  //         ..addAll(oldMessages);
+  //
+  //       emit(HomeMessagesUpdated());
+  //       _scrollToBottom();
+  //     },
+  //   );
+  // }
+
+  // ---------------- SEND MESSAGE ----------------
+  Future<void> sendUserMessage(String message) async {
+    // 1️⃣ لو أول رسالة وشات جديد
+    if (sessionId == null) {
+      final startResult = await repo.startChat();
+
+      startResult.fold(
+        (error) {
+          emit(HomeError(error: error));
+          return;
+        },
+        (startResponse) {
+          sessionId = startResponse;
+        },
+      );
+    }
+
+    // 2️⃣ رسالة المستخدم
     messages.add(
       MessageModel(
         message: message,
@@ -27,32 +75,32 @@ class HomeCubit extends Cubit<HomeState> {
     emit(HomeMessagesUpdated());
     _scrollToBottom();
 
-    // API CALL
-    final result = await repo.sendMessage(message: message);
+    // 3️⃣ إرسال الرسالة
+    final result = await repo.sendMessage(
+      sessionId: sessionId!,
+      message: message,
+      userId: userId,
+    );
 
     result.fold(
       (error) {
-        // لو فشل
-
         emit(HomeError(error: error));
       },
       (chatResponse) {
-        // لو نجح
         messages.add(
           MessageModel(
             message: chatResponse.message,
-            messageType: chatResponse.hotels.isEmpty
+            messageType: chatResponse.cars.isEmpty
                 ? MessageType.text
                 : MessageType.hasData,
-            hotels: chatResponse.hotels,
+            cars: chatResponse.cars,
             sender: MessageSender.bot,
           ),
         );
         emit(HomeMessagesUpdated());
+        _scrollToBottom();
       },
     );
-
-    _scrollToBottom();
   }
 
   void _scrollToBottom() {

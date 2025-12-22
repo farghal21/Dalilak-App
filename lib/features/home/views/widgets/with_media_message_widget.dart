@@ -44,19 +44,19 @@ class WithMediaMessageWidget extends StatelessWidget {
           SizedBox(
             height: MyResponsive.height(value: 40),
           ),
-          if (message.hotels != null && message.hotels!.isNotEmpty) ...[
+          if (message.cars != null && message.cars!.isNotEmpty) ...[
             ListView.separated(
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return WithMediaListViewItemWidget(
-                  hotel: message.hotels![index],
+                  car: message.cars![index],
                 );
               },
               separatorBuilder: (context, index) => SizedBox(
                 height: MyResponsive.height(value: 60),
               ),
-              itemCount: message.hotels?.length ?? 0,
+              itemCount: message.cars?.length ?? 0,
             )
           ]
         ],
