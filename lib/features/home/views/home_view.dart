@@ -8,9 +8,10 @@ import '../data/repo/home_repo.dart';
 import '../manager/home_cubit/home_cubit.dart';
 
 class HomeView extends StatelessWidget {
-  const HomeView({super.key});
+  HomeView({super.key, this.sessionId});
 
   static const String routeName = "home";
+  String? sessionId;
 
   @override
   Widget build(BuildContext context) {

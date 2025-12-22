@@ -1,9 +1,11 @@
+import 'package:dalilak_app/core/helper/my_navigator.dart';
 import 'package:dalilak_app/core/helper/my_responsive.dart';
 import 'package:dalilak_app/core/utils/app_colors.dart';
 import 'package:dalilak_app/core/utils/app_strings.dart';
 import 'package:dalilak_app/core/utils/app_text_styles.dart';
 import 'package:dalilak_app/features/chat_history/data/models/get_chat_history_response_model.dart';
 import 'package:dalilak_app/features/chat_history/manager/history_cubit/history_cubit.dart';
+import 'package:dalilak_app/features/home/views/home_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -18,77 +20,82 @@ class HistoryListViewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var formattedDate = formatDateTime(item.createdAt ?? '');
-    return Container(
-      width: double.infinity,
-      padding: MyResponsive.paddingSymmetric(
-        horizontal: 20,
-        vertical: 15,
-      ),
-      decoration: BoxDecoration(
-        color: AppColors.fillColor,
-        borderRadius: BorderRadius.circular(MyResponsive.radius(value: 10)),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            item.name ?? '',
-            style: AppTextStyles.bold20,
-          ),
-          SizedBox(
-            height: MyResponsive.height(value: 6),
-          ),
-          Text(
-            formattedDate,
-            style: AppTextStyles.regular14.copyWith(color: AppColors.gray),
-          ),
-          SizedBox(
-            height: MyResponsive.height(value: 14),
-          ),
-          Row(
-            children: [
-              ElevatedButton(
-                onPressed: () {
-                  _showRenameDialog(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      MyResponsive.radius(value: 8),
+    return InkWell(
+      onTap: () {
+        MyNavigator.goTo(screen: HomeView(), isReplace: true);
+      },
+      child: Container(
+        width: double.infinity,
+        padding: MyResponsive.paddingSymmetric(
+          horizontal: 20,
+          vertical: 15,
+        ),
+        decoration: BoxDecoration(
+          color: AppColors.fillColor,
+          borderRadius: BorderRadius.circular(MyResponsive.radius(value: 10)),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              item.name ?? '',
+              style: AppTextStyles.bold20,
+            ),
+            SizedBox(
+              height: MyResponsive.height(value: 6),
+            ),
+            Text(
+              formattedDate,
+              style: AppTextStyles.regular14.copyWith(color: AppColors.gray),
+            ),
+            SizedBox(
+              height: MyResponsive.height(value: 14),
+            ),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _showRenameDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        MyResponsive.radius(value: 8),
+                      ),
                     ),
+                    backgroundColor: Color(0xFF4A3771),
                   ),
-                  backgroundColor: Color(0xFF4A3771),
+                  child: Text(
+                    AppStrings.rename,
+                    style: AppTextStyles.regular11
+                        .copyWith(color: AppColors.white),
+                  ),
                 ),
-                child: Text(
-                  AppStrings.rename,
-                  style:
-                      AppTextStyles.regular11.copyWith(color: AppColors.white),
+                SizedBox(
+                  width: MyResponsive.width(value: 10),
                 ),
-              ),
-              SizedBox(
-                width: MyResponsive.width(value: 10),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  _showDeleteDialog(context);
-                },
-                style: ElevatedButton.styleFrom(
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(
-                      MyResponsive.radius(value: 8),
+                ElevatedButton(
+                  onPressed: () {
+                    _showDeleteDialog(context);
+                  },
+                  style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        MyResponsive.radius(value: 8),
+                      ),
                     ),
+                    backgroundColor: AppColors.red,
                   ),
-                  backgroundColor: AppColors.red,
+                  child: Text(
+                    AppStrings.remove,
+                    style: AppTextStyles.regular11
+                        .copyWith(color: AppColors.white),
+                  ),
                 ),
-                child: Text(
-                  AppStrings.remove,
-                  style:
-                      AppTextStyles.regular11.copyWith(color: AppColors.white),
-                ),
-              ),
-            ],
-          )
-        ],
+              ],
+            )
+          ],
+        ),
       ),
     );
   }
