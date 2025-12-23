@@ -1,21 +1,17 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:dalilak_app/core/helper/my_responsive.dart';
+import 'package:dalilak_app/core/shared_widgets/cached_network_image_wrapper.dart';
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/helper/my_responsive.dart';
-import '../../../../core/utils/app_assets.dart';
 import '../../manager/slider_cubit/slider_cubit.dart';
 
 class CarDetailsSlider extends StatelessWidget {
-  CarDetailsSlider({super.key});
-
-  final List<String> sliderImages = [
-    AppAssets.car1,
-    AppAssets.car1,
-    AppAssets.car1,
-  ];
+  const CarDetailsSlider({super.key});
 
   @override
   Widget build(BuildContext context) {
+    var cubit = UserCubit.get(context);
     return CarouselSlider(
       options: CarouselOptions(
         height: MyResponsive.height(value: 400),
@@ -27,7 +23,7 @@ class CarDetailsSlider extends StatelessWidget {
           SliderCubit.get(context).changeSliderIndex(index);
         },
       ),
-      items: sliderImages.map((imagePath) {
+      items: cubit.selectedCar!.images.map((imagePath) {
         return SliderWidget(
           imagePath: imagePath,
         );
@@ -43,11 +39,11 @@ class SliderWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Image.asset(
-      imagePath,
+    return CachedNetworkImageWrapper(
+      imagePath: imagePath,
       width: double.infinity,
       height: double.infinity,
-      fit: BoxFit.cover,
+      fit: BoxFit.fill,
     );
   }
 }

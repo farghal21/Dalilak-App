@@ -1,9 +1,10 @@
+import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
+import 'package:dalilak_app/features/home/data/models/send_chat_messages_response_model.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/network/api_helper.dart';
 import '../../../../core/network/api_response.dart';
 import '../../../../core/network/end_points.dart';
-import '../models/chat_response_model.dart';
 import 'home_repo.dart';
 
 class HomeRepoImpl implements HomeRepo {
@@ -12,32 +13,73 @@ class HomeRepoImpl implements HomeRepo {
   HomeRepoImpl(this.apiHelper);
 
   @override
-  Future<Either<String, ChatResponseModel>> sendMessage(
-      {required String message}) async {
+  Future<Either<String, String>> startChat() async {
+    try {
+      ApiResponse response = await apiHelper.postRequest(
+        endPoint: EndPoints.startChat,
+        isProtected: true,
+      );
+
+      if (response.success == true) {
+        return Right(response.data['data']['sessionId']);
+      } else {
+        throw Exception(response.message);
+      }
+    } catch (e) {
+      ApiResponse errorResponse = ApiResponse.fromError(e);
+      return Left(errorResponse.message);
+    }
+  }
+
+  @override
+  Future<Either<String, FetchChatMessagesData>> fetchChatMessages(
+      {required String sessionId}) async {
+    try {
+      ApiResponse response = await apiHelper.getRequest(
+        endPoint: EndPoints.fetchMessages(sessionId),
+        isProtected: true,
+      );
+
+      if (response.success == true) {
+        FetchChatMessagesData fetchData =
+            FetchChatMessagesData.fromJson(response.data['data']);
+        return Right(fetchData);
+      } else {
+        throw Exception(response.message);
+      }
+    } catch (e) {
+      ApiResponse errorResponse = ApiResponse.fromError(e);
+      return Left(errorResponse.message);
+    }
+  }
+
+  @override
+  Future<Either<String, SendMessageData>> sendMessage({
+    required String sessionId,
+    required int userId,
+    required String message,
+  }) async {
     try {
       ApiResponse response = await apiHelper.postRequest(
         endPoint: EndPoints.sendMessage,
         data: {
-          "message": message,
-          "metadata": {
-            "source": "mobile",
-            "timestamp": DateTime.now().toIso8601String(),
-            "language": "ar"
-          }
+          'sessionId': sessionId,
+          'userId': userId,
+          'message': message,
         },
         isProtected: true,
       );
 
-      if (response.success == false) {
-        return Left(response.message);
+      if (response.success == true) {
+        SendMessageData sendMessageData =
+            SendMessageData.fromJson(response.data['data']);
+        return Right(sendMessageData);
+      } else {
+        throw Exception(response.message);
       }
-
-      final ChatResponseModel model =
-          ChatResponseModel.fromJson(response.data['data']);
-      return Right(model);
     } catch (e) {
-      final apiResponse = ApiResponse.fromError(e);
-      return Left(apiResponse.message);
+      ApiResponse errorResponse = ApiResponse.fromError(e);
+      return Left(errorResponse.message);
     }
   }
 }

@@ -1,7 +1,7 @@
 import 'package:dalilak_app/core/user/data/repo/user_repo.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
-import 'package:dalilak_app/features/auth/views/login_view.dart';
-import 'package:dalilak_app/features/car_details/car_details_view.dart';
+import 'package:dalilak_app/features/compare/manager/compare_cubit.dart';
+import 'package:dalilak_app/features/favorite/manager/favorite_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -15,7 +15,6 @@ import 'core/helper/get_it.dart';
 import 'core/helper/one_generate_routes.dart';
 import 'core/utils/app_constants.dart';
 import 'core/utils/app_theme.dart';
-import 'features/home/views/home_view.dart';
 import 'features/splash/views/splash_view.dart';
 import 'generated/l10n.dart';
 

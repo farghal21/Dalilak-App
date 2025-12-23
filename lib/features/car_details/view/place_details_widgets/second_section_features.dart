@@ -1,3 +1,4 @@
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helper/my_responsive.dart';
@@ -10,31 +11,29 @@ class SecondSectionFeatures extends StatelessWidget {
     super.key,
   });
 
-  final List<Map<String, dynamic>> features = const [
-    {
-
-      'title': 'ناقل الحركه',
-      'subtitle': 'اوتوماتيك',
-    },
-    {
-
-      'title': 'نوع الوقود',
-      'subtitle': 'كهربائيه',
-    },
-    {
-
-      'title': 'قوة المحرك(حصان)',
-      'subtitle': '149 hp',
-    },
-    {
-
-      'title': 'السرعة القصوى ',
-      'subtitle': '180 الى 185 كم/س',
-    },
-  ];
-
   @override
   Widget build(BuildContext context) {
+    var cubit = UserCubit.get(context);
+    var car = cubit.selectedCar!;
+    final List<Map<String, dynamic>> features = [
+      {
+        'title': 'ناقل الحركه',
+        'subtitle': car.specs.transmission ?? 'غير معروف',
+      },
+      {
+        'title': 'نوع الوقود',
+        'subtitle': car.specs.fuelType ?? 'غير معروف',
+      },
+      {
+        'title': 'قوة المحرك(حصان)',
+        'subtitle': car.specs.horsepower ?? 'غير معروف',
+      },
+      {
+        'title': 'السرعة القصوى ',
+        'subtitle': car.specs.maxSpeed ?? 'غير معروف',
+      },
+    ];
+
     return Padding(
       padding: MyResponsive.paddingSymmetric(horizontal: 20),
       child: Column(

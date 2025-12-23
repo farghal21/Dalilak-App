@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import '../helper/my_responsive.dart';
 import '../utils/app_assets.dart';
 import '../utils/app_colors.dart';
-import '../utils/app_strings.dart';
 import '../utils/app_text_styles.dart';
 
 AppBar customAppBar(BuildContext context) {
@@ -23,9 +22,7 @@ AppBar customAppBar(BuildContext context) {
         padding: MyResponsive.paddingSymmetric(horizontal: 10),
         child: Builder(builder: (context) {
           return IconButton(
-            onPressed: () {
-              Scaffold.of(context).openEndDrawer();
-            },
+            onPressed: null,
             icon: SvgWrapper(path: AppAssets.notificationsImage),
           );
         }),

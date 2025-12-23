@@ -6,9 +6,14 @@ import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_text_styles.dart';
 
 class ChatErrorWidget extends StatelessWidget {
-  const ChatErrorWidget({super.key, required this.errorMessage});
+  const ChatErrorWidget({
+    super.key,
+    required this.errorMessage,
+    required this.onRetry,
+  });
 
   final String errorMessage;
+  final VoidCallback onRetry;
 
   @override
   Widget build(BuildContext context) {
@@ -18,46 +23,40 @@ class ChatErrorWidget extends StatelessWidget {
         Image.asset(
           AppAssets.chatImage,
           width: MyResponsive.width(value: 57),
-          // height: MyResponsive.height(value: 24),
           fit: BoxFit.fill,
         ),
-        SizedBox(
-          width: MyResponsive.width(value: 8),
-        ),
+        SizedBox(width: MyResponsive.width(value: 8)),
+
+        /// 👇 دي أهم حتة
         Expanded(
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Expanded(
-                child: Text(
-                  AppStrings.chatLoadingTitle,
-                  style: AppTextStyles.bold20,
-                ),
+              Text(
+                AppStrings.chatErrorTitle,
+                style: AppTextStyles.bold20,
               ),
-              Expanded(
-                child: Text(
-                  errorMessage,
-                  style: AppTextStyles.bold16,
-                ),
+              SizedBox(height: MyResponsive.height(value: 4)),
+              Text(
+                errorMessage,
+                softWrap: true, // 👈 مهم
+                overflow: TextOverflow.visible, // 👈 بلاش ellipsis هنا
+                style: AppTextStyles.bold16,
               ),
-              SizedBox(
-                height: MyResponsive.height(value: 4),
-              ),
+              SizedBox(height: MyResponsive.height(value: 4)),
               Row(
                 children: [
                   Text(
                     AppStrings.tryAgain,
-                    style: AppTextStyles.regular16,
+                    style: AppTextStyles.regular14,
                   ),
-                  SizedBox(width: MyResponsive.width(value: 5)),
                   IconButton(
-                    onPressed: () {},
-                    icon: Icon(
-                      Icons.refresh,
-                      size: MyResponsive.fontSize(value: 30),
-                    ),
-                  )
+                    onPressed: onRetry,
+                    icon: const Icon(Icons.refresh),
+                  ),
                 ],
-              )
+              ),
             ],
           ),
         ),

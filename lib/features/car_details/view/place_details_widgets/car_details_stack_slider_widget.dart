@@ -1,3 +1,4 @@
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
@@ -58,7 +59,7 @@ class CarDetailsStackSliderWidget extends StatelessWidget {
             builder: (context, state) {
               return AnimatedSmoothIndicator(
                 activeIndex: SliderCubit.get(context).currentIndex,
-                count: 3,
+                count: UserCubit.get(context).selectedCar!.images.length,
                 effect: ExpandingDotsEffect(
                   dotHeight: MyResponsive.height(value: 10),
                   dotWidth: MyResponsive.width(value: 10),

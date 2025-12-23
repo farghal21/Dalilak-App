@@ -22,7 +22,7 @@ class WithMediaMessageWidget extends StatelessWidget {
       child: Column(
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Image.asset(
                 AppAssets.chatImage,
@@ -31,7 +31,7 @@ class WithMediaMessageWidget extends StatelessWidget {
                 fit: BoxFit.fill,
               ),
               SizedBox(
-                width: MyResponsive.width(value: 8),
+                width: MyResponsive.width(value: 10),
               ),
               Expanded(
                 child: Text(
@@ -44,19 +44,20 @@ class WithMediaMessageWidget extends StatelessWidget {
           SizedBox(
             height: MyResponsive.height(value: 40),
           ),
-          if (message.hotels != null && message.hotels!.isNotEmpty) ...[
+          if (message.cars != null && message.cars!.isNotEmpty) ...[
             ListView.separated(
+              padding: EdgeInsets.zero,
               physics: const NeverScrollableScrollPhysics(),
               shrinkWrap: true,
               itemBuilder: (context, index) {
                 return WithMediaListViewItemWidget(
-                  hotel: message.hotels![index],
+                  car: message.cars![index],
                 );
               },
               separatorBuilder: (context, index) => SizedBox(
-                height: MyResponsive.height(value: 60),
+                height: MyResponsive.height(value: 40),
               ),
-              itemCount: message.hotels?.length ?? 0,
+              itemCount: message.cars?.length ?? 0,
             )
           ]
         ],

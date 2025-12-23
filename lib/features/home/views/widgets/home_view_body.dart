@@ -11,6 +11,8 @@ import '../../data/models/message_model.dart';
 import '../../manager/home_cubit/home_cubit.dart';
 import '../../manager/home_cubit/home_state.dart';
 import 'category_list_view_item.dart';
+import 'chat_error_widget.dart';
+import 'chat_loading_widget.dart';
 import 'chat_text_field.dart';
 
 class HomeViewBody extends StatelessWidget {
@@ -36,13 +38,14 @@ class HomeViewBody extends StatelessWidget {
                   if (messages.isEmpty) return _buildEmptyState(cubit);
 
                   return ListView.separated(
+                    padding: EdgeInsets.zero,
                     controller: cubit.scrollController,
                     itemBuilder: (context, index) {
                       final message = messages[index];
                       final isUser = message.sender == MessageSender.user;
 
                       return AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 400),
+                        duration: const Duration(milliseconds: 200),
                         switchInCurve: Curves.easeOutBack,
                         transitionBuilder: (child, animation) {
                           final offsetAnimation = Tween<Offset>(
@@ -63,9 +66,32 @@ class HomeViewBody extends StatelessWidget {
                           alignment: isUser
                               ? AlignmentDirectional.centerEnd
                               : AlignmentDirectional.centerStart,
-                          child: message.messageType == MessageType.hasData
-                              ? WithMediaMessageWidget(message: message)
-                              : TextMessageWidget(message: message),
+                          child: () {
+                            switch (message.messageType) {
+                              case MessageType.loading:
+                                return const ChatLoadingWidget();
+
+                              case MessageType.error:
+                                return ChatErrorWidget(
+                                  errorMessage: message.message,
+                                  onRetry: () {
+                                    final lastUserMessage = messages
+                                        .lastWhere((m) =>
+                                            m.sender == MessageSender.user)
+                                        .message;
+
+                                    cubit.sendUserMessage(lastUserMessage);
+                                  },
+                                );
+
+                              case MessageType.hasData:
+                                return WithMediaMessageWidget(message: message);
+
+                              case MessageType.text:
+                              default:
+                                return TextMessageWidget(message: message);
+                            }
+                          }(),
                         ),
                       );
                     },
@@ -123,7 +149,6 @@ class HomeViewBody extends StatelessWidget {
             ),
           ),
           SizedBox(height: MyResponsive.height(value: 27)),
-
           SizedBox(
             height: MyResponsive.height(value: 175),
             child: ListView.separated(

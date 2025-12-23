@@ -9,10 +9,13 @@ abstract class EndPoints {
   static const String resendOtp = 'Auth/resend-otp';
   static const String resetPassword = 'Auth/reset-password';
   static const String getUserData = 'Auth/me';
-  static const String sendMessage = 'chat/send';
+  static const String startChat = 'Chat/start';
+  static const String sendMessage = 'Chat/send';
+  static const String updateProfile = 'Auth/profile';
 
   static const String getChatHistory = 'Chat/sessions';
 
   static String renameSession(String sessionId) => 'Chat/rename/$sessionId';
   static String removeSession(String sessionId) => 'Chat/$sessionId';
+  static String fetchMessages(String sessionId) => 'Chat/history/$sessionId';
 }

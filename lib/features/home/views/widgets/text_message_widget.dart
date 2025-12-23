@@ -32,7 +32,7 @@ class TextMessageWidget extends StatelessWidget {
                   fit: BoxFit.fill,
                 ),
                 SizedBox(
-                  width: MyResponsive.width(value: 8),
+                  width: MyResponsive.width(value: 12),
                 ),
                 Expanded(
                   child: Text(

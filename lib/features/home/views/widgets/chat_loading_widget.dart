@@ -16,32 +16,23 @@ class ChatLoadingWidget extends StatelessWidget {
         Image.asset(
           AppAssets.chatImage,
           width: MyResponsive.width(value: 57),
-          // height: MyResponsive.height(value: 24),
           fit: BoxFit.fill,
         ),
-        SizedBox(
-          width: MyResponsive.width(value: 8),
-        ),
-        Expanded(
-          child: Column(
-            children: [
-              Expanded(
-                child: Text(
-                  AppStrings.chatLoadingTitle,
-                  style: AppTextStyles.bold20,
-                ),
-              ),
-              SizedBox(
-                height: MyResponsive.height(value: 4),
-              ),
-              Expanded(
-                child: Text(
-                  AppStrings.chatLoadingSubTitle,
-                  style: AppTextStyles.regular16,
-                ),
-              ),
-            ],
-          ),
+        SizedBox(width: MyResponsive.width(value: 8)),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min, // 👈 مهم
+          children: [
+            Text(
+              AppStrings.chatLoadingTitle,
+              style: AppTextStyles.bold20,
+            ),
+            SizedBox(height: MyResponsive.height(value: 4)),
+            Text(
+              AppStrings.chatLoadingSubTitle,
+              style: AppTextStyles.regular16,
+            ),
+          ],
         ),
       ],
     );

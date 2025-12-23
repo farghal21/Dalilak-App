@@ -1,7 +1,5 @@
 import 'package:dalilak_app/features/car_details/manager/slider_cubit/slider_cubit.dart';
 import 'package:dalilak_app/features/car_details/view/place_details_widgets/car_details_view_body.dart';
-import 'package:dalilak_app/features/compare/views/widgets/compare_view_body.dart';
-import 'package:dalilak_app/features/favorite/view/widget/favorite_view_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,7 +10,6 @@ class CarDetailsView extends StatelessWidget {
 
   static const String routeName = 'CarDetails';
 
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -20,8 +17,6 @@ class CarDetailsView extends StatelessWidget {
       child: CustomScaffold(
         isHomeScreen: false,
         showDrawer: false,
-
-
         body: CarDetailsViewBody(),
       ),
     );

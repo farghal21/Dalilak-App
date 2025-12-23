@@ -15,8 +15,4 @@ class ImageManagerCubit extends Cubit<ImageManagerState> {
       emit(ImageManagerPickedImage(imageFile: imageFile));
     }
   }
-
-  void resetImage() {
-    emit(ImageManagerInitial());
-  }
 }

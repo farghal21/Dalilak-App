@@ -41,7 +41,7 @@ class CustomScaffold extends StatelessWidget {
       drawer: showDrawer!
           ? MainDrawer(selectedIndex: drawerSelectedIndex ?? 0)
           : null,
-      endDrawer: isHomeScreen! ? NotificationDrawer() : endDrawer,
+      endDrawer: endDrawer,
       body: Stack(
         children: [
           Image.asset(

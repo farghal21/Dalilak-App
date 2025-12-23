@@ -1,4 +1,7 @@
+import 'package:dalilak_app/core/helper/my_navigator.dart';
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:dalilak_app/features/car_details/car_details_view.dart';
+import 'package:dalilak_app/features/home/data/models/send_chat_messages_response_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helper/my_responsive.dart';
@@ -8,41 +11,50 @@ import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_text_styles.dart';
-import '../../data/models/hotel_model.dart';
 
 class WithMediaListViewItemWidget extends StatelessWidget {
-  const WithMediaListViewItemWidget({super.key, required this.hotel});
+  const WithMediaListViewItemWidget({super.key, required this.car});
 
-  final HotelModel hotel;
+  final CarModel car;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(MyResponsive.radius(value: 20)),
-          child: hotel.image != null
-              ? CachedNetworkImageWrapper(
-                  imagePath: hotel.image!,
-                  width: MyResponsive.width(value: 186),
+        car.images.isNotEmpty
+            ? Center(
+                child: SizedBox(
                   height: MyResponsive.height(value: 150),
-                  fit: BoxFit.fill,
-                )
-              : Image.asset(
+                  child: ClipRRect(
+                    borderRadius:
+                        BorderRadius.circular(MyResponsive.radius(value: 20)),
+                    child: CachedNetworkImageWrapper(
+                      imagePath: car.images.first,
+                      width: MyResponsive.width(value: 210),
+                      height: MyResponsive.height(value: 150),
+                      fit: BoxFit.fill,
+                    ),
+                  ),
+                ),
+              )
+            : ClipRRect(
+                borderRadius:
+                    BorderRadius.circular(MyResponsive.radius(value: 20)),
+                child: Image.asset(
                   AppAssets.testImage,
                   width: MyResponsive.width(value: 186),
                   height: MyResponsive.height(value: 150),
                   fit: BoxFit.fill,
                 ),
-        ),
-        SizedBox(height: MyResponsive.height(value: 12)),
+              ),
+        SizedBox(height: MyResponsive.height(value: 14)),
         // SizedBox(height: MyResponsive.height(value: 52)),
         Text(
-          hotel.name,
+          car.name,
           style: AppTextStyles.semiBold15,
         ),
-        SizedBox(height: MyResponsive.height(value: 8)),
+        SizedBox(height: MyResponsive.height(value: 18)),
         Container(
           decoration: BoxDecoration(
             color: Color(0xff232138).withValues(alpha: .7),
@@ -55,8 +67,8 @@ class WithMediaListViewItemWidget extends StatelessWidget {
           child: CustomButton(
             title: AppStrings.details,
             onPressed: () {
-              Navigator.pushNamed(context, CarDetailsView.routeName);
-
+              UserCubit.get(context).selectedCar = car;
+              MyNavigator.goTo(screen: CarDetailsView());
             },
             height: MyResponsive.height(value: 50),
             backgroundColor: Colors.transparent,
