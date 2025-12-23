@@ -1,4 +1,5 @@
 import 'package:dalilak_app/core/helper/get_it.dart';
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:dalilak_app/features/auth/data/repo/auth_repo.dart';
 import 'package:dalilak_app/features/auth/views/register_done_view.dart';
 import 'package:dalilak_app/features/auth/views/widgets/otp_widget.dart';
@@ -28,6 +29,8 @@ class RegisterOtpView extends StatelessWidget {
           body: BlocConsumer<RegisterOtpCubit, RegisterOtpState>(
             listener: (context, state) {
               if (state is RegisterOtpVerified) {
+                UserCubit.get(context).getUserData();
+
                 Navigator.pushReplacementNamed(
                     context, RegisterDoneView.routeName);
               }

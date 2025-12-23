@@ -1,3 +1,4 @@
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:dalilak_app/features/auth/views/register_otp_view.dart';
 import 'package:dalilak_app/features/auth/views/widgets/login_view_body.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,6 +34,7 @@ class LoginView extends StatelessWidget {
               if (state is LoginSuccess) {
                 if (state.user.isEmailVerified!) {
                   MySnackbar.success(context, 'Login successfully');
+                  UserCubit.get(context).getUserData() ;
                   Navigator.pushNamedAndRemoveUntil(
                       context, HomeView.routeName, (route) => false);
                 } else {
