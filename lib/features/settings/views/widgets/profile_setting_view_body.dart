@@ -1,3 +1,4 @@
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -11,14 +12,13 @@ import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_text_styles.dart';
-import '../../manager/profile_cubit/profile_cubit.dart';
 
 class ProfileSettingViewBody extends StatelessWidget {
   const ProfileSettingViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var cubit = ProfileCubit.get(context);
+    var cubit = UserCubit.get(context);
     return Padding(
       padding: MyResponsive.paddingSymmetric(horizontal: 20),
       child: SingleChildScrollView(
@@ -40,7 +40,6 @@ class ProfileSettingViewBody extends StatelessWidget {
             Stack(
               children: [
                 ImageManagerView(
-                  cubit: cubit.imageCubit,
                   onPicked: (XFile imageFile) {
                     cubit.imageFile = imageFile;
                   },
@@ -52,7 +51,7 @@ class ProfileSettingViewBody extends StatelessWidget {
                     );
                   },
                   unPickedBody: ProfileImageWidget(
-                    imagePath: null,
+                    imagePath: cubit.userModel.profileImageUrl,
                     width: MyResponsive.width(value: 126),
                   ),
                 ),
@@ -71,14 +70,14 @@ class ProfileSettingViewBody extends StatelessWidget {
               height: MyResponsive.height(value: 4),
             ),
             Text(
-              AppStrings.userName,
+              cubit.userModel.fullName ?? '',
               style: AppTextStyles.semiBold24,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'ID: 3309449812',
+                  'ID: ${cubit.userModel.id}',
                   style:
                       AppTextStyles.semiBold20.copyWith(color: AppColors.gray),
                 ),
@@ -95,28 +94,8 @@ class ProfileSettingViewBody extends StatelessWidget {
             SizedBox(
               width: MyResponsive.height(value: 12),
             ),
-            Row(
-              children: [
-                Expanded(
-                  child: CustomButton(
-                    title: AppStrings.updateImage,
-                    onPressed: cubit.updateImage,
-                  ),
-                ),
-                SizedBox(
-                  width: MyResponsive.width(value: 27),
-                ),
-                Expanded(
-                  child: CustomButton(
-                    title: AppStrings.deleteImage,
-                    onPressed: cubit.deleteImage,
-                    backgroundColor: AppColors.fillColor,
-                  ),
-                ),
-              ],
-            ),
             SizedBox(
-              height: MyResponsive.height(value: 20),
+              height: MyResponsive.height(value: 40),
             ),
             CustomTextFormField(
               type: TextFieldType.name,
@@ -130,7 +109,7 @@ class ProfileSettingViewBody extends StatelessWidget {
               controller: cubit.emailController,
             ),
             SizedBox(
-              height: MyResponsive.height(value: 20),
+              height: MyResponsive.height(value: 50),
             ),
             // CustomTextFormField(
             //   type: TextFieldType.phone,

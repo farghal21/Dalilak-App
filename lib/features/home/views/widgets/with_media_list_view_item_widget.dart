@@ -1,7 +1,7 @@
 import 'package:dalilak_app/core/helper/my_navigator.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:dalilak_app/features/car_details/car_details_view.dart';
-import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
+import 'package:dalilak_app/features/home/data/models/send_chat_messages_response_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helper/my_responsive.dart';

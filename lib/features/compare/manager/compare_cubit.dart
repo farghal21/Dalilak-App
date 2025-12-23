@@ -1,5 +1,5 @@
 import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
-import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
+import 'package:dalilak_app/features/home/data/models/send_chat_messages_response_model.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'compare_state.dart';

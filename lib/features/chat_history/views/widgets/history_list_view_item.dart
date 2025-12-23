@@ -22,7 +22,7 @@ class HistoryListViewItem extends StatelessWidget {
     var formattedDate = formatDateTime(item.createdAt ?? '');
     return InkWell(
       onTap: () {
-        MyNavigator.goTo(screen: HomeView(), isReplace: true);
+        MyNavigator.goTo(screen: HomeView(sessionId: item.id,), isReplace: true);
       },
       child: Container(
         width: double.infinity,

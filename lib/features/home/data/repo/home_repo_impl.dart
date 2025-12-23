@@ -1,4 +1,5 @@
 import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
+import 'package:dalilak_app/features/home/data/models/send_chat_messages_response_model.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../../core/network/api_helper.dart';
@@ -30,12 +31,27 @@ class HomeRepoImpl implements HomeRepo {
     }
   }
 
-  // @override
-  // Future<Either<String, ChatResponseModel>> fetchChatMessages(
-  //     {required String sessionId}) {
-  //   // TODO: implement fetchChatMessages
-  //   throw UnimplementedError();
-  // }
+  @override
+  Future<Either<String, FetchChatMessagesData>> fetchChatMessages(
+      {required String sessionId}) async {
+    try {
+      ApiResponse response = await apiHelper.getRequest(
+        endPoint: EndPoints.fetchMessages(sessionId),
+        isProtected: true,
+      );
+
+      if (response.success == true) {
+        FetchChatMessagesData fetchData =
+            FetchChatMessagesData.fromJson(response.data['data']);
+        return Right(fetchData);
+      } else {
+        throw Exception(response.message);
+      }
+    } catch (e) {
+      ApiResponse errorResponse = ApiResponse.fromError(e);
+      return Left(errorResponse.message);
+    }
+  }
 
   @override
   Future<Either<String, SendMessageData>> sendMessage({

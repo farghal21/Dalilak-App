@@ -1,7 +1,7 @@
 import 'package:dalilak_app/core/helper/my_responsive.dart';
 import 'package:dalilak_app/core/shared_widgets/cached_network_image_wrapper.dart';
 import 'package:dalilak_app/core/utils/app_text_styles.dart';
-import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
+import 'package:dalilak_app/features/home/data/models/send_chat_messages_response_model.dart';
 import 'package:flutter/material.dart';
 
 class CarItemWidget extends StatelessWidget {

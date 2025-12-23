@@ -21,7 +21,14 @@ class FavoriteViewBody extends StatelessWidget {
       padding: MyResponsive.paddingSymmetric(horizontal: 20),
       child: Column(
         children: [
-          SizedBox(height: MyResponsive.height(value: 120)),
+          RefreshIndicator(
+            onRefresh: () async {
+              await Future.delayed(const Duration(seconds: 2));
+              FavoriteCubit.get(context)
+                  .init(UserCubit.get(context).favoriteCars);
+            },
+            child: SizedBox(height: MyResponsive.height(value: 120)),
+          ),
           HistoryAppBar(title: AppStrings.favorite),
           SizedBox(height: MyResponsive.height(value: 30)),
           Expanded(

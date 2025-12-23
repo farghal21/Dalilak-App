@@ -1,4 +1,4 @@
-import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
+import 'package:dalilak_app/features/home/data/models/send_chat_messages_response_model.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helper/my_responsive.dart';

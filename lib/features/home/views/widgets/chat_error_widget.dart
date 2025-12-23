@@ -26,33 +26,39 @@ class ChatErrorWidget extends StatelessWidget {
           fit: BoxFit.fill,
         ),
         SizedBox(width: MyResponsive.width(value: 8)),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min, // 👈 مهم
-          children: [
-            Text(
-              AppStrings.chatLoadingTitle,
-              style: AppTextStyles.bold20,
-            ),
-            SizedBox(height: MyResponsive.height(value: 4)),
-            Text(
-              errorMessage,
-              style: AppTextStyles.bold16,
-            ),
-            SizedBox(height: MyResponsive.height(value: 8)),
-            Row(
-              children: [
-                Text(
-                  AppStrings.tryAgain,
-                  style: AppTextStyles.regular16,
-                ),
-                IconButton(
-                  onPressed: onRetry,
-                  icon: const Icon(Icons.refresh),
-                ),
-              ],
-            ),
-          ],
+
+        /// 👇 دي أهم حتة
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                AppStrings.chatErrorTitle,
+                style: AppTextStyles.bold20,
+              ),
+              SizedBox(height: MyResponsive.height(value: 4)),
+              Text(
+                errorMessage,
+                softWrap: true, // 👈 مهم
+                overflow: TextOverflow.visible, // 👈 بلاش ellipsis هنا
+                style: AppTextStyles.bold16,
+              ),
+              SizedBox(height: MyResponsive.height(value: 4)),
+              Row(
+                children: [
+                  Text(
+                    AppStrings.tryAgain,
+                    style: AppTextStyles.regular14,
+                  ),
+                  IconButton(
+                    onPressed: onRetry,
+                    icon: const Icon(Icons.refresh),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ],
     );

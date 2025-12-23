@@ -21,7 +21,7 @@ class HomeView extends StatelessWidget {
         getIt<HomeRepo>(),
         userId: UserCubit.get(context).userModel.id!,
         sessionId: sessionId,
-      ),
+      )..init(),
       child: const CustomScaffold(
         isHomeScreen: true,
         drawerSelectedIndex: 0,

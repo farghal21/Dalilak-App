@@ -1,7 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../core/user/manager/user_cubit/user_cubit.dart';
-import '../../home/data/models/fetch_chat_messages_response_model.dart';
+import '../../home/data/models/send_chat_messages_response_model.dart';
 import 'favorite_state.dart';
 
 class FavoriteCubit extends Cubit<FavoriteState> {

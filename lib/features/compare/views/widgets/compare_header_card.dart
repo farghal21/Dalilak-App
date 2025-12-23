@@ -1,7 +1,7 @@
 import 'package:dalilak_app/core/helper/my_responsive.dart';
 import 'package:dalilak_app/core/utils/app_colors.dart';
 import 'package:dalilak_app/features/compare/views/widgets/vs_cycle_widget.dart';
-import 'package:dalilak_app/features/home/data/models/fetch_chat_messages_response_model.dart';
+import 'package:dalilak_app/features/home/data/models/send_chat_messages_response_model.dart';
 import 'package:flutter/material.dart';
 
 import 'car_item_wedgit.dart';

@@ -19,32 +19,46 @@ class HomeCubit extends Cubit<HomeState> {
   final ScrollController scrollController = ScrollController();
 
   // ---------------- INIT ----------------
-  // void init() {
-  //   if (sessionId != null) {
-  //     fetchOldMessages();
-  //   }
-  // }
+  void init() {
+    if (sessionId != null) {
+      fetchOldMessages();
+    }
+  }
 
   // ---------------- OLD CHAT ----------------
-  // Future<void> fetchOldMessages() async {
-  //   emit(HomeLoading());
-  //
-  //   final result = await repo.fetchMessages(sessionId!);
-  //
-  //   result.fold(
-  //     (error) {
-  //       emit(HomeError(error: error));
-  //     },
-  //     (oldMessages) {
-  //       messages
-  //         ..clear()
-  //         ..addAll(oldMessages);
-  //
-  //       emit(HomeMessagesUpdated());
-  //       _scrollToBottom();
-  //     },
-  //   );
-  // }
+  Future<void> fetchOldMessages() async {
+    emit(HomeLoading());
+
+    final result = await repo.fetchChatMessages(sessionId: sessionId!);
+
+    result.fold(
+      (error) {
+        emit(HomeError(error: error));
+      },
+      (response) {
+        var model = response.messages;
+        sessionId = response.sessionId;
+
+        for (var message in model) {
+          messages.add(
+            MessageModel(
+              message: message.message,
+              messageType: message.data == null || message.data!.cars.isEmpty
+                  ? MessageType.text
+                  : MessageType.hasData,
+              sender: message.sender == 'user'
+                  ? MessageSender.user
+                  : MessageSender.bot,
+              cars: message.data?.cars ?? [],
+            ),
+          );
+        }
+
+        emit(HomeMessagesUpdated());
+        _scrollToBottom();
+      },
+    );
+  }
 
   // ---------------- SEND MESSAGE ----------------
   Future<void> sendUserMessage(String message) async {
@@ -95,7 +109,7 @@ class HomeCubit extends Cubit<HomeState> {
     messages.remove(loadingMessage);
 
     result.fold(
-          (error) {
+      (error) {
         messages.add(
           MessageModel(
             message: error,
@@ -105,7 +119,7 @@ class HomeCubit extends Cubit<HomeState> {
         );
         emit(HomeMessagesUpdated());
       },
-          (chatResponse) {
+      (chatResponse) {
         messages.add(
           MessageModel(
             message: chatResponse.message,
