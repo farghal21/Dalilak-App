@@ -62,7 +62,7 @@ class UserCubit extends Cubit<UserState> {
     emit(UserUpdateLoading());
     var result = await userRepo.updateUserData(
       name: nameController.text,
-      email: phoneController.text,
+      email: emailController.text,
       imageFile: imageFile,
     );
 
@@ -70,8 +70,9 @@ class UserCubit extends Cubit<UserState> {
       (String error) {
         emit(UserUpdateError(error: error));
       },
-      (message) async {
-        await getUserData();
+      (message) {
+        userModel.fullName = nameController.text;
+        userModel.email = emailController.text;
         emit(UserUpdateSuccess(message: message));
       },
     );

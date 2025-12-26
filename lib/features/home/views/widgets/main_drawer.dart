@@ -1,9 +1,11 @@
 import 'package:dalilak_app/core/shared_widgets/cached_network_image_wrapper.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
+import 'package:dalilak_app/core/user/manager/user_cubit/user_state.dart';
 import 'package:dalilak_app/features/chat_history/views/history_view.dart';
 import 'package:dalilak_app/features/compare/views/compare_view.dart';
 import 'package:dalilak_app/features/favorite/view/favorite_view.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/shared_widgets/svg_wrapper.dart';
@@ -22,7 +24,6 @@ class MainDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = UserCubit.get(context);
     return Drawer(
       backgroundColor: AppColors.black,
       child: Padding(
@@ -113,74 +114,80 @@ class MainDrawer extends StatelessWidget {
             // ),
             // SizedBox(height: MyResponsive.height(value: 18)),
             Spacer(),
-            Container(
-              padding:
-                  MyResponsive.paddingSymmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppColors.fillColor,
-                borderRadius:
-                    BorderRadius.circular(MyResponsive.radius(value: 15)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  ListTile(
-                    contentPadding: EdgeInsets.zero,
-                    title: Text(
-                      cubit.userModel.fullName ?? '',
-                      overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
-                      style: AppTextStyles.bold20,
-                    ),
-                    // subtitle: Text(
-                    //   AppStrings.addUserSubtitle,
-                    //   style: AppTextStyles.regular11
-                    //       .copyWith(color: AppColors.gray),
-                    // ),
-                    trailing: SvgWrapper(
-                      path: AppAssets.friends,
-                      fit: BoxFit.fill,
-                      width: MyResponsive.fontSize(value: 30),
-                    ),
-                    leading: ClipRRect(
-                      borderRadius:
-                          BorderRadius.circular(MyResponsive.radius(value: 10)),
-                      child: cubit.userModel.profileImageUrl != null
-                          ? CachedNetworkImageWrapper(
-                              imagePath: cubit.userModel.profileImageUrl!,
-                              width: MyResponsive.width(value: 60),
-                            )
-                          : Image.asset(
-                              AppAssets.profileImage,
-                              width: MyResponsive.width(value: 60),
-                            ),
-                    ),
+            BlocBuilder<UserCubit, UserState>(
+              builder: (context, state) {
+                final cubit = UserCubit.get(context);
+                final userModel = cubit.userModel;
+                return Container(
+                  padding: MyResponsive.paddingSymmetric(
+                      horizontal: 12, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: AppColors.fillColor,
+                    borderRadius:
+                        BorderRadius.circular(MyResponsive.radius(value: 15)),
                   ),
-                  SizedBox(height: MyResponsive.height(value: 8)),
-                  Divider(color: AppColors.gray),
-                  SizedBox(height: MyResponsive.height(value: 8)),
-                  GestureDetector(
-                    onTap: () {
-                      cubit.logout();
-                    },
-                    child: Row(
-                      children: [
-                        SvgWrapper(
-                          path: AppAssets.logout,
-                          color: AppColors.red,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ListTile(
+                        contentPadding: EdgeInsets.zero,
+                        title: Text(
+                          userModel.fullName ?? '',
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: AppTextStyles.bold20,
                         ),
-                        SizedBox(width: MyResponsive.width(value: 16)),
-                        Text(
-                          AppStrings.logout,
-                          style: AppTextStyles.semiBold16
-                              .copyWith(color: AppColors.red),
-                        )
-                      ],
-                    ),
+                        // subtitle: Text(
+                        //   AppStrings.addUserSubtitle,
+                        //   style: AppTextStyles.regular11
+                        //       .copyWith(color: AppColors.gray),
+                        // ),
+                        trailing: SvgWrapper(
+                          path: AppAssets.friends,
+                          fit: BoxFit.fill,
+                          width: MyResponsive.fontSize(value: 30),
+                        ),
+                        leading: ClipRRect(
+                          borderRadius: BorderRadius.circular(
+                              MyResponsive.radius(value: 10)),
+                          child: userModel.profileImageUrl != null
+                              ? CachedNetworkImageWrapper(
+                                  imagePath: userModel.profileImageUrl!,
+                                  width: MyResponsive.width(value: 60),
+                                )
+                              : Image.asset(
+                                  AppAssets.profileImage,
+                                  width: MyResponsive.width(value: 60),
+                                ),
+                        ),
+                      ),
+                      SizedBox(height: MyResponsive.height(value: 8)),
+                      Divider(color: AppColors.gray),
+                      SizedBox(height: MyResponsive.height(value: 8)),
+                      GestureDetector(
+                        onTap: () {
+                          cubit.logout();
+                        },
+                        child: Row(
+                          children: [
+                            SvgWrapper(
+                              path: AppAssets.logout,
+                              color: AppColors.red,
+                            ),
+                            SizedBox(width: MyResponsive.width(value: 16)),
+                            Text(
+                              AppStrings.logout,
+                              style: AppTextStyles.semiBold16
+                                  .copyWith(color: AppColors.red),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: MyResponsive.height(value: 10)),
+                    ],
                   ),
-                  SizedBox(height: MyResponsive.height(value: 10)),
-                ],
-              ),
+                );
+              },
             ),
             SizedBox(height: MyResponsive.height(value: 30)),
           ],

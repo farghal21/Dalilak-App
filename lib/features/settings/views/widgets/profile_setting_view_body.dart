@@ -97,19 +97,26 @@ class ProfileSettingViewBody extends StatelessWidget {
             SizedBox(
               height: MyResponsive.height(value: 40),
             ),
-            CustomTextFormField(
-              type: TextFieldType.name,
-              controller: cubit.nameController,
-            ),
-            SizedBox(
-              height: MyResponsive.height(value: 20),
-            ),
-            CustomTextFormField(
-              type: TextFieldType.email,
-              controller: cubit.emailController,
-            ),
-            SizedBox(
-              height: MyResponsive.height(value: 50),
+            Form(
+              key: cubit.formKey,
+              child: Column(
+                children: [
+                  CustomTextFormField(
+                    type: TextFieldType.name,
+                    controller: cubit.nameController,
+                  ),
+                  SizedBox(
+                    height: MyResponsive.height(value: 20),
+                  ),
+                  CustomTextFormField(
+                    type: TextFieldType.email,
+                    controller: cubit.emailController,
+                  ),
+                  SizedBox(
+                    height: MyResponsive.height(value: 50),
+                  ),
+                ],
+              ),
             ),
             // CustomTextFormField(
             //   type: TextFieldType.phone,
