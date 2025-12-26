@@ -1,7 +1,5 @@
 import 'package:dalilak_app/core/user/data/repo/user_repo.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
-import 'package:dalilak_app/features/compare/manager/compare_cubit.dart';
-import 'package:dalilak_app/features/favorite/manager/favorite_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';

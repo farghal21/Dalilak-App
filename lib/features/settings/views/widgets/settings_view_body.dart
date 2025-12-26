@@ -5,7 +5,6 @@ import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_text_styles.dart';
 import '../delete_account_setting_view.dart';
-import '../notification_setting_view.dart';
 import '../privacy_policy_setting_view.dart';
 import '../profile_setting_view.dart';
 import '../public_settings_view.dart';
@@ -44,13 +43,13 @@ class SettingsViewBody extends StatelessWidget {
           SizedBox(
             height: MyResponsive.height(value: 50),
           ),
-          SettingItemRow(
-            title: AppStrings.notifications,
-            routeName: NotificationSettingView.routeName,
-          ),
-          SizedBox(
-            height: MyResponsive.height(value: 50),
-          ),
+          // SettingItemRow(
+          //   title: AppStrings.notifications,
+          //   routeName: NotificationSettingView.routeName,
+          // ),
+          // SizedBox(
+          //   height: MyResponsive.height(value: 50),
+          // ),
           SettingItemRow(
             title: AppStrings.privacyPolicy,
             routeName: PrivacyPolicySettingView.routeName,

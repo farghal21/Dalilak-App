@@ -31,9 +31,10 @@ class PublicSettingsViewBody extends StatelessWidget {
             title: AppStrings.appearance,
             selectedValue: cubit.selectedAppearance,
             items: cubit.appearanceItems,
-            onChanged: (String? newValue) {
-              cubit.changeAppearance(newValue!);
-            },
+            // onChanged: (String? newValue) {
+            //   cubit.changeAppearance(newValue!);
+            // },
+            onChanged: null,
           ),
           SizedBox(
             height: MyResponsive.height(value: 35),
@@ -42,9 +43,10 @@ class PublicSettingsViewBody extends StatelessWidget {
             title: AppStrings.language,
             selectedValue: cubit.selectedLanguage,
             items: cubit.languageItems,
-            onChanged: (String? newValue) {
-              cubit.changeLanguage(newValue!);
-            },
+            // onChanged: (String? newValue) {
+            //   cubit.changeLanguage(newValue!);
+            // },
+            onChanged: null,
           ),
           SizedBox(
             height: MyResponsive.height(value: 35),

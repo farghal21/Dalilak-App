@@ -1,5 +1,4 @@
 import 'package:dalilak_app/core/shared_widgets/cached_network_image_wrapper.dart';
-import 'package:dalilak_app/core/shared_widgets/svg_wrapper.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:flutter/material.dart';
 
@@ -20,13 +19,17 @@ AppBar customAppBar(BuildContext context) {
     actions: [
       Padding(
         padding: MyResponsive.paddingSymmetric(horizontal: 10),
-        child: Builder(builder: (context) {
-          return IconButton(
-            onPressed: null,
-            icon: SvgWrapper(path: AppAssets.notificationsImage),
-          );
-        }),
-      ),
+      )
+      //   padding: MyResponsive.paddingSymmetric(horizontal: 10),
+      //   child: Builder(builder: (context) {
+      //     return IconButton(
+      //       onPressed: () {
+      //         Scaffold.of(context).openEndDrawer();
+      //       },
+      //       icon: SvgWrapper(path: AppAssets.notificationsImage),
+      //     );
+      //   }),
+      // ),
     ],
   );
 }

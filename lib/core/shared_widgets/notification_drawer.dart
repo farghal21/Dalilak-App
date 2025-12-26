@@ -11,20 +11,17 @@ class NotificationDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
-      backgroundColor: AppColors.black,
-      child: Padding(
-
-        padding: MyResponsive.paddingAll(value: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text( AppStrings.natMessage, style: AppTextStyles.bold20,)
-          ]
-        )
-            
-
-    )
-        );
+        backgroundColor: AppColors.black,
+        child: Padding(
+            padding: MyResponsive.paddingAll(value: 20),
+            child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    AppStrings.natMessage,
+                    style: AppTextStyles.bold20,
+                  )
+                ])));
   }
 }
