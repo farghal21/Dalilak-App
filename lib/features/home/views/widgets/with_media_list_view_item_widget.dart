@@ -110,13 +110,14 @@ class WithMediaListViewItemWidget extends StatelessWidget {
                     SizedBox(height: MyResponsive.height(value: 8)),
                     // Feature 1: Transmission
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.circle,
-                          color: AppColors.gray,
-                          size: MyResponsive.width(value: 4),
+                          color: AppColors.white,
+                          size: MyResponsive.width(value: 6),
                         ),
-                        SizedBox(width: MyResponsive.width(value: 6)),
+                        SizedBox(width: MyResponsive.width(value: 8)),
                         Expanded(
                           child: Text(
                             'ناقل الحركة: ${car.specs.transmission ?? 'غير محدد'}',
@@ -128,16 +129,17 @@ class WithMediaListViewItemWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: MyResponsive.height(value: 4)),
+                    SizedBox(height: MyResponsive.height(value: 8)),
                     // Feature 2: Horsepower
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.circle,
-                          color: AppColors.gray,
-                          size: MyResponsive.width(value: 4),
+                          color: AppColors.white,
+                          size: MyResponsive.width(value: 6),
                         ),
-                        SizedBox(width: MyResponsive.width(value: 6)),
+                        SizedBox(width: MyResponsive.width(value: 8)),
                         Expanded(
                           child: Text(
                             'القوة: ${car.specs.horsepower ?? 'غير محدد'} حصان',
@@ -149,16 +151,17 @@ class WithMediaListViewItemWidget extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(height: MyResponsive.height(value: 4)),
+                    SizedBox(height: MyResponsive.height(value: 8)),
                     // Feature 3: Engine
                     Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Icon(
                           Icons.circle,
-                          color: AppColors.gray,
-                          size: MyResponsive.width(value: 4),
+                          color: AppColors.white,
+                          size: MyResponsive.width(value: 6),
                         ),
-                        SizedBox(width: MyResponsive.width(value: 6)),
+                        SizedBox(width: MyResponsive.width(value: 8)),
                         Expanded(
                           child: Text(
                             'المحرك: ${car.specs.engineCapacity ?? car.specs.turbo ?? car.specs.fuelType ?? 'غير محدد'}',
@@ -171,10 +174,17 @@ class WithMediaListViewItemWidget extends StatelessWidget {
                       ],
                     ),
                     SizedBox(height: MyResponsive.height(value: 8)),
-                    Text(
-                      'السعر: ${car.price}',
-                      style: AppTextStyles.semiBold14
-                          .copyWith(color: AppColors.primary),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        //
+                        SizedBox(width: MyResponsive.width(value: 8)),
+                        Text(
+                          'السعر: ${car.price}',
+                          style: AppTextStyles.semiBold14
+                              .copyWith(color: AppColors.primary),
+                        ),
+                      ],
                     ),
                   ],
                 ),

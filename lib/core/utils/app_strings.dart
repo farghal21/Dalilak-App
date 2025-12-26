@@ -100,9 +100,9 @@ abstract class AppStrings {
   static const String compareCarsSubtitle =
       'نعملك مقارنة بسيطة بين الموديلات من ناحية المواصفات والتجهيزات. ';
 
-  static const String chatLoadingTitle = 'ثواني و هرد عليك';
+  static const String chatLoadingTitle = 'ثواني و هدلك';
 
-  static const String chatLoadingSubTitle = 'جاري جمع الموارد ...';
+  static const String chatLoadingSubTitle = 'جاري جمع البيانات ...';
 
   static const String chatErrorTitle = 'عذرا، حدث خطأ ما';
 
@@ -203,6 +203,51 @@ abstract class AppStrings {
 
   static const String vs = 'VS';
   static const String compareCarsTitle = 'قارن بين عربتين بسهولة';
+
+  ///// car details screen /////
+  static const String unknown = 'غير معروف';
+  static const String specifications = 'المواصفات';
+
+  // Section titles
+  static const String engineAndPerformance = 'المحرك والأداء';
+  static const String transmissionSection = 'ناقل الحركة';
+  static const String dimensionsAndSpaces = 'الأبعاد والمساحات';
+  static const String originAndWarranty = 'المنشأ والضمان';
+  static const String electricSystem = 'المنظومة الكهربائية';
+
+  // Spec keys
+  static const String enginePower = 'قوة المحرك';
+  static const String torque = 'العزم';
+  static const String engineCapacity = 'السعة اللترية';
+  static const String cylinders = 'السلندرات';
+  static const String turbo = 'تيربو';
+  static const String acceleration = 'التسارع';
+  static const String maxSpeed = 'السرعة القصوى';
+  static const String fuelType = 'نوع الوقود';
+  static const String fuelTypeGrade = 'درجة الوقود';
+  static const String fuelConsumption = 'استهلاك الوقود';
+  static const String fuelTankCapacity = 'سعة خزان الوقود';
+  static const String transmissionType = 'نوع الناقل';
+  static const String gears = 'عدد النقلات';
+  static const String driveType = 'نظام الدفع';
+  static const String bodyType = 'نمط الهيكل';
+  static const String seats = 'عدد المقاعد';
+  static const String length = 'الطول';
+  static const String width = 'العرض';
+  static const String height = 'الارتفاع';
+  static const String wheelbase = 'قاعدة العجلات';
+  static const String groundClearance = 'الخلوص الأرضي';
+  static const String trunkCapacity = 'سعة الشنطة';
+  static const String originCountry = 'بلد المنشأ';
+  static const String assemblyCountry = 'بلد التجميع';
+  static const String warrantyYears = 'سنوات الضمان';
+  static const String warrantyKm = 'كيلومترات الضمان';
+  static const String batteryCapacity = 'سعة البطارية';
+  static const String batteryRange = 'المدى الكهربائي';
+
+  // Grid feature titles
+  static const String transmission = 'ناقل الحركه';
+  static const String enginePowerHp = 'قوة المحرك(حصان)';
 
   ///// settings screen /////
   static const String publicSettings = 'الاعدادات العامة';
