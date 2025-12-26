@@ -6,6 +6,7 @@ import 'package:dalilak_app/core/utils/app_text_styles.dart';
 import 'package:dalilak_app/features/compare/manager/compare_cubit.dart';
 import 'package:dalilak_app/features/compare/manager/compare_state.dart';
 import 'package:dalilak_app/features/compare/views/widgets/spec_row.dart';
+import 'package:dalilak_app/features/home/data/models/send_chat_messages_response_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -65,33 +66,102 @@ class CompareViewBody extends StatelessWidget {
 
                 /// SPECS
                 SpecsSection(
-                  sectionTitle: 'المحرك والقوة',
+                  sectionTitle: 'المحرك والأداء',
                   specs: [
-                    SpecRow(
-                      title: 'قوة المحرك',
-                      leftValue: leftCar.specs.horsepower ?? 'غير معروف',
-                      rightValue: rightCar.specs.horsepower ?? 'غير معروف',
-                    ),
-                    SpecRow(
-                      title: 'نوع الوقود',
-                      leftValue: leftCar.specs.fuelType ?? 'غير معروف',
-                      rightValue: rightCar.specs.fuelType ?? 'غير معروف',
-                    ),
+                    _buildRow('قوة المحرك', leftCar, rightCar,
+                        (specs) => specs.horsepower),
+                    _buildRow(
+                        'العزم', leftCar, rightCar, (specs) => specs.torque),
+                    _buildRow('السعة اللترية', leftCar, rightCar,
+                        (specs) => specs.engineCapacity),
+                    _buildRow('السلندرات', leftCar, rightCar,
+                        (specs) => specs.cylinders),
+                    _buildRow(
+                        'تيربو', leftCar, rightCar, (specs) => specs.turbo),
+                    _buildRow('التسارع', leftCar, rightCar,
+                        (specs) => specs.acceleration),
+                    _buildRow('السرعة القصوى', leftCar, rightCar,
+                        (specs) => specs.maxSpeed),
+                    _buildRow('نوع الوقود', leftCar, rightCar,
+                        (specs) => specs.fuelType),
+                    _buildRow('درجة الوقود', leftCar, rightCar,
+                        (specs) => specs.fuelTypeGrade),
+                    _buildRow('استهلاك الوقود', leftCar, rightCar,
+                        (specs) => specs.fuelConsumption),
+                    _buildRow('سعة الخزان', leftCar, rightCar,
+                        (specs) => specs.fuelTankCapacity),
                   ],
                 ),
 
                 SizedBox(height: MyResponsive.height(value: 16)),
 
                 SpecsSection(
-                  sectionTitle: 'الأداء',
+                  sectionTitle: 'ناقل الحركة',
                   specs: [
-                    SpecRow(
-                      title: 'السرعة القصوى',
-                      leftValue: leftCar.specs.maxSpeed ?? 'غير معروف',
-                      rightValue: rightCar.specs.maxSpeed ?? 'غير معروف',
-                    ),
+                    _buildRow('نوع الناقل', leftCar, rightCar,
+                        (specs) => specs.transmission),
+                    _buildRow('عدد النقلات', leftCar, rightCar,
+                        (specs) => specs.gears),
+                    _buildRow('نظام الدفع', leftCar, rightCar,
+                        (specs) => specs.driveType),
                   ],
                 ),
+
+                SizedBox(height: MyResponsive.height(value: 16)),
+
+                SpecsSection(
+                  sectionTitle: 'الأبعاد والمساحات',
+                  specs: [
+                    _buildRow('نمط الهيكل', leftCar, rightCar,
+                        (specs) => specs.bodyType),
+                    _buildRow('عدد المقاعد', leftCar, rightCar,
+                        (specs) => specs.seats),
+                    _buildRow(
+                        'الطول', leftCar, rightCar, (specs) => specs.length),
+                    _buildRow(
+                        'العرض', leftCar, rightCar, (specs) => specs.width),
+                    _buildRow(
+                        'الارتفاع', leftCar, rightCar, (specs) => specs.height),
+                    _buildRow('قاعدة العجلات', leftCar, rightCar,
+                        (specs) => specs.wheelbase),
+                    _buildRow('الخلوص الأرضي', leftCar, rightCar,
+                        (specs) => specs.groundClearance),
+                    _buildRow('سعة الشنطة', leftCar, rightCar,
+                        (specs) => specs.trunkCapacity),
+                  ],
+                ),
+
+                SizedBox(height: MyResponsive.height(value: 16)),
+
+                SpecsSection(
+                  sectionTitle: 'المنشأ والضمان',
+                  specs: [
+                    _buildRow('بلد المنشأ', leftCar, rightCar,
+                        (specs) => specs.originCountry),
+                    _buildRow('بلد التجميع', leftCar, rightCar,
+                        (specs) => specs.assemblyCountry),
+                    _buildRow('سنوات الضمان', leftCar, rightCar,
+                        (specs) => specs.warrantyYears),
+                    _buildRow('كيلومترات الضمان', leftCar, rightCar,
+                        (specs) => specs.warrantyKm),
+                  ],
+                ),
+
+                if (leftCar.specs.batteryCapacity != null ||
+                    rightCar.specs.batteryCapacity != null ||
+                    leftCar.specs.batteryRange != null ||
+                    rightCar.specs.batteryRange != null) ...[
+                  SizedBox(height: MyResponsive.height(value: 16)),
+                  SpecsSection(
+                    sectionTitle: 'المنظومة الكهربائية',
+                    specs: [
+                      _buildRow('سعة البطارية', leftCar, rightCar,
+                          (specs) => specs.batteryCapacity),
+                      _buildRow('المدى الكهربائي', leftCar, rightCar,
+                          (specs) => specs.batteryRange),
+                    ],
+                  ),
+                ],
 
                 SizedBox(height: MyResponsive.height(value: 30)),
 
@@ -106,6 +176,15 @@ class CompareViewBody extends StatelessWidget {
           );
         },
       ),
+    );
+  }
+
+  SpecRow _buildRow(String title, CarModel left, CarModel right,
+      String? Function(CarSpecs) selector) {
+    return SpecRow(
+      title: title,
+      leftValue: selector(left.specs) ?? 'غير معروف',
+      rightValue: selector(right.specs) ?? 'غير معروف',
     );
   }
 }
