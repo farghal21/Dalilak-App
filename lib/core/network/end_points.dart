@@ -12,6 +12,7 @@ abstract class EndPoints {
   static const String startChat = 'Chat/start';
   static const String sendMessage = 'Chat/send';
   static const String updateProfile = 'Auth/profile';
+  static const String deleteAccount = 'Auth/me';
 
   static const String getChatHistory = 'Chat/sessions';
 

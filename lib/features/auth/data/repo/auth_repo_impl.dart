@@ -51,15 +51,14 @@ class AuthRepoImpl implements AuthRepo {
 
   @override
   Future<Either<String, String>> register(
-      {
-        required String fullName,
+      {required String fullName,
       required String email,
       required String password}) async {
     try {
       ApiResponse response = await apiHelper.postRequest(
         endPoint: EndPoints.register,
         data: {
-          'fullName' : fullName,
+          'fullName': fullName,
           'email': email,
           'password': password,
           'confirmPassword': password,
@@ -121,7 +120,6 @@ class AuthRepoImpl implements AuthRepo {
     }
   }
 
-
   @override
   Future<Either<String, String>> verifyOtp(
       {required String email, required String otp}) async {
@@ -176,6 +174,31 @@ class AuthRepoImpl implements AuthRepo {
           'email': email,
           'password': password,
           'confirmPassword': password,
+        },
+      );
+
+      if (response.success == false) {
+        throw Exception(response.message);
+      }
+
+      return Right(response.message);
+    } catch (e) {
+      ApiResponse apiResponse = ApiResponse.fromError(e);
+      return Left(apiResponse.message);
+    }
+  }
+
+  @override
+  Future<Either<String, String>> deleteAccount(
+      {required String password}) async {
+    try {
+      ApiResponse response = await apiHelper.deleteRequest(
+        endPoint: EndPoints.deleteAccount,
+        isProtected: true,
+        data: {
+          'currentPassword': password, // الباسورد اللي كتبه المستخدم
+          'confirmPassword':
+              password, // 👈 لازم نكرر نفس المتغير عشان يطابقوا بعض 100%
         },
       );
 

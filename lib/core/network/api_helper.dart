@@ -31,6 +31,7 @@ class ApiHelper {
       return handler.next(response);
     }, onError: (DioException error, handler) async {
       CustomLogger.red("--- Error : ${error.response?.data.toString()}");
+      CustomLogger.red("--- Status Code : ${error.response?.statusCode}");
 
       if (error.response?.data['message'].contains('User not found')) {
         ApiHelper apiHelper = getIt<ApiHelper>();
@@ -143,16 +144,26 @@ class ApiHelper {
     Map<String, dynamic>? data,
     bool isProtected = false,
   }) async {
-    return ApiResponse.fromResponse(
-      await dio.delete(
-        endPoint,
-        data: data,
-        options: Options(
-          headers: {
-            if (isProtected) 'Authorization': 'Bearer ${CacheData.accessToken}',
-          },
-        ),
+    // 👇 التعديل هنا: لو الداتا null، خليها خريطة فاضية {}
+    // ده هيخلي الـ Dio يبعت "{}" للسيرفر، فالسيرفر هيفهم إن ده JSON صحيح بس فاضي
+    data ??= {};
+
+    final response = await dio.delete(
+      endPoint,
+      data: data,
+      options: Options(
+        headers: {
+          'Content-Type': 'application/json',
+          if (isProtected) 'Authorization': 'Bearer ${CacheData.accessToken}',
+        },
       ),
     );
+
+    // معالجة الرد الفاضي (في حالة النجاح 200 أو 204)
+    if (response.data == null || response.data.toString().isEmpty) {
+      response.data = {'success': true, 'message': 'تم حذف الحساب بنجاح'};
+    }
+
+    return ApiResponse.fromResponse(response);
   }
 }

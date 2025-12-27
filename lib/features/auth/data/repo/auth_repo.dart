@@ -36,5 +36,6 @@ abstract class AuthRepo {
     required String password,
   });
 
-
+  // 👇 التعديل هنا: الدالة الآن تطلب الباسورد
+  Future<Either<String, String>> deleteAccount({required String password});
 }
