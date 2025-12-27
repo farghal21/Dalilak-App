@@ -124,17 +124,20 @@ class ApiHelper {
     );
   }
 
-  Future<ApiResponse> putRequest(
-      {required String endPoint,
-      Map<String, dynamic>? data,
-      bool isProtected = false}) async {
+  Future<ApiResponse> putRequest({
+    required String endPoint,
+    dynamic data, // 👈 التعديل هنا: غيرناها من Map<String, dynamic>? لـ dynamic
+    bool isProtected = false,
+  }) async {
     return ApiResponse.fromResponse(
       await dio.put(
         endPoint,
         data: data,
-        options: Options(headers: {
-          if (isProtected) 'Authorization': 'Bearer ${CacheData.accessToken}',
-        }),
+        options: Options(
+          headers: {
+            if (isProtected) 'Authorization': 'Bearer ${CacheData.accessToken}',
+          },
+        ),
       ),
     );
   }

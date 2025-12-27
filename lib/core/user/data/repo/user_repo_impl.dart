@@ -36,26 +36,51 @@ class UserRepoImpl extends UserRepo {
   }
 
   @override
-  Future<Either<String, String>> updateUserData(
-      {required String name, required String email, XFile? imageFile}) async {
+  Future<Either<String, String>> updateUserData({
+    required String name,
+    required String email,
+    String? password, // 👈 ضفنا الباسورد هنا عشان لو هنحتاجه
+    XFile? imageFile, // 👈 وضفنا ملف الصورة
+  }) async {
     try {
-      ApiResponse apiResponse = await apiHelper.putRequest(
-        endPoint: EndPoints.updateProfile,
+      // 1. تجهيز البيانات النصية الأول
+      Map<String, dynamic> dataMap = {
+        'FullName': name,
+        'Email': email,
+      };
+
+      // 2. لو المستخدم باعت باسورد (في حالة تغيير الإيميل)، بنضيفه للطلب
+      if (password != null && password.isNotEmpty) {
+        dataMap['CurrentPassword'] =
+            password; // 👈 الاسم ده مهم جداً زي Postman
+      }
+
+      // 3. تحويل الماب لـ FormData عشان نقدر نضيف ملفات
+      FormData formData = FormData.fromMap(dataMap);
+
+      // 4. إضافة الصورة لو موجودة
+      if (imageFile != null) {
+        formData.files.add(MapEntry(
+          'ProfileImage', // 👈 نفس الاسم اللي في Postman في خانة الـ File
+          await MultipartFile.fromFile(
+            imageFile.path,
+            filename: imageFile.path.split('/').last,
+          ),
+        ));
+      }
+
+      // 5. إرسال الطلب (PUT)
+      ApiResponse response = await apiHelper.putRequest(
+        endPoint: EndPoints.updateProfile, // تأكد إن الرابط '/api/Auth/profile'
+        data: formData,
         isProtected: true,
-        data: {
-          'fullName': name,
-          'profileImageUrl': imageFile != null
-              ? await MultipartFile.fromFile(imageFile.path,
-                  filename: imageFile.name)
-              : null,
-        },
       );
 
-      if (apiResponse.success) {
-        return right(apiResponse.message);
-      } else {
-        throw Exception(apiResponse.message);
+      if (response.success == false) {
+        throw Exception(response.message);
       }
+
+      return Right(response.message);
     } catch (e) {
       ApiResponse apiResponse = ApiResponse.fromError(e);
       return Left(apiResponse.message);

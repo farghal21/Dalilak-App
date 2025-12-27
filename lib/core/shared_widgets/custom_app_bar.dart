@@ -53,20 +53,29 @@ class AppBarTitle extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           CircleAvatar(
-              radius: MyResponsive.radius(value: 16),
-              child: ClipRRect(
-                borderRadius:
-                    BorderRadius.circular(MyResponsive.radius(value: 30)),
+            radius: MyResponsive.radius(value: 16),
+            backgroundColor: Colors.grey[200], // لون خلفية اختياري
+            child: ClipRRect(
+              borderRadius:
+                  BorderRadius.circular(MyResponsive.radius(value: 30)),
+              child: SizedBox(
+                // 👇 تحديد الأبعاد مهم جداً عشان الصورة تملأ الدائرة
+                width: MyResponsive.radius(value: 32),
+                height: MyResponsive.radius(value: 32),
                 child: cubit.userModel.profileImageUrl != null
                     ? CachedNetworkImageWrapper(
-                        imagePath: cubit.userModel.profileImageUrl!,
+                        // 👇 الرابط الصحيح (الدومين + المسار القادم من السيرفر)
+                        imagePath:
+                            'https://jrkmal-001-site1.jtempurl.com${cubit.userModel.profileImageUrl}',
                         fit: BoxFit.cover,
                       )
                     : Image.asset(
                         AppAssets.profileImage,
                         fit: BoxFit.cover,
                       ),
-              )),
+              ),
+            ),
+          ),
           SizedBox(
             width: MyResponsive.width(value: 8),
           ),

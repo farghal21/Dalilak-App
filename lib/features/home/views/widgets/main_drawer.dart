@@ -147,18 +147,21 @@ class MainDrawer extends StatelessWidget {
                           fit: BoxFit.fill,
                           width: MyResponsive.fontSize(value: 30),
                         ),
-                        leading: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              MyResponsive.radius(value: 10)),
-                          child: userModel.profileImageUrl != null
-                              ? CachedNetworkImageWrapper(
-                                  imagePath: userModel.profileImageUrl!,
-                                  width: MyResponsive.width(value: 60),
-                                )
-                              : Image.asset(
-                                  AppAssets.profileImage,
-                                  width: MyResponsive.width(value: 60),
-                                ),
+                        leading: CircleAvatar(
+                          radius: MyResponsive.radius(
+                              value: 25), // نصف العرض تقريباً
+                          backgroundColor: Colors.transparent,
+                          child: ClipOval(
+                            child: userModel.profileImageUrl != null
+                                ? CachedNetworkImageWrapper(
+                                    imagePath:
+                                        'https://jrkmal-001-site1.jtempurl.com${userModel.profileImageUrl}',
+                                    width: MyResponsive.width(value: 50),
+                                    height: MyResponsive.width(value: 50),
+                                    fit: BoxFit.cover,
+                                  )
+                                : Image.asset(AppAssets.profileImage),
+                          ),
                         ),
                       ),
                       SizedBox(height: MyResponsive.height(value: 8)),
