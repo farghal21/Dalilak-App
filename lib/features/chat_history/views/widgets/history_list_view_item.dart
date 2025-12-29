@@ -23,9 +23,9 @@ class HistoryListViewItem extends StatelessWidget {
     return InkWell(
       onTap: () {
         MyNavigator.goTo(
-            screen: HomeView(
-              sessionId: item.id,
-            ),
+            screen: () => HomeView(
+                  sessionId: item.id,
+                ),
             isReplace: true);
       },
       child: Container(

@@ -47,57 +47,18 @@ class FavoriteItem extends StatelessWidget {
           ],
         ),
       ),
-      confirmDismiss: (direction) async {
-        // Haptic feedback on swipe
-        HapticFeedback.mediumImpact();
+      // ❌ لغينا الـ confirmDismiss (Dialog) نهائياً
 
-        // Show confirmation dialog
-        return await showDialog<bool>(
-              context: context,
-              builder: (context) => AlertDialog(
-                backgroundColor: AppColors.fillColor,
-                title: Text(
-                  'تأكيد الحذف',
-                  style: AppTextStyles.bold20,
-                ),
-                content: Text(
-                  'هل تريد حذف ${car.name} من المفضلة؟',
-                  style: AppTextStyles.regular16,
-                ),
-                actions: [
-                  TextButton(
-                    onPressed: () => Navigator.of(context).pop(false),
-                    child: Text(
-                      'إلغاء',
-                      style: AppTextStyles.semiBold16.copyWith(
-                        color: AppColors.gray,
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      HapticFeedback.heavyImpact();
-                      Navigator.of(context).pop(true);
-                    },
-                    child: Text(
-                      'حذف',
-                      style: AppTextStyles.semiBold16.copyWith(
-                        color: AppColors.red,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ) ??
-            false;
-      },
       onDismissed: (direction) {
+        // ✅ الحذف بيتم فوراً هنا
+        HapticFeedback.mediumImpact(); // هزة بسيطة للتأكيد
         onRemove();
       },
+
       child: InkWell(
         onTap: () {
           UserCubit.get(context).selectedCar = car;
-          MyNavigator.goTo(screen: CarDetailsView());
+          MyNavigator.goTo(screen: () => const CarDetailsView());
         },
         child: Container(
           padding: MyResponsive.paddingSymmetric(horizontal: 20, vertical: 15),
@@ -115,6 +76,13 @@ class FavoriteItem extends StatelessWidget {
                   width: MyResponsive.width(value: 120),
                   height: MyResponsive.height(value: 80),
                   fit: BoxFit.fill,
+                  // حماية إضافية لو الصورة باظت
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    width: MyResponsive.width(value: 120),
+                    height: MyResponsive.height(value: 80),
+                    color: Colors.grey[800],
+                    child: const Icon(Icons.car_repair, color: Colors.white54),
+                  ),
                 ),
               ),
               SizedBox(width: MyResponsive.width(value: 20)),

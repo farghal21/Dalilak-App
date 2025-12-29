@@ -36,6 +36,11 @@ class HomeViewBody extends StatelessWidget {
                   final cubit = context.read<HomeCubit>();
                   final messages = cubit.messages;
 
+                  // عرض Skeleton عند تحميل الرسائل القديمة
+                  if (state is HomeLoading && messages.isEmpty) {
+                    return _buildLoadingSkeleton();
+                  }
+
                   if (messages.isEmpty) return _buildEmptyState(cubit);
 
                   return ListView.separated(
@@ -184,6 +189,41 @@ class HomeViewBody extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildLoadingSkeleton() {
+    return ListView.separated(
+      padding: EdgeInsets.zero,
+      itemCount: 3,
+      separatorBuilder: (_, __) =>
+          SizedBox(height: MyResponsive.height(value: 16)),
+      itemBuilder: (_, index) {
+        return Align(
+          alignment: index.isEven
+              ? AlignmentDirectional.centerStart
+              : AlignmentDirectional.centerEnd,
+          child: Container(
+            width: MyResponsive.width(value: 250),
+            height: MyResponsive.height(value: 60),
+            decoration: BoxDecoration(
+              color: const Color(0xFF2A1A4D).withOpacity(0.3),
+              borderRadius:
+                  BorderRadius.circular(MyResponsive.radius(value: 12)),
+            ),
+            child: Center(
+              child: SizedBox(
+                width: MyResponsive.width(value: 20),
+                height: MyResponsive.height(value: 20),
+                child: const CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF6C5CE7)),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

@@ -207,7 +207,7 @@ class WithMediaListViewItemWidget extends StatelessWidget {
               title: AppStrings.details,
               onPressed: () {
                 UserCubit.get(context).selectedCar = car;
-                MyNavigator.goTo(screen: CarDetailsView());
+                MyNavigator.goTo(screen: () => const CarDetailsView());
               },
               height: MyResponsive.height(value: 50),
               backgroundColor: Colors.transparent,

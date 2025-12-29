@@ -42,14 +42,15 @@ class _SplashViewBodyState extends State<SplashViewBody> {
     if (CacheData.accessToken != null) {
       UserCubit.get(context).getUserData().then((bool result) {
         if (result) {
-          MyNavigator.goTo(screen: HomeView(), isReplace: true);
+          MyNavigator.goTo(screen: () => const HomeView(), isReplace: true);
         } else {
-          MyNavigator.goTo(screen: OnBoardingView(), isReplace: true);
+          MyNavigator.goTo(
+              screen: () => const OnBoardingView(), isReplace: true);
         }
       });
     } else {
       // goto login
-      MyNavigator.goTo(screen: OnBoardingView(), isReplace: true);
+      MyNavigator.goTo(screen: () => const OnBoardingView(), isReplace: true);
     }
   }
 

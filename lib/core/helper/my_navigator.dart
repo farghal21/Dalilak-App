@@ -2,20 +2,20 @@ import 'package:get/get.dart';
 
 abstract class MyNavigator {
   static goTo({
-    required screen,
+    required Function screen, // تغيير من dynamic إلى Function
     bool isReplace = false,
     Transition transition = Transition.rightToLeftWithFade,
     Duration? duration,
   }) {
     if (isReplace) {
       Get.offAll(
-        screen,
+        screen, // GetX سيستدعي الـ Function تلقائياً
         transition: transition,
         duration: duration ?? Duration(milliseconds: 300),
       );
     } else {
       Get.to(
-        screen,
+        screen, // GetX سيستدعي الـ Function تلقائياً
         transition: transition,
         duration: duration ?? Duration(milliseconds: 300),
       );
@@ -23,7 +23,7 @@ abstract class MyNavigator {
   }
 
   static goBackUntil({
-    required screen,
+    required dynamic screen,
     Transition transition = Transition.rightToLeftWithFade,
     Duration? duration,
   }) {

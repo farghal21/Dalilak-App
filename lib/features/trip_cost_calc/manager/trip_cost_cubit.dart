@@ -4,7 +4,7 @@ import 'trip_cost_state.dart';
 class TripCostCubit extends Cubit<TripCostState> {
   TripCostCubit({String? initialConsumption}) : super(TripCostInitial()) {
     // تعيين القيم الافتراضية
-    _distance = '';
+    _distance = '0';
     _consumption = initialConsumption ?? '8.5';
     _fuelPrice = '13.75';
     _selectedFuelType = 92;

@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:lottie/lottie.dart';
-import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_text_styles.dart';
 import '../../../../core/utils/app_strings.dart';
@@ -19,60 +17,28 @@ class InspectionResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isExcellent = percentage >= 80;
-
     return Container(
-      padding: MyResponsive.paddingAll(value: 25),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       decoration: BoxDecoration(
-        gradient: AppColors.cardGradient,
-        borderRadius: BorderRadius.circular(MyResponsive.radius(value: 25)),
-        boxShadow: [
-          BoxShadow(
-            color: AppColors.primary.withOpacity(0.3),
-            blurRadius: 20,
-            offset: const Offset(0, 5),
-          ),
-        ],
-        border: Border.all(color: AppColors.primary.withOpacity(0.5)),
+        color: const Color(0xFF1A0F2E),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: const Color(0xFF2D1B4E),
+          width: 1,
+        ),
       ),
       child: Column(
+        mainAxisSize: MainAxisSize.min,
         children: [
-          // Success celebration animation for excellent scores
-          if (isExcellent)
-            TweenAnimationBuilder<double>(
-              tween: Tween(begin: 0.0, end: 1.0),
-              duration: const Duration(milliseconds: 600),
-              curve: Curves.elasticOut,
-              builder: (context, value, child) {
-                return Transform.scale(
-                  scale: value,
-                  child: child,
-                );
-              },
-              child: Lottie.network(
-                'https://lottie.host/embed/d7f3e3e0-5e0a-4e3a-8e3a-5e0a4e3a8e3d/success-stars.json',
-                width: MyResponsive.width(value: 80),
-                height: MyResponsive.height(value: 80),
-                fit: BoxFit.contain,
-                repeat: false,
-                errorBuilder: (context, error, stackTrace) {
-                  return Icon(
-                    Icons.stars,
-                    size: MyResponsive.fontSize(value: 60),
-                    color: AppColors.lightGreen,
-                  );
-                },
-              ),
-            ),
-          if (isExcellent) SizedBox(height: MyResponsive.height(value: 10)),
-
+          // Title
           Text(
             AppStrings.inspectionResult,
-            style: AppTextStyles.regular14.copyWith(color: Colors.white70),
+            style: AppTextStyles.regular11.copyWith(color: Colors.white70),
           ),
-          SizedBox(height: MyResponsive.height(value: 15)),
 
-          // النسبة المئوية مع Animated Counter
+          const SizedBox(height: 8),
+
+          // النسبة المئوية - Compact
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -87,30 +53,30 @@ class InspectionResultCard extends StatelessWidget {
                     value.toStringAsFixed(0),
                     style: AppTextStyles.bold20.copyWith(
                       color: _getColorByPercentage(value),
-                      fontSize: MyResponsive.fontSize(value: 48),
+                      fontSize: 32,
                       fontWeight: FontWeight.w800,
                     ),
                   );
                 },
               ),
-              SizedBox(width: MyResponsive.width(value: 8)),
+              const SizedBox(width: 4),
               Text(
                 '%',
-                style: AppTextStyles.semiBold20.copyWith(
+                style: AppTextStyles.semiBold16.copyWith(
                   color: AppColors.lightGreen,
                 ),
               ),
             ],
           ),
 
-          SizedBox(height: MyResponsive.height(value: 10)),
+          const SizedBox(height: 8),
 
-          // شريط التقدم
+          // شريط التقدم - Compact
           ClipRRect(
-            borderRadius: BorderRadius.circular(MyResponsive.radius(value: 10)),
+            borderRadius: BorderRadius.circular(8),
             child: LinearProgressIndicator(
               value: percentage / 100,
-              minHeight: MyResponsive.height(value: 8),
+              minHeight: 6,
               backgroundColor: AppColors.gray.withOpacity(0.2),
               valueColor: AlwaysStoppedAnimation<Color>(
                 _getColorByPercentage(percentage),
@@ -118,12 +84,16 @@ class InspectionResultCard extends StatelessWidget {
             ),
           ),
 
-          Divider(
-            color: Colors.white12,
-            height: MyResponsive.height(value: 40),
+          const SizedBox(height: 10),
+
+          const Divider(
+            color: Color(0xFF2D1B4E),
+            height: 1,
           ),
 
-          // التفاصيل
+          const SizedBox(height: 8),
+
+          // التفاصيل - Compact
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -145,15 +115,16 @@ class InspectionResultCard extends StatelessWidget {
   Widget _buildResultItem(String title, String value) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
       children: [
         Text(
           title,
           style: AppTextStyles.regular11.copyWith(color: Colors.white60),
         ),
-        SizedBox(height: MyResponsive.height(value: 6)),
+        const SizedBox(height: 4),
         Text(
           value,
-          style: AppTextStyles.bold16.copyWith(color: AppColors.white),
+          style: AppTextStyles.semiBold14.copyWith(color: AppColors.white),
         ),
       ],
     );

@@ -11,6 +11,7 @@ class TripCostInputField extends StatefulWidget {
     required this.icon,
     required this.initialValue,
     required this.onChanged,
+    this.isNumber = false,
   });
 
   final String label;
@@ -18,6 +19,7 @@ class TripCostInputField extends StatefulWidget {
   final IconData icon;
   final String initialValue;
   final ValueChanged<String> onChanged;
+  final bool isNumber;
 
   @override
   State<TripCostInputField> createState() => _TripCostInputFieldState();
@@ -33,6 +35,39 @@ class _TripCostInputFieldState extends State<TripCostInputField> {
   }
 
   @override
+  void didUpdateWidget(TripCostInputField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.initialValue != controller.text) {
+      // Only update if the value is different to avoid cursor jumping issues
+      // caused by round-trip updates during typing.
+      // However, for external updates (like Slider), we want to update.
+      // A simple equality check usually suffices if the format matches.
+      // But if user types "10." and state is "10", we shouldn't overwrite "10." with "10".
+
+      // For this specific case (syncing with slider), we prioritize external updates that are significantly different.
+      // But since user types -> updates state -> updates props, this loop is tricky.
+
+      // Safe bet: Update controller text, but try to preserve selection if possible,
+      // or simply rely on the fact that if user is typing, the value in controller
+      // is likely same as state.
+
+      // If the update comes from Slider, the user is NOT typing in this field.
+      // If the update comes from typing, controller.text == widget.initialValue (mostly).
+
+      // One check: is the widget currently focused?
+      // If focused, avoid updating unless necessary?
+
+      // Let's just update. If it causes issues, I'll fix cursor.
+      // Actually, better to check:
+      if (oldWidget.initialValue != widget.initialValue) {
+        controller.text = widget.initialValue;
+        controller.selection = TextSelection.fromPosition(
+            TextPosition(offset: controller.text.length));
+      }
+    }
+  }
+
+  @override
   void dispose() {
     controller.dispose();
     super.dispose();
@@ -43,14 +78,18 @@ class _TripCostInputFieldState extends State<TripCostInputField> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
-          widget.label,
-          style: AppTextStyles.regular14.copyWith(color: Colors.white70),
-        ),
-        SizedBox(height: MyResponsive.height(value: 8)),
+        if (widget.label.isNotEmpty) ...[
+          Text(
+            widget.label,
+            style: AppTextStyles.regular14.copyWith(color: Colors.white70),
+          ),
+          SizedBox(height: MyResponsive.height(value: 8)),
+        ],
         TextFormField(
           controller: controller,
-          keyboardType: const TextInputType.numberWithOptions(decimal: true),
+          keyboardType: widget.isNumber
+              ? const TextInputType.numberWithOptions(decimal: true)
+              : TextInputType.text,
           onChanged: widget.onChanged,
           style: AppTextStyles.semiBold16.copyWith(color: AppColors.white),
           decoration: InputDecoration(

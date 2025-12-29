@@ -25,7 +25,6 @@ class UserCubit extends Cubit<UserState> {
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
-  
   bool obsecure = true; // المتغير اللي بيتحكم في إظهار/إخفاء النص
 
   void togglePasswordVisibility() {
@@ -153,6 +152,6 @@ class UserCubit extends Cubit<UserState> {
   Future<void> logout() async {
     await CacheHelper.removeData(key: CacheKeys.accessToken);
     await CacheHelper.removeData(key: CacheKeys.refreshToken);
-    MyNavigator.goTo(screen: const LoginView(), isReplace: true);
+    MyNavigator.goTo(screen: () => const LoginView(), isReplace: true);
   }
 }

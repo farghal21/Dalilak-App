@@ -64,7 +64,7 @@ class OnBoardingCubit extends Cubit<OnBoardingState> {
     CacheData.firstTime = true;
 
     MyNavigator.goTo(
-      screen: const LoginView(),
+      screen: () => const LoginView(),
       isReplace: true,
     );
   }

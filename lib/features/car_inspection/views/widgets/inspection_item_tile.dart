@@ -21,16 +21,14 @@ class InspectionItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: MyResponsive.paddingSymmetric(vertical: 8),
-      padding: MyResponsive.paddingAll(value: 16),
+      margin: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: AppColors.fillColor,
-        borderRadius: BorderRadius.circular(MyResponsive.radius(value: 15)),
+        color: const Color(0xFF0F0820),
+        borderRadius: BorderRadius.circular(14),
         border: Border.all(
-          color: isChecked
-              ? AppColors.primary.withOpacity(0.5)
-              : AppColors.gray.withOpacity(0.2),
-          width: isChecked ? 2 : 1,
+          color: isChecked ? const Color(0xFF4A2E6E) : const Color(0xFF2D1B4E),
+          width: 1,
         ),
       ),
       child: Row(
@@ -38,21 +36,21 @@ class InspectionItemTile extends StatelessWidget {
         children: [
           // الأيقونة
           Container(
-            width: MyResponsive.width(value: 40),
-            height: MyResponsive.height(value: 40),
+            width: 40,
+            height: 40,
             decoration: BoxDecoration(
-              gradient: isChecked ? AppColors.horizontalGradient : null,
-              color: isChecked ? null : AppColors.black.withOpacity(0.3),
-              borderRadius:
-                  BorderRadius.circular(MyResponsive.radius(value: 10)),
+              color: isChecked
+                  ? AppColors.primary.withOpacity(0.2)
+                  : Colors.grey[850],
+              borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(
               isChecked ? Icons.check_circle : Icons.circle_outlined,
-              color: isChecked ? AppColors.white : AppColors.gray,
-              size: MyResponsive.fontSize(value: 24),
+              color: isChecked ? AppColors.primary : Colors.grey[600],
+              size: 24,
             ),
           ),
-          SizedBox(width: MyResponsive.width(value: 16)),
+          const SizedBox(width: 16),
 
           // العنوان والنصيحة
           Expanded(
@@ -62,14 +60,14 @@ class InspectionItemTile extends StatelessWidget {
                 Text(
                   title,
                   style: AppTextStyles.semiBold16.copyWith(
-                    color: isChecked ? AppColors.white : AppColors.gray,
+                    color: Colors.white, // White for titles
                   ),
                 ),
-                SizedBox(height: MyResponsive.height(value: 6)),
+                const SizedBox(height: 6),
                 Text(
                   hint,
                   style: AppTextStyles.regular14.copyWith(
-                    color: Colors.white60,
+                    color: Colors.grey[400], // Light grey for hints
                     height: 1.4,
                   ),
                 ),

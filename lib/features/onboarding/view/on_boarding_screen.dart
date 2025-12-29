@@ -26,7 +26,7 @@ class OnBoardingView extends StatelessWidget {
     CacheData.firstTime = true;
 
     MyNavigator.goTo(
-      screen: LoginView(),
+      screen: () => const LoginView(),
       isReplace: true,
     );
   }

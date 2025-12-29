@@ -9,7 +9,6 @@ import 'package:dalilak_app/features/trip_cost_calc/views/trip_cost_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/shared_widgets/svg_wrapper.dart';
 import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
@@ -29,22 +28,31 @@ class MainDrawer extends StatelessWidget {
     return Drawer(
       backgroundColor: AppColors.black,
       child: Padding(
-        padding: MyResponsive.paddingAll(value: 20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ✅ 1. الجزء العلوي القابل للـ Scroll (اللوجو + عناصر القائمة)
+            const SizedBox(height: 30),
+
+            // Fixed Logo at Top
+            SizedBox(
+              height: 60,
+              child: Image.asset(
+                AppAssets.appBranding,
+                fit: BoxFit.contain,
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // Scrollable Menu Items
             Expanded(
               child: SingleChildScrollView(
-                physics:
-                    const BouncingScrollPhysics(), // تأثير لطيف عند السكرول
+                physics: const BouncingScrollPhysics(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: MyResponsive.height(value: 50)),
-                    Image.asset(AppAssets.appBranding),
-                    SizedBox(height: MyResponsive.height(value: 38)),
-
+                    // Core Features
                     MainDrawerItem(
                       imagePath: AppAssets.newChat,
                       title: AppStrings.newChat,
@@ -54,7 +62,7 @@ class MainDrawer extends StatelessWidget {
                       },
                       isSelected: selectedIndex == 0,
                     ),
-                    SizedBox(height: MyResponsive.height(value: 25)),
+                    const SizedBox(height: 20),
 
                     MainDrawerItem(
                       imagePath: AppAssets.history,
@@ -69,7 +77,23 @@ class MainDrawer extends StatelessWidget {
                       },
                       isSelected: selectedIndex == 1,
                     ),
-                    SizedBox(height: MyResponsive.height(value: 25)),
+                    const SizedBox(height: 20),
+
+                    // User Collections
+                    MainDrawerItem(
+                      imagePath: AppAssets.favorite,
+                      title: AppStrings.favorite,
+                      onTap: () {
+                        if (selectedIndex == 0) {
+                          Navigator.pushNamed(context, FavoriteView.routeName);
+                        } else {
+                          Navigator.pushReplacementNamed(
+                              context, FavoriteView.routeName);
+                        }
+                      },
+                      isSelected: selectedIndex == 3,
+                    ),
+                    const SizedBox(height: 20),
 
                     MainDrawerItem(
                       imagePath: AppAssets.compare,
@@ -84,31 +108,15 @@ class MainDrawer extends StatelessWidget {
                       },
                       isSelected: selectedIndex == 2,
                     ),
-                    SizedBox(height: MyResponsive.height(value: 25)),
+                    const SizedBox(height: 20),
 
+                    // Tools
                     MainDrawerItem(
-                      imagePath: AppAssets.favorite,
-                      title: AppStrings.favorite,
-                      onTap: () {
-                        if (selectedIndex == 0) {
-                          Navigator.pushNamed(context, FavoriteView.routeName);
-                        } else {
-                          Navigator.pushReplacementNamed(
-                              context, FavoriteView.routeName);
-                        }
-                      },
-                      isSelected: selectedIndex == 3,
-                    ),
-                    SizedBox(height: MyResponsive.height(value: 25)),
-
-                    // 👇👇 حاسبة المشوار 👇👇
-                    MainDrawerItem(
-                      imagePath:
-                          AppAssets.estimate, // لا تنس تغيير الأيقونة لاحقاً
+                      imagePath: AppAssets.estimate,
                       title: "حاسبة المشوار",
                       isSelected: selectedIndex == 5,
                       onTap: () {
-                        Navigator.pop(context); // إغلاق الـ Drawer
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -116,15 +124,14 @@ class MainDrawer extends StatelessWidget {
                         );
                       },
                     ),
-                    SizedBox(height: MyResponsive.height(value: 25)),
+                    const SizedBox(height: 20),
 
-                    // 👇👇 ورقة فحص المستعمل 👇👇
                     MainDrawerItem(
                       imagePath: AppAssets.checklist,
                       title: AppStrings.carInspectionDrawerTitle,
                       isSelected: selectedIndex == 6,
                       onTap: () {
-                        Navigator.pop(context); // إغلاق الـ Drawer
+                        Navigator.pop(context);
                         Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -132,8 +139,9 @@ class MainDrawer extends StatelessWidget {
                         );
                       },
                     ),
-                    SizedBox(height: MyResponsive.height(value: 25)),
+                    const SizedBox(height: 20),
 
+                    // Settings at bottom
                     MainDrawerItem(
                       imagePath: AppAssets.settings,
                       title: AppStrings.settings,
@@ -148,25 +156,23 @@ class MainDrawer extends StatelessWidget {
                       isSelected: selectedIndex == 4,
                     ),
 
-                    // مسافة إضافية في نهاية القائمة عشان اللمس
-                    SizedBox(height: MyResponsive.height(value: 20)),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),
             ),
 
-            // ✅ 2. الجزء السفلي الثابت (البروفايل) - بدون Spacer
+            // 2. Fixed Bottom Section (Profile)
             BlocBuilder<UserCubit, UserState>(
               builder: (context, state) {
                 final cubit = UserCubit.get(context);
                 final userModel = cubit.userModel;
                 return Container(
-                  padding: MyResponsive.paddingSymmetric(
-                      horizontal: 12, vertical: 8),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   decoration: BoxDecoration(
                     color: AppColors.fillColor,
-                    borderRadius:
-                        BorderRadius.circular(MyResponsive.radius(value: 15)),
+                    borderRadius: BorderRadius.circular(15),
                   ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,27 +188,27 @@ class MainDrawer extends StatelessWidget {
                         trailing: SvgWrapper(
                           path: AppAssets.friends,
                           fit: BoxFit.fill,
-                          width: MyResponsive.fontSize(value: 30),
+                          width: 30,
                         ),
                         leading: CircleAvatar(
-                          radius: MyResponsive.radius(value: 25),
+                          radius: 25,
                           backgroundColor: Colors.transparent,
                           child: ClipOval(
                             child: userModel.profileImageUrl != null
                                 ? CachedNetworkImageWrapper(
                                     imagePath:
                                         'https://jrkmal-001-site1.jtempurl.com${userModel.profileImageUrl}',
-                                    width: MyResponsive.width(value: 50),
-                                    height: MyResponsive.width(value: 50),
+                                    width: 50,
+                                    height: 50,
                                     fit: BoxFit.cover,
                                   )
                                 : Image.asset(AppAssets.profileImage),
                           ),
                         ),
                       ),
-                      SizedBox(height: MyResponsive.height(value: 8)),
+                      const SizedBox(height: 8),
                       Divider(color: AppColors.gray),
-                      SizedBox(height: MyResponsive.height(value: 8)),
+                      const SizedBox(height: 8),
                       GestureDetector(
                         onTap: () {
                           cubit.logout();
@@ -213,7 +219,7 @@ class MainDrawer extends StatelessWidget {
                               path: AppAssets.logout,
                               color: AppColors.red,
                             ),
-                            SizedBox(width: MyResponsive.width(value: 16)),
+                            const SizedBox(width: 16),
                             Text(
                               AppStrings.logout,
                               style: AppTextStyles.semiBold16
@@ -222,13 +228,12 @@ class MainDrawer extends StatelessWidget {
                           ],
                         ),
                       ),
-                      SizedBox(height: MyResponsive.height(value: 10)),
+                      const SizedBox(height: 10),
                     ],
                   ),
                 );
               },
             ),
-            SizedBox(height: MyResponsive.height(value: 30)),
           ],
         ),
       ),

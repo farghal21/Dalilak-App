@@ -4,13 +4,10 @@ import 'package:dalilak_app/features/favorite/manager/favorite_cubit.dart';
 import 'package:dalilak_app/features/favorite/manager/favorite_state.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:lottie/lottie.dart';
 
 import '../../../../core/shared_widgets/custom_button.dart';
 import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_strings.dart';
 import '../../../../core/utils/app_text_styles.dart';
-import '../../../chat_history/views/widgets/history_app_bar.dart';
 import 'favorite_item.dart';
 
 class FavoriteViewBody extends StatelessWidget {
@@ -25,7 +22,6 @@ class FavoriteViewBody extends StatelessWidget {
       child: Column(
         children: [
           SizedBox(height: MyResponsive.height(value: 120)),
-          HistoryAppBar(title: AppStrings.favorite),
           SizedBox(height: MyResponsive.height(value: 30)),
           Expanded(
             child: BlocBuilder<FavoriteCubit, FavoriteState>(
@@ -39,17 +35,19 @@ class FavoriteViewBody extends StatelessWidget {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          // Lottie animation with fallback
-                          Lottie.network(
-                            'https://lottie.host/embed/a7f3e3e0-5e0a-4e3a-8e3a-5e0a4e3a8e3a/empty-box.json',
-                            width: MyResponsive.width(value: 200),
-                            height: MyResponsive.height(value: 200),
-                            fit: BoxFit.contain,
-                            errorBuilder: (context, error, stackTrace) {
-                              return Icon(
-                                Icons.favorite_border,
-                                size: MyResponsive.fontSize(value: 120),
-                                color: AppColors.gray.withOpacity(0.3),
+                          // Animated Icon بدلاً من Lottie لتحسين الأداء
+                          TweenAnimationBuilder<double>(
+                            tween: Tween(begin: 0.0, end: 1.0),
+                            duration: const Duration(milliseconds: 800),
+                            curve: Curves.elasticOut,
+                            builder: (context, value, child) {
+                              return Transform.scale(
+                                scale: value,
+                                child: Icon(
+                                  Icons.favorite_border,
+                                  size: MyResponsive.fontSize(value: 120),
+                                  color: AppColors.primary.withOpacity(0.5),
+                                ),
                               );
                             },
                           ),
@@ -98,14 +96,29 @@ class FavoriteViewBody extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final car = cubit.favoriteCars[index];
 
-                      return FavoriteItem(
-                        car: car,
-                        onRemove: () {
-                          cubit.removeFromFavorite(
-                            car: car,
-                            userCubit: userCubit,
+                      // إضافة animation سلس لكل عنصر
+                      return TweenAnimationBuilder<double>(
+                        tween: Tween(begin: 0.0, end: 1.0),
+                        duration: Duration(milliseconds: 300 + (index * 100)),
+                        curve: Curves.easeOutCubic,
+                        builder: (context, value, child) {
+                          return Transform.translate(
+                            offset: Offset(0, 20 * (1 - value)),
+                            child: Opacity(
+                              opacity: value,
+                              child: child,
+                            ),
                           );
                         },
+                        child: FavoriteItem(
+                          car: car,
+                          onRemove: () {
+                            cubit.removeFromFavorite(
+                              car: car,
+                              userCubit: userCubit,
+                            );
+                          },
+                        ),
                       );
                     },
                   ),

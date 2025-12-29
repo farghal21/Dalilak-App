@@ -1,7 +1,5 @@
-import 'package:dalilak_app/features/chat_history/views/widgets/history_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_text_styles.dart';
 import '../../../../core/utils/app_strings.dart';
@@ -38,116 +36,197 @@ class TripCostViewBody extends StatelessWidget {
           litersNeeded = state.litersNeeded;
         }
 
-        return Column(
-          children: [
-            // العنوان الثابت
-            Padding(
-              padding: MyResponsive.paddingSymmetric(horizontal: 20),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: MyResponsive.height(value: 120)),
-                  const HistoryAppBar(title: AppStrings.tripCostTitle),
-                  SizedBox(height: MyResponsive.height(value: 30)),
-                ],
-              ),
-            ),
+        return SafeArea(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const SizedBox(height: 20),
 
-            // المحتوى القابل للتمرير
-            Expanded(
-              child: SingleChildScrollView(
-                physics: const BouncingScrollPhysics(),
-                child: Padding(
-                  padding: MyResponsive.paddingSymmetric(horizontal: 20),
+                // 1. Result Card at Top
+                CostResultCard(
+                  totalCost: totalCost,
+                  litersNeeded: litersNeeded,
+                  fuelPrice: fuelPrice,
+                ),
+
+                const SizedBox(height: 24),
+
+                // 2. Distance Input Section
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1A0F2E),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: const Color(0xFF2D1B4E),
+                      width: 1,
+                    ),
+                  ),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: MyResponsive.paddingAll(value: 20),
-                        decoration: BoxDecoration(
-                          color: AppColors.appFill,
-                          borderRadius: BorderRadius.circular(
-                              MyResponsive.radius(value: 20)),
-                          border: Border.all(
-                              color: AppColors.primary.withOpacity(0.2)),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.directions_car,
+                            color: AppColors.primary,
+                            size: 22,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            "مسافة الرحلة",
+                            style: AppTextStyles.semiBold16.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      TripCostInputField(
+                        label: '',
+                        hint: 'أدخل المسافة بالكيلومتر',
+                        icon: Icons.route,
+                        initialValue: distance,
+                        onChanged: cubit.updateDistance,
+                        isNumber: true,
+                      ),
+                      const SizedBox(height: 12),
+                      // Slider
+                      SliderTheme(
+                        data: SliderTheme.of(context).copyWith(
+                          activeTrackColor: AppColors.primary,
+                          inactiveTrackColor:
+                              AppColors.primary.withOpacity(0.2),
+                          thumbColor: AppColors.primary,
+                          overlayColor: AppColors.primary.withOpacity(0.1),
+                          trackHeight: 4.0,
+                          thumbShape: const RoundSliderThumbShape(
+                              enabledThumbRadius: 10.0),
                         ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            TripCostInputField(
-                              label: AppStrings.distanceLabel,
-                              hint: AppStrings.distanceHint,
-                              icon: Icons.add_road,
-                              initialValue: distance,
-                              onChanged: cubit.updateDistance,
-                            ),
-                            SizedBox(height: MyResponsive.height(value: 20)),
-                            TripCostInputField(
-                              label: AppStrings.consumptionLabel,
-                              hint: AppStrings.consumptionHint,
-                              icon: Icons.local_gas_station_outlined,
-                              initialValue: consumption,
-                              onChanged: cubit.updateConsumption,
-                            ),
-                            SizedBox(height: MyResponsive.height(value: 20)),
-                            TripCostInputField(
-                              label: AppStrings.fuelPriceLabel,
-                              hint: AppStrings.fuelPriceHint,
-                              icon: Icons.payments_outlined,
-                              initialValue: fuelPrice,
-                              onChanged: cubit.updateFuelPrice,
-                            ),
-                            SizedBox(height: MyResponsive.height(value: 25)),
-                            Text(
-                              AppStrings.fuelPriceNote,
-                              style: AppTextStyles.regular11
-                                  .copyWith(color: AppColors.gray),
-                            ),
-                            SizedBox(height: MyResponsive.height(value: 10)),
-                            Row(
-                              children: [
-                                FuelTypeSelector(
-                                  type: 92,
-                                  price: "13.75",
-                                  isSelected: selectedFuelType == 92,
-                                  onTap: () =>
-                                      cubit.selectFuelType(92, "13.75"),
-                                ),
-                                SizedBox(width: MyResponsive.width(value: 15)),
-                                FuelTypeSelector(
-                                  type: 95,
-                                  price: "15.00",
-                                  isSelected: selectedFuelType == 95,
-                                  onTap: () =>
-                                      cubit.selectFuelType(95, "15.00"),
-                                ),
-                              ],
-                            ),
-                          ],
+                        child: Slider(
+                          value: (double.tryParse(distance) ?? 0.0)
+                              .clamp(0.0, 1000.0),
+                          min: 0.0,
+                          max: 1000.0,
+                          divisions: 100,
+                          label: (double.tryParse(distance) ?? 0.0)
+                              .toStringAsFixed(0),
+                          onChanged: (value) {
+                            cubit.updateDistance(value.toStringAsFixed(0));
+                          },
                         ),
                       ),
-                      SizedBox(height: MyResponsive.height(value: 30)),
-                      CostResultCard(
-                        totalCost: totalCost,
-                        litersNeeded: litersNeeded,
-                        fuelPrice: fuelPrice,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "0 كم",
+                            style: AppTextStyles.regular11.copyWith(
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                          Text(
+                            "1000 كم",
+                            style: AppTextStyles.regular11.copyWith(
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ],
                       ),
-                      SizedBox(height: MyResponsive.height(value: 20)),
-                      Center(
-                        child: Text(
-                          AppStrings.calcNote,
-                          style: AppTextStyles.regular11
-                              .copyWith(color: AppColors.gray),
-                          textAlign: TextAlign.center,
-                        ),
-                      ),
-                      SizedBox(height: MyResponsive.height(value: 40)),
                     ],
                   ),
                 ),
-              ),
+
+                const SizedBox(height: 20),
+
+                // 3. Fuel Configuration Section
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFF1A0F2E),
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color: const Color(0xFF2D1B4E),
+                      width: 1,
+                    ),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.settings,
+                            color: AppColors.primary,
+                            size: 22,
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            "إعدادات السيارة والوقود",
+                            style: AppTextStyles.semiBold16.copyWith(
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      TripCostInputField(
+                        label: AppStrings.consumptionLabel,
+                        hint: AppStrings.consumptionHint,
+                        icon: Icons.local_gas_station,
+                        initialValue: consumption,
+                        onChanged: cubit.updateConsumption,
+                        isNumber: true,
+                      ),
+                      const SizedBox(height: 16),
+                      TripCostInputField(
+                        label: AppStrings.fuelPriceLabel,
+                        hint: AppStrings.fuelPriceHint,
+                        icon: Icons.payments,
+                        initialValue: fuelPrice,
+                        onChanged: cubit.updateFuelPrice,
+                        isNumber: true,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        "نوع البنزين",
+                        style: AppTextStyles.regular14.copyWith(
+                          color: Colors.grey[400],
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: FuelTypeSelector(
+                              type: 92,
+                              price: "13.75",
+                              isSelected: selectedFuelType == 92,
+                              onTap: () => cubit.selectFuelType(92, "13.75"),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: FuelTypeSelector(
+                              type: 95,
+                              price: "15.00",
+                              isSelected: selectedFuelType == 95,
+                              onTap: () => cubit.selectFuelType(95, "15.00"),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 30),
+              ],
             ),
-          ],
+          ),
         );
       },
     );
