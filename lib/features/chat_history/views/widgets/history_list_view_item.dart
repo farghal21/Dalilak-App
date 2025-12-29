@@ -15,14 +15,18 @@ class HistoryListViewItem extends StatelessWidget {
     required this.item,
   });
 
-  Sessions item;
+  final Sessions item;
 
   @override
   Widget build(BuildContext context) {
     var formattedDate = formatDateTime(item.createdAt ?? '');
     return InkWell(
       onTap: () {
-        MyNavigator.goTo(screen: HomeView(sessionId: item.id,), isReplace: true);
+        MyNavigator.goTo(
+            screen: HomeView(
+              sessionId: item.id,
+            ),
+            isReplace: true);
       },
       child: Container(
         width: double.infinity,

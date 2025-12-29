@@ -1,6 +1,7 @@
 import 'package:dalilak_app/core/shared_widgets/cached_network_image_wrapper.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_state.dart';
+import 'package:dalilak_app/features/car_inspection/car_inspection_view.dart';
 import 'package:dalilak_app/features/chat_history/views/history_view.dart';
 import 'package:dalilak_app/features/compare/views/compare_view.dart';
 import 'package:dalilak_app/features/favorite/view/favorite_view.dart';
@@ -112,6 +113,22 @@ class MainDrawer extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) => const TripCostView()),
+                        );
+                      },
+                    ),
+                    SizedBox(height: MyResponsive.height(value: 25)),
+
+                    // 👇👇 ورقة فحص المستعمل 👇👇
+                    MainDrawerItem(
+                      imagePath: AppAssets.checklist,
+                      title: AppStrings.carInspectionDrawerTitle,
+                      isSelected: selectedIndex == 6,
+                      onTap: () {
+                        Navigator.pop(context); // إغلاق الـ Drawer
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const CarInspectionView()),
                         );
                       },
                     ),

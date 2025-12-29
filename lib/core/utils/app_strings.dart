@@ -413,4 +413,63 @@ abstract class AppStrings {
   static const String fuelPriceApplied = "سعر اللتر المطبق";
   static const String calcNote =
       "💡 التكلفة تقديرية وقد تختلف حسب القيادة والتكييف";
+
+  ///// Car Inspection /////
+  static const String carInspectionTitle = "فحص السيارة المستعملة";
+  static const String carInspectionDrawerTitle = "ورقة فحص المستعمل";
+  static const String carInspectionDescription =
+      "اتبع النصائح المكتوبة تحت كل بند للحصول على تقييم دقيق";
+  static const String inspectionItemsTitle = "بنود الفحص الأساسية";
+  static const String inspectionDisclaimer =
+      "هذا الفحص للإرشاد فقط ولا يغني عن الفحص الفني المتخصص";
+
+  // Result Card
+  static const String inspectionResult = "نتيجة الفحص";
+  static const String itemsInspected = "البنود المفحوصة";
+  static const String generalCondition = "الحالة العامة";
+  static const String statusExcellent = "ممتازة";
+  static const String statusGood = "جيدة";
+  static const String statusAverage = "متوسطة";
+  static const String statusNotInspected = "لم يتم الفحص";
+
+  // Inspection Items
+  static const String inspectionItem1Title = "حالة زيت المحرك";
+  static const String inspectionItem1Hint =
+      "ارفع مقياس الزيت وشوف لونه، لو أسود محروق أو ناقص كتير ده مش كويس";
+
+  static const String inspectionItem2Title = "رش الصاج والصدأ";
+  static const String inspectionItem2Hint =
+      "دور على أي صدأ أو رش مختلف في اللون، ده معناه إن العربية اتصلحت قبل كده";
+
+  static const String inspectionItem3Title = "صوت المحرك";
+  static const String inspectionItem3Hint =
+      "شغل العربية واسمع صوت المحرك، لو فيه صوت طقطقة أو خبط ده علامة سيئة";
+
+  static const String inspectionItem4Title = "كفاءة التكييف";
+  static const String inspectionItem4Hint =
+      "شغل التكييف على أعلى درجة، لازم يطلع هوا بارد خالص في دقيقتين";
+
+  static const String inspectionItem5Title = "حالة الإطارات";
+  static const String inspectionItem5Hint =
+      "شوف عمق المداس، لو أقل من 3 مم يبقى محتاج تغيير، وشوف تاريخ الصنع على الجنب";
+
+  static const String inspectionItem6Title = "الفرامل";
+  static const String inspectionItem6Hint =
+      "جرب الفرامل وانت واقف، لازم تكون قوية ومافيش صوت صرير";
+
+  static const String inspectionItem7Title = "البطارية";
+  static const String inspectionItem7Hint =
+      "شوف أقطاب البطارية، لو عليها صدأ أخضر أو أبيض يبقى محتاجة تنضيف أو تغيير";
+
+  static const String inspectionItem8Title = "الإضاءة";
+  static const String inspectionItem8Hint =
+      "جرب كل الأنوار (أمامي، خلفي، فرامل، إشارات)، لازم كلها تشتغل";
+
+  static const String inspectionItem9Title = "التعليق والمساعدين";
+  static const String inspectionItem9Hint =
+      "زق العربية من فوق، لو فضلت تهتز كتير يبقى المساعدين ضعيفة";
+
+  static const String inspectionItem10Title = "الأوراق والرخصة";
+  static const String inspectionItem10Hint =
+      "تأكد إن الرخصة سارية والعربية مش عليها مخالفات أو حجز";
 }

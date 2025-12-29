@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_text_styles.dart';
-import '../../../../core/utils/app_strings.dart'; // ✅ استدعاء الملف
+import '../../../../core/utils/app_strings.dart';
 
 class TripCostViewBody extends StatefulWidget {
   final double? initialConsumption;
@@ -26,15 +26,10 @@ class _TripCostViewBodyState extends State<TripCostViewBody> {
   @override
   void initState() {
     super.initState();
-    // تعريف الـ Controllers أولاً بالترتيب
     distanceController = TextEditingController();
     consumptionController = TextEditingController(
         text: widget.initialConsumption?.toString() ?? '8.5');
-
-    // ✅ هذا السطر كان يسبب المشكلة لأنه كان بعد الاستدعاء في صورتك
     priceController = TextEditingController(text: '13.75');
-
-    // استدعاء الحساب في النهاية لضمان جاهزية الـ Controllers
     _calculate();
   }
 
@@ -47,11 +42,9 @@ class _TripCostViewBodyState extends State<TripCostViewBody> {
   }
 
   void _calculate() {
-    // التحقق من أن الـ Widget ما زال موجوداً لتجنب مشاكل الـ setState
     if (!mounted) return;
 
     setState(() {
-      // tryParse يمنع الـ FormatException لو الحقل فاضي
       double distance = double.tryParse(distanceController.text) ?? 0.0;
       double consumption = double.tryParse(consumptionController.text) ?? 0.0;
       double price = double.tryParse(priceController.text) ?? 0.0;
@@ -63,144 +56,158 @@ class _TripCostViewBodyState extends State<TripCostViewBody> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: const BouncingScrollPhysics(),
-      child: Padding(
-        padding: MyResponsive.paddingSymmetric(horizontal: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(height: MyResponsive.height(value: 120)),
-            const HistoryAppBar(title: AppStrings.tripCostTitle), // ✅
-            SizedBox(height: MyResponsive.height(value: 30)),
+    return Column(
+      children: [
+        // العنوان الثابت
+        Padding(
+          padding: MyResponsive.paddingSymmetric(horizontal: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: MyResponsive.height(value: 120)),
+              const HistoryAppBar(title: AppStrings.tripCostTitle),
+              SizedBox(height: MyResponsive.height(value: 30)),
+            ],
+          ),
+        ),
 
-            Container(
-              padding: MyResponsive.paddingAll(value: 20),
-              decoration: BoxDecoration(
-                color: AppColors.appFill,
-                borderRadius:
-                    BorderRadius.circular(MyResponsive.radius(value: 20)),
-                border: Border.all(color: AppColors.primary.withOpacity(0.2)),
-              ),
+        // المحتوى القابل للتمرير
+        Expanded(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Padding(
+              padding: MyResponsive.paddingSymmetric(horizontal: 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  _buildCustomTextField(
-                    label: AppStrings.distanceLabel, // ✅
-                    hint: AppStrings.distanceHint, // ✅
-                    icon: Icons.add_road,
-                    controller: distanceController,
-                  ),
-                  SizedBox(height: MyResponsive.height(value: 20)),
-                  _buildCustomTextField(
-                    label: AppStrings.consumptionLabel, // ✅
-                    hint: AppStrings.consumptionHint, // ✅
-                    icon: Icons.local_gas_station_outlined,
-                    controller: consumptionController,
-                  ),
-                  SizedBox(height: MyResponsive.height(value: 20)),
-                  _buildCustomTextField(
-                    label: AppStrings.fuelPriceLabel, // ✅
-                    hint: AppStrings.fuelPriceHint, // ✅
-                    icon: Icons.payments_outlined,
-                    controller: priceController,
-                  ),
-                  SizedBox(height: MyResponsive.height(value: 25)),
-                  Text(
-                    AppStrings.fuelPriceNote, // ✅
-                    style:
-                        AppTextStyles.regular11.copyWith(color: AppColors.gray),
-                  ),
-                  SizedBox(height: MyResponsive.height(value: 10)),
-                  Row(
-                    children: [
-                      _buildFuelOption(92, "13.75"),
-                      SizedBox(width: MyResponsive.width(value: 15)),
-                      _buildFuelOption(95, "15.00"),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-
-            SizedBox(height: MyResponsive.height(value: 30)),
-
-            Container(
-              padding: MyResponsive.paddingAll(value: 25),
-              decoration: BoxDecoration(
-                gradient: AppColors.cardGradient,
-                borderRadius:
-                    BorderRadius.circular(MyResponsive.radius(value: 25)),
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withOpacity(0.3),
-                    blurRadius: 20,
-                    offset: const Offset(0, 5),
-                  ),
-                ],
-                border: Border.all(color: AppColors.primary.withOpacity(0.5)),
-              ),
-              child: Column(
-                children: [
-                  Text(
-                    AppStrings.expectedCost, // ✅
-                    style:
-                        AppTextStyles.regular14.copyWith(color: Colors.white70),
-                  ),
-                  SizedBox(height: MyResponsive.height(value: 15)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.baseline,
-                    textBaseline: TextBaseline.alphabetic,
-                    children: [
-                      Text(
-                        totalCost.toStringAsFixed(0),
-                        style: AppTextStyles.bold20.copyWith(
-                          color: Colors.white,
-                          fontSize: MyResponsive.fontSize(value: 48),
-                          fontWeight: FontWeight.w800,
+                  Container(
+                    padding: MyResponsive.paddingAll(value: 20),
+                    decoration: BoxDecoration(
+                      color: AppColors.appFill,
+                      borderRadius:
+                          BorderRadius.circular(MyResponsive.radius(value: 20)),
+                      border:
+                          Border.all(color: AppColors.primary.withOpacity(0.2)),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        _buildCustomTextField(
+                          label: AppStrings.distanceLabel,
+                          hint: AppStrings.distanceHint,
+                          icon: Icons.add_road,
+                          controller: distanceController,
                         ),
-                      ),
-                      SizedBox(width: MyResponsive.width(value: 8)),
-                      Text(
-                        AppStrings.currency, // ✅
-                        style: AppTextStyles.semiBold20
-                            .copyWith(color: AppColors.lightGreen),
-                      ),
-                    ],
+                        SizedBox(height: MyResponsive.height(value: 20)),
+                        _buildCustomTextField(
+                          label: AppStrings.consumptionLabel,
+                          hint: AppStrings.consumptionHint,
+                          icon: Icons.local_gas_station_outlined,
+                          controller: consumptionController,
+                        ),
+                        SizedBox(height: MyResponsive.height(value: 20)),
+                        _buildCustomTextField(
+                          label: AppStrings.fuelPriceLabel,
+                          hint: AppStrings.fuelPriceHint,
+                          icon: Icons.payments_outlined,
+                          controller: priceController,
+                        ),
+                        SizedBox(height: MyResponsive.height(value: 25)),
+                        Text(
+                          AppStrings.fuelPriceNote,
+                          style: AppTextStyles.regular11
+                              .copyWith(color: AppColors.gray),
+                        ),
+                        SizedBox(height: MyResponsive.height(value: 10)),
+                        Row(
+                          children: [
+                            _buildFuelOption(92, "13.75"),
+                            SizedBox(width: MyResponsive.width(value: 15)),
+                            _buildFuelOption(95, "15.00"),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
-                  Divider(
-                      color: Colors.white12,
-                      height: MyResponsive.height(value: 40)),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      _buildResultItem(AppStrings.litersNeeded,
-                          "${litersNeeded.toStringAsFixed(1)} لتر"), // ✅
-                      _buildResultItem(AppStrings.fuelPriceApplied,
-                          "${priceController.text} ج.م"), // ✅
-                    ],
+                  SizedBox(height: MyResponsive.height(value: 30)),
+                  Container(
+                    padding: MyResponsive.paddingAll(value: 25),
+                    decoration: BoxDecoration(
+                      gradient: AppColors.cardGradient,
+                      borderRadius:
+                          BorderRadius.circular(MyResponsive.radius(value: 25)),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withOpacity(0.3),
+                          blurRadius: 20,
+                          offset: const Offset(0, 5),
+                        ),
+                      ],
+                      border:
+                          Border.all(color: AppColors.primary.withOpacity(0.5)),
+                    ),
+                    child: Column(
+                      children: [
+                        Text(
+                          AppStrings.expectedCost,
+                          style: AppTextStyles.regular14
+                              .copyWith(color: Colors.white70),
+                        ),
+                        SizedBox(height: MyResponsive.height(value: 15)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(
+                              totalCost.toStringAsFixed(0),
+                              style: AppTextStyles.bold20.copyWith(
+                                color: Colors.white,
+                                fontSize: MyResponsive.fontSize(value: 48),
+                                fontWeight: FontWeight.w800,
+                              ),
+                            ),
+                            SizedBox(width: MyResponsive.width(value: 8)),
+                            Text(
+                              AppStrings.currency,
+                              style: AppTextStyles.semiBold20
+                                  .copyWith(color: AppColors.lightGreen),
+                            ),
+                          ],
+                        ),
+                        Divider(
+                            color: Colors.white12,
+                            height: MyResponsive.height(value: 40)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _buildResultItem(AppStrings.litersNeeded,
+                                "${litersNeeded.toStringAsFixed(1)} لتر"),
+                            _buildResultItem(AppStrings.fuelPriceApplied,
+                                "${priceController.text} ج.م"),
+                          ],
+                        ),
+                      ],
+                    ),
                   ),
+                  SizedBox(height: MyResponsive.height(value: 20)),
+                  Center(
+                    child: Text(
+                      AppStrings.calcNote,
+                      style: AppTextStyles.regular11
+                          .copyWith(color: AppColors.gray),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  SizedBox(height: MyResponsive.height(value: 40)),
                 ],
               ),
             ),
-
-            SizedBox(height: MyResponsive.height(value: 20)),
-            Center(
-              child: Text(
-                AppStrings.calcNote, // ✅
-                style: AppTextStyles.regular11.copyWith(color: AppColors.gray),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            SizedBox(height: MyResponsive.height(value: 40)),
-          ],
+          ),
         ),
-      ),
+      ],
     );
   }
-
-  // --- Widgets المساعدة (نفسها بدون تغيير في المنطق) ---
 
   Widget _buildCustomTextField({
     required String label,
