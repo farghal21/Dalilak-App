@@ -1,5 +1,3 @@
-import '../../data/models/message_model.dart';
-
 abstract class HomeState {}
 
 class HomeInitial extends HomeState {}

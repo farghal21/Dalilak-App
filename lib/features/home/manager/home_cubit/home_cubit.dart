@@ -42,9 +42,10 @@ class HomeCubit extends Cubit<HomeState> {
             MessageModel(
               message: message.message,
               // حماية ضد الـ Null في البيانات القادمة من السيرفر
-              messageType: (message.data == null || (message.data?.cars.isEmpty ?? true))
-                  ? MessageType.text
-                  : MessageType.hasData,
+              messageType:
+                  (message.data == null || (message.data?.cars.isEmpty ?? true))
+                      ? MessageType.text
+                      : MessageType.hasData,
               sender: message.sender == 'user'
                   ? MessageSender.user
                   : MessageSender.bot,
@@ -117,8 +118,7 @@ class HomeCubit extends Cubit<HomeState> {
       (error) {
         messages.add(
           MessageModel(
-            // حماية ضد الـ null error اللي ظهر في الـ Log
-            message: error ?? "حدث خطأ غير متوقع", 
+            message: error,
             messageType: MessageType.error,
             sender: MessageSender.bot,
           ),
@@ -130,11 +130,11 @@ class HomeCubit extends Cubit<HomeState> {
           MessageModel(
             message: chatResponse.message,
             // استخدام حماية الـ Null-aware لضمان عدم حدوث TypeError
-            messageType: (chatResponse.cars?.isEmpty ?? true)
+            messageType: chatResponse.cars.isEmpty
                 ? MessageType.text
                 : MessageType.hasData,
             sender: MessageSender.bot,
-            cars: chatResponse.cars ?? [],
+            cars: chatResponse.cars,
           ),
         );
         emit(HomeMessagesUpdated());

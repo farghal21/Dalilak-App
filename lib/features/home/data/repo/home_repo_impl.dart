@@ -76,14 +76,12 @@ class HomeRepoImpl implements HomeRepo {
         return Right(sendMessageData);
       } else {
         // نضمن إرجاع رسالة خطأ نصية وليست null
-        return Left(
-            response.message ?? "فشل إرسال الرسالة، يرجى المحاولة لاحقاً");
+        return Left(response.message);
       }
     } catch (e) {
       // في حالة الكراش الأخير اللي ظهر بـ null
       ApiResponse errorResponse = ApiResponse.fromError(e);
-      String errorMessage =
-          errorResponse.message ?? "حدث خطأ غير متوقع في الاتصال";
+      String errorMessage = errorResponse.message;
       return Left(errorMessage);
     }
   }
