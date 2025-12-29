@@ -17,7 +17,14 @@ class ProfileSettingView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomScaffold(
-      isHomeScreen: true,
+      isHomeScreen: false, // Disables customAppBar
+      extendBodyBehindAppBar: true, // Keeps background full screen
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        surfaceTintColor: Colors.transparent,
+        leading: const BackButton(color: Colors.white),
+      ),
       showDrawer: false,
       drawerSelectedIndex: 4,
       body: BlocConsumer<UserCubit, UserState>(

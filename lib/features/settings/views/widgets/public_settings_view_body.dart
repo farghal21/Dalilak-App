@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/utils/app_strings.dart';
-import '../../../../core/utils/app_text_styles.dart';
+import '../../../chat_history/views/widgets/history_app_bar.dart';
 import '../../manager/public_settings_cubit/public_settings_cubit.dart';
 
 class PublicSettingsViewBody extends StatelessWidget {
@@ -12,59 +12,81 @@ class PublicSettingsViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var cubit = PublicSettingsCubit.get(context);
-    return Padding(
-      padding: MyResponsive.paddingSymmetric(horizontal: 20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
-            height: MyResponsive.height(value: 140),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: MyResponsive.height(value: 120)),
+
+        // AppBar
+        Padding(
+          padding: MyResponsive.paddingSymmetric(horizontal: 20),
+          child: HistoryAppBar(title: AppStrings.publicSettings),
+        ),
+
+        SizedBox(height: MyResponsive.height(value: 40)),
+
+        // Scrollable Settings
+        Expanded(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: MyResponsive.paddingSymmetric(horizontal: 20),
+            child: Column(
+              children: [
+                _buildAnimatedSetting(
+                  delay: 0,
+                  child: SettingDropdownWidget(
+                    title: AppStrings.appearance,
+                    selectedValue: cubit.selectedAppearance,
+                    items: cubit.appearanceItems,
+                    onChanged: null,
+                  ),
+                ),
+                SizedBox(height: MyResponsive.height(value: 20)),
+                _buildAnimatedSetting(
+                  delay: 100,
+                  child: SettingDropdownWidget(
+                    title: AppStrings.language,
+                    selectedValue: cubit.selectedLanguage,
+                    items: cubit.languageItems,
+                    onChanged: null,
+                  ),
+                ),
+                SizedBox(height: MyResponsive.height(value: 20)),
+                _buildAnimatedSetting(
+                  delay: 200,
+                  child: SettingDropdownWidget(
+                    title: AppStrings.country,
+                    selectedValue: cubit.selectedCountry,
+                    items: cubit.countryItems,
+                    onChanged: null,
+                  ),
+                ),
+                SizedBox(height: MyResponsive.height(value: 40)),
+              ],
+            ),
           ),
-          Text(
-            AppStrings.publicSettings,
-            style: AppTextStyles.semiBold24,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildAnimatedSetting({
+    required int delay,
+    required Widget child,
+  }) {
+    return TweenAnimationBuilder<double>(
+      duration: Duration(milliseconds: 400 + delay),
+      tween: Tween(begin: 0.0, end: 1.0),
+      curve: Curves.easeOut,
+      builder: (context, value, _) {
+        return Transform.translate(
+          offset: Offset(0, 20 * (1 - value)),
+          child: Opacity(
+            opacity: value,
+            child: child,
           ),
-          SizedBox(
-            height: MyResponsive.height(value: 50),
-          ),
-          SettingDropdownWidget(
-            title: AppStrings.appearance,
-            selectedValue: cubit.selectedAppearance,
-            items: cubit.appearanceItems,
-            // onChanged: (String? newValue) {
-            //   cubit.changeAppearance(newValue!);
-            // },
-            onChanged: null,
-          ),
-          SizedBox(
-            height: MyResponsive.height(value: 35),
-          ),
-          SettingDropdownWidget(
-            title: AppStrings.language,
-            selectedValue: cubit.selectedLanguage,
-            items: cubit.languageItems,
-            // onChanged: (String? newValue) {
-            //   cubit.changeLanguage(newValue!);
-            // },
-            onChanged: null,
-          ),
-          SizedBox(
-            height: MyResponsive.height(value: 35),
-          ),
-          SettingDropdownWidget(
-            title: AppStrings.country,
-            selectedValue: cubit.selectedCountry,
-            items: cubit.countryItems,
-            // onChanged: (String? newValue) {
-            //   cubit.changeCountry(newValue!);
-            // },
-            onChanged: null,
-          ),
-          SizedBox(
-            height: MyResponsive.height(value: 35),
-          ),
-        ],
-      ),
+        );
+      },
     );
   }
 }

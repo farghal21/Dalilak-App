@@ -1,19 +1,12 @@
-import 'package:dalilak_app/core/shared_widgets/cached_network_image_wrapper.dart';
-import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
-import 'package:dalilak_app/core/user/manager/user_cubit/user_state.dart';
 import 'package:dalilak_app/features/car_inspection/car_inspection_view.dart';
 import 'package:dalilak_app/features/chat_history/views/history_view.dart';
 import 'package:dalilak_app/features/compare/views/compare_view.dart';
 import 'package:dalilak_app/features/favorite/view/favorite_view.dart';
 import 'package:dalilak_app/features/trip_cost_calc/views/trip_cost_view.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../../core/shared_widgets/svg_wrapper.dart';
 import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_strings.dart';
-import '../../../../core/utils/app_text_styles.dart';
 import '../../../settings/views/settings_view.dart';
 import '../home_view.dart';
 import 'main_drawer_item.dart';
@@ -160,79 +153,6 @@ class MainDrawer extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-
-            // 2. Fixed Bottom Section (Profile)
-            BlocBuilder<UserCubit, UserState>(
-              builder: (context, state) {
-                final cubit = UserCubit.get(context);
-                final userModel = cubit.userModel;
-                return Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                  decoration: BoxDecoration(
-                    color: AppColors.fillColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text(
-                          userModel.fullName ?? '',
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: AppTextStyles.bold20,
-                        ),
-                        trailing: SvgWrapper(
-                          path: AppAssets.friends,
-                          fit: BoxFit.fill,
-                          width: 30,
-                        ),
-                        leading: CircleAvatar(
-                          radius: 25,
-                          backgroundColor: Colors.transparent,
-                          child: ClipOval(
-                            child: userModel.profileImageUrl != null
-                                ? CachedNetworkImageWrapper(
-                                    imagePath:
-                                        'https://jrkmal-001-site1.jtempurl.com${userModel.profileImageUrl}',
-                                    width: 50,
-                                    height: 50,
-                                    fit: BoxFit.cover,
-                                  )
-                                : Image.asset(AppAssets.profileImage),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 8),
-                      Divider(color: AppColors.gray),
-                      const SizedBox(height: 8),
-                      GestureDetector(
-                        onTap: () {
-                          cubit.logout();
-                        },
-                        child: Row(
-                          children: [
-                            SvgWrapper(
-                              path: AppAssets.logout,
-                              color: AppColors.red,
-                            ),
-                            const SizedBox(width: 16),
-                            Text(
-                              AppStrings.logout,
-                              style: AppTextStyles.semiBold16
-                                  .copyWith(color: AppColors.red),
-                            )
-                          ],
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                    ],
-                  ),
-                );
-              },
             ),
           ],
         ),

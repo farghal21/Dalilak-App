@@ -15,6 +15,7 @@ class CustomScaffold extends StatelessWidget {
     this.isHomeScreen = false,
     this.drawerSelectedIndex,
     this.showDrawer = true,
+    this.extendBodyBehindAppBar,
   });
 
   final PreferredSizeWidget? appBar;
@@ -26,12 +27,14 @@ class CustomScaffold extends StatelessWidget {
   final bool? isHomeScreen;
   final bool? showDrawer;
   final int? drawerSelectedIndex;
+  final bool? extendBodyBehindAppBar;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: true,
-      extendBodyBehindAppBar: isHomeScreen! ? true : false,
+      extendBodyBehindAppBar:
+          extendBodyBehindAppBar ?? (isHomeScreen! ? true : false),
       appBar: isHomeScreen! ? customAppBar(context) : appBar,
       floatingActionButton: isHomeScreen! ? floatingActionButton : null,
       bottomNavigationBar: isHomeScreen! ? bottomNavigationBar : null,
