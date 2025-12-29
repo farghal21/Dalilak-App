@@ -65,11 +65,42 @@ class _SplashViewBodyState extends State<SplashViewBody> {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          SvgWrapper(path: AppAssets.appLogo),
+          // Animated logo entrance
+          TweenAnimationBuilder<double>(
+            tween: Tween(begin: 0.0, end: 1.0),
+            duration: const Duration(milliseconds: 1000),
+            curve: Curves.easeOutBack,
+            builder: (context, value, child) {
+              // Clamp value to prevent opacity assertion errors
+              final clampedValue = value.clamp(0.0, 1.0);
+              return Transform.scale(
+                scale: clampedValue,
+                child: Opacity(
+                  opacity: clampedValue,
+                  child: child,
+                ),
+              );
+            },
+            child: SvgWrapper(path: AppAssets.appLogo),
+          ),
           SizedBox(height: MyResponsive.height(value: 45)),
-          SizedBox(
-            height: MyResponsive.height(value: 82),
-            child: const AppLoading(),
+          // Delayed loading indicator
+          TweenAnimationBuilder<double>(
+            tween: Tween(begin: 0.0, end: 1.0),
+            duration: const Duration(milliseconds: 800),
+            curve: Curves.easeIn,
+            builder: (context, value, child) {
+              // Clamp value for safety
+              final clampedValue = value.clamp(0.0, 1.0);
+              return Opacity(
+                opacity: clampedValue,
+                child: child,
+              );
+            },
+            child: SizedBox(
+              height: MyResponsive.height(value: 82),
+              child: const AppLoading(),
+            ),
           ),
         ],
       ),

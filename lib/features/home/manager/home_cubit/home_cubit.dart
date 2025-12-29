@@ -31,7 +31,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       (error) {
-        emit(HomeError(error: error));
+        if (!isClosed) emit(HomeError(error: error));
       },
       (response) {
         var model = response.messages;
@@ -54,7 +54,7 @@ class HomeCubit extends Cubit<HomeState> {
           );
         }
 
-        emit(HomeMessagesUpdated());
+        if (!isClosed) emit(HomeMessagesUpdated());
         _scrollToBottom();
       },
     );
@@ -71,7 +71,7 @@ class HomeCubit extends Cubit<HomeState> {
 
       startResult.fold(
         (error) {
-          emit(HomeError(error: error));
+          if (!isClosed) emit(HomeError(error: error));
           isStarted = false;
         },
         (startResponse) {
@@ -91,7 +91,7 @@ class HomeCubit extends Cubit<HomeState> {
         sender: MessageSender.user,
       ),
     );
-    emit(HomeMessagesUpdated());
+    if (!isClosed) emit(HomeMessagesUpdated());
     _scrollToBottom();
 
     // إضافة فقاعة الـ Loading
@@ -101,7 +101,7 @@ class HomeCubit extends Cubit<HomeState> {
       sender: MessageSender.bot,
     );
     messages.add(loadingMessage);
-    emit(HomeMessagesUpdated());
+    if (!isClosed) emit(HomeMessagesUpdated());
     _scrollToBottom();
 
     // 4️⃣ إرسال الرسالة للسيرفر (استخدام sessionId! آمن هنا بسبب التحقق فوق)
@@ -123,7 +123,7 @@ class HomeCubit extends Cubit<HomeState> {
             sender: MessageSender.bot,
           ),
         );
-        emit(HomeMessagesUpdated());
+        if (!isClosed) emit(HomeMessagesUpdated());
       },
       (chatResponse) {
         messages.add(
@@ -137,7 +137,7 @@ class HomeCubit extends Cubit<HomeState> {
             cars: chatResponse.cars,
           ),
         );
-        emit(HomeMessagesUpdated());
+        if (!isClosed) emit(HomeMessagesUpdated());
       },
     );
 
@@ -149,8 +149,8 @@ class HomeCubit extends Cubit<HomeState> {
       if (scrollController.hasClients) {
         scrollController.animateTo(
           scrollController.position.maxScrollExtent + 100,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOutCubic,
         );
       }
     });

@@ -16,16 +16,34 @@ class CarDetailsSlider extends StatelessWidget {
       options: CarouselOptions(
         height: MyResponsive.height(value: 400),
         autoPlay: true,
+        autoPlayInterval: const Duration(seconds: 4),
+        autoPlayAnimationDuration: const Duration(milliseconds: 800),
+        autoPlayCurve: Curves.easeInOutCubic,
         viewportFraction: 1,
         enableInfiniteScroll: true,
         enlargeCenterPage: false,
+        pauseAutoPlayOnTouch: true,
         onPageChanged: (index, reason) {
           SliderCubit.get(context).changeSliderIndex(index);
         },
       ),
       items: cubit.selectedCar!.images.map((imagePath) {
-        return SliderWidget(
-          imagePath: imagePath,
+        return AnimatedBuilder(
+          animation: const AlwaysStoppedAnimation(0),
+          builder: (context, child) {
+            return TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.95, end: 1.0),
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+              builder: (context, value, child) {
+                return Transform.scale(
+                  scale: value,
+                  child: child,
+                );
+              },
+              child: SliderWidget(imagePath: imagePath),
+            );
+          },
         );
       }).toList(),
     );

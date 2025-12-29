@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_text_styles.dart';
@@ -78,12 +79,15 @@ class InspectionItemTile extends StatelessWidget {
 
           SizedBox(width: MyResponsive.width(value: 12)),
 
-          // Switch
+          // Switch with haptic feedback
           Transform.scale(
             scale: 0.85,
             child: Switch(
               value: isChecked,
-              onChanged: onChanged,
+              onChanged: (value) {
+                HapticFeedback.lightImpact();
+                onChanged(value);
+              },
               activeColor: AppColors.primary,
               activeTrackColor: AppColors.primary.withOpacity(0.3),
               inactiveThumbColor: AppColors.gray,

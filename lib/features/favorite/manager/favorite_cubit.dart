@@ -13,7 +13,7 @@ class FavoriteCubit extends Cubit<FavoriteState> {
 
   void init(List<CarModel> cars) {
     favoriteCars = List.from(cars);
-    emit(FavoriteLoaded());
+    if (!isClosed) emit(FavoriteLoaded());
   }
 
   void removeFromFavorite({
@@ -23,6 +23,6 @@ class FavoriteCubit extends Cubit<FavoriteState> {
     favoriteCars.remove(car);
     userCubit.favoriteCars.remove(car);
 
-    emit(FavoriteUpdated());
+    if (!isClosed) emit(FavoriteUpdated());
   }
 }

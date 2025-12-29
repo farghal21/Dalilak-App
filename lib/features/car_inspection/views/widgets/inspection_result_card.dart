@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/utils/app_colors.dart';
 import '../../../../core/utils/app_text_styles.dart';
@@ -18,6 +19,8 @@ class InspectionResultCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final bool isExcellent = percentage >= 80;
+
     return Container(
       padding: MyResponsive.paddingAll(value: 25),
       decoration: BoxDecoration(
@@ -34,25 +37,61 @@ class InspectionResultCard extends StatelessWidget {
       ),
       child: Column(
         children: [
+          // Success celebration animation for excellent scores
+          if (isExcellent)
+            TweenAnimationBuilder<double>(
+              tween: Tween(begin: 0.0, end: 1.0),
+              duration: const Duration(milliseconds: 600),
+              curve: Curves.elasticOut,
+              builder: (context, value, child) {
+                return Transform.scale(
+                  scale: value,
+                  child: child,
+                );
+              },
+              child: Lottie.network(
+                'https://lottie.host/embed/d7f3e3e0-5e0a-4e3a-8e3a-5e0a4e3a8e3d/success-stars.json',
+                width: MyResponsive.width(value: 80),
+                height: MyResponsive.height(value: 80),
+                fit: BoxFit.contain,
+                repeat: false,
+                errorBuilder: (context, error, stackTrace) {
+                  return Icon(
+                    Icons.stars,
+                    size: MyResponsive.fontSize(value: 60),
+                    color: AppColors.lightGreen,
+                  );
+                },
+              ),
+            ),
+          if (isExcellent) SizedBox(height: MyResponsive.height(value: 10)),
+
           Text(
             AppStrings.inspectionResult,
             style: AppTextStyles.regular14.copyWith(color: Colors.white70),
           ),
           SizedBox(height: MyResponsive.height(value: 15)),
 
-          // النسبة المئوية
+          // النسبة المئوية مع Animated Counter
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              Text(
-                percentage.toStringAsFixed(0),
-                style: AppTextStyles.bold20.copyWith(
-                  color: _getColorByPercentage(percentage),
-                  fontSize: MyResponsive.fontSize(value: 48),
-                  fontWeight: FontWeight.w800,
-                ),
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: percentage),
+                duration: const Duration(milliseconds: 1200),
+                curve: Curves.easeOutCubic,
+                builder: (context, value, child) {
+                  return Text(
+                    value.toStringAsFixed(0),
+                    style: AppTextStyles.bold20.copyWith(
+                      color: _getColorByPercentage(value),
+                      fontSize: MyResponsive.fontSize(value: 48),
+                      fontWeight: FontWeight.w800,
+                    ),
+                  );
+                },
               ),
               SizedBox(width: MyResponsive.width(value: 8)),
               Text(

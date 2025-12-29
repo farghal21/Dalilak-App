@@ -2,6 +2,7 @@ import 'package:dalilak_app/features/home/views/widgets/text_message_widget.dart
 import 'package:dalilak_app/features/home/views/widgets/with_media_message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/utils/app_assets.dart';
@@ -151,22 +152,34 @@ class HomeViewBody extends StatelessWidget {
           SizedBox(height: MyResponsive.height(value: 27)),
           SizedBox(
             height: MyResponsive.height(value: 175),
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                return GestureDetector(
-                  onTap: () => cubit.sendUserMessage(category['title']!),
-                  child: CategoryListViewItem(
-                    title: category['title']!,
-                    subtitle: category['subtitle']!,
-                    // iconPath: category['iconPath']!,
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) =>
-                  SizedBox(width: MyResponsive.width(value: 20)),
-              itemCount: categories.length,
+            child: AnimationLimiter(
+              child: ListView.separated(
+                scrollDirection: Axis.horizontal,
+                itemBuilder: (context, index) {
+                  final category = categories[index];
+                  return AnimationConfiguration.staggeredList(
+                    position: index,
+                    duration: const Duration(milliseconds: 500),
+                    child: SlideAnimation(
+                      horizontalOffset: 50.0,
+                      child: FadeInAnimation(
+                        child: GestureDetector(
+                          onTap: () =>
+                              cubit.sendUserMessage(category['title']!),
+                          child: CategoryListViewItem(
+                            title: category['title']!,
+                            subtitle: category['subtitle']!,
+                            // iconPath: category['iconPath']!,
+                          ),
+                        ),
+                      ),
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) =>
+                    SizedBox(width: MyResponsive.width(value: 20)),
+                itemCount: categories.length,
+              ),
             ),
           ),
         ],

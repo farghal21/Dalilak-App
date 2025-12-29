@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/utils/app_colors.dart';
@@ -78,6 +79,10 @@ class _ChatTextFieldState extends State<ChatTextField> {
             onPressed: () {
               final text = _controller.text.trim();
               if (text.isEmpty) return;
+
+              // Haptic feedback on send
+              HapticFeedback.mediumImpact();
+
               widget.onSend?.call(text);
               _controller.clear();
               setState(() => _textDirection = null);

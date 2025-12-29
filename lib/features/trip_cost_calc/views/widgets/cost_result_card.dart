@@ -44,13 +44,20 @@ class CostResultCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.baseline,
             textBaseline: TextBaseline.alphabetic,
             children: [
-              Text(
-                totalCost.toStringAsFixed(0),
-                style: AppTextStyles.bold20.copyWith(
-                  color: Colors.white,
-                  fontSize: MyResponsive.fontSize(value: 48),
-                  fontWeight: FontWeight.w800,
-                ),
+              TweenAnimationBuilder<double>(
+                tween: Tween(begin: 0.0, end: totalCost),
+                duration: const Duration(milliseconds: 1200),
+                curve: Curves.easeOutCubic,
+                builder: (context, value, child) {
+                  return Text(
+                    value.toStringAsFixed(0),
+                    style: AppTextStyles.bold20.copyWith(
+                      color: Colors.white,
+                      fontSize: MyResponsive.fontSize(value: 48),
+                      fontWeight: FontWeight.w800,
+                    ),
+                  );
+                },
               ),
               SizedBox(width: MyResponsive.width(value: 8)),
               Text(

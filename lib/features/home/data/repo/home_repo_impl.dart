@@ -70,6 +70,17 @@ class HomeRepoImpl implements HomeRepo {
         isProtected: true,
       );
 
+      // التحقق من حالة الخطأ 500 أو Timeout
+      if (response.statusCode == 500) {
+        return Left('السيرفر يواجه مشكلة، حاول مجدداً');
+      }
+
+      // التحقق من رسائل الـ Timeout المحددة
+      if (response.message.contains('timeout') ||
+          response.message.contains('Timeout')) {
+        return Left('السيرفر استغرق وقتاً طويلاً، حاول مجدداً');
+      }
+
       if (response.success == true && response.data != null) {
         SendMessageData sendMessageData =
             SendMessageData.fromJson(response.data['data']);
@@ -82,6 +93,12 @@ class HomeRepoImpl implements HomeRepo {
       // في حالة الكراش الأخير اللي ظهر بـ null
       ApiResponse errorResponse = ApiResponse.fromError(e);
       String errorMessage = errorResponse.message;
+
+      // إضافة رسالة افتراضية في حالة كانت الرسالة فارغة
+      if (errorMessage.isEmpty) {
+        errorMessage = 'حدث خطأ غير متوقع، حاول مجدداً';
+      }
+
       return Left(errorMessage);
     }
   }
