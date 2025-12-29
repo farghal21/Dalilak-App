@@ -5,13 +5,13 @@ import 'package:dalilak_app/core/cache/cache_key.dart';
 import 'package:dalilak_app/core/helper/my_navigator.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:dalilak_app/features/home/views/home_view.dart';
+import 'package:dalilak_app/features/onboarding/view/on_boarding_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/shared_widgets/animated_app_loading.dart';
 import '../../../../core/shared_widgets/svg_wrapper.dart';
 import '../../../../core/utils/app_assets.dart';
-import '../../../auth/views/login_view.dart';
 
 class SplashViewBody extends StatefulWidget {
   const SplashViewBody({super.key});
@@ -44,13 +44,12 @@ class _SplashViewBodyState extends State<SplashViewBody> {
         if (result) {
           MyNavigator.goTo(screen: HomeView(), isReplace: true);
         } else {
-          MyNavigator.goTo(screen: LoginView(), isReplace: true);
+          MyNavigator.goTo(screen: OnBoardingView(), isReplace: true);
         }
       });
-    }
-    else {
+    } else {
       // goto login
-      MyNavigator.goTo(screen: LoginView(), isReplace: true);
+      MyNavigator.goTo(screen: OnBoardingView(), isReplace: true);
     }
   }
 

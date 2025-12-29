@@ -34,12 +34,14 @@ class LoginView extends StatelessWidget {
               if (state is LoginSuccess) {
                 if (state.user.isEmailVerified!) {
                   MySnackbar.success(context, 'Login successfully');
-                  UserCubit.get(context).getUserData() ;
+                  UserCubit.get(context).getUserData();
                   Navigator.pushNamedAndRemoveUntil(
                       context, HomeView.routeName, (route) => false);
                 } else {
                   MySnackbar.error(
                       context, 'Please verify your email to continue');
+                  UserCubit.get(context).getUserData();
+
                   Navigator.pushNamedAndRemoveUntil(
                     context,
                     RegisterOtpView.routeName,

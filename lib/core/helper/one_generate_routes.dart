@@ -1,3 +1,4 @@
+import 'package:dalilak_app/features/onboarding/view/on_boarding_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../../features/auth/views/login_view.dart';
@@ -13,7 +14,6 @@ import '../../features/chat_history/views/history_view.dart';
 import '../../features/compare/views/compare_view.dart';
 import '../../features/favorite/view/favorite_view.dart';
 import '../../features/home/views/home_view.dart';
-import '../../features/on_boarding/views/on_boarding_view.dart';
 import '../../features/settings/views/delete_account_done_view.dart';
 import '../../features/settings/views/delete_account_setting_view.dart';
 import '../../features/settings/views/notification_setting_view.dart';

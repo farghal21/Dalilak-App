@@ -69,12 +69,11 @@ flutter:
 flutter_intl:
   enabled: true
 
-# إعدادات أيقونة التطبيق (تأكد من وجود الصورة في هذا المسار)
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/images/app_icon.png"
-  # إضافة السطرين دول هيخلي الأيقونة تملأ الشكل بالكامل في أندرويد
-  adaptive_icon_background: "#000000" # لون خلفية الأيقونة (مثلاً أبيض)
-  adaptive_icon_foreground: "assets/images/app_icon.png" # صورتك بدون خلفية
+  image_path: "assets/images/App_icon.png" # للأجهزة القديمة و iOS
   
+  # ضروري جداً للأندرويد الحديث
+  adaptive_icon_background: "#000000" 
+  adaptive_icon_foreground: "assets/images/App_icon.png"

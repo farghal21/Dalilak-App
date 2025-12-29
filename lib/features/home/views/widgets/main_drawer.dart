@@ -4,6 +4,7 @@ import 'package:dalilak_app/core/user/manager/user_cubit/user_state.dart';
 import 'package:dalilak_app/features/chat_history/views/history_view.dart';
 import 'package:dalilak_app/features/compare/views/compare_view.dart';
 import 'package:dalilak_app/features/favorite/view/favorite_view.dart';
+import 'package:dalilak_app/features/trip_cost_calc/trip_cost_calculator_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -31,89 +32,113 @@ class MainDrawer extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // SvgWrapper(path: AppAssets.appBranding),
-            SizedBox(height: MyResponsive.height(value: 50)),
-            Image.asset(AppAssets.appBranding),
+            // ✅ 1. الجزء العلوي القابل للـ Scroll (اللوجو + عناصر القائمة)
+            Expanded(
+              child: SingleChildScrollView(
+                physics:
+                    const BouncingScrollPhysics(), // تأثير لطيف عند السكرول
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: MyResponsive.height(value: 50)),
+                    Image.asset(AppAssets.appBranding),
+                    SizedBox(height: MyResponsive.height(value: 38)),
 
-            SizedBox(height: MyResponsive.height(value: 38)),
-            MainDrawerItem(
-              imagePath: AppAssets.newChat,
-              title: AppStrings.newChat,
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                    context, HomeView.routeName, (route) => false);
-              },
-              isSelected: selectedIndex == 0,
-            ),
-            SizedBox(height: MyResponsive.height(value: 25)),
-            MainDrawerItem(
-              imagePath: AppAssets.history,
-              title: AppStrings.history,
-              onTap: () {
-                if (selectedIndex == 0) {
-                  Navigator.pushNamed(context, HistoryView.routeName);
-                } else {
-                  Navigator.pushReplacementNamed(
-                      context, HistoryView.routeName);
-                }
-              },
-              isSelected: selectedIndex == 1,
-            ),
-            SizedBox(height: MyResponsive.height(value: 25)),
-            MainDrawerItem(
-              imagePath: AppAssets.compare,
-              title: AppStrings.compare,
-              onTap: () {
-                if (selectedIndex == 0) {
-                  Navigator.pushNamed(context, CompareView.routeName);
-                } else {
-                  Navigator.pushReplacementNamed(
-                      context, CompareView.routeName);
-                }
-              },
-              isSelected: selectedIndex == 2,
-            ),
-            SizedBox(height: MyResponsive.height(value: 25)),
-            MainDrawerItem(
-              imagePath: AppAssets.favorite,
-              title: AppStrings.favorite,
-              onTap: () {
-                if (selectedIndex == 0) {
-                  Navigator.pushNamed(context, FavoriteView.routeName);
-                } else {
-                  Navigator.pushReplacementNamed(
-                      context, FavoriteView.routeName);
-                }
-              },
-              isSelected: selectedIndex == 3,
-            ),
-            SizedBox(height: MyResponsive.height(value: 25)),
-            MainDrawerItem(
-              imagePath: AppAssets.settings,
-              title: AppStrings.settings,
-              onTap: () {
-                if (selectedIndex == 0) {
-                  Navigator.pushNamed(context, SettingsView.routeName);
-                } else {
-                  Navigator.pushReplacementNamed(
-                      context, SettingsView.routeName);
-                }
-              },
-              isSelected: selectedIndex == 4,
-            ),
-            SizedBox(height: MyResponsive.height(value: 25)),
+                    MainDrawerItem(
+                      imagePath: AppAssets.newChat,
+                      title: AppStrings.newChat,
+                      onTap: () {
+                        Navigator.pushNamedAndRemoveUntil(
+                            context, HomeView.routeName, (route) => false);
+                      },
+                      isSelected: selectedIndex == 0,
+                    ),
+                    SizedBox(height: MyResponsive.height(value: 25)),
 
-            // Spacer(),
-            // MainDrawerItem(
-            //   imagePath: AppAssets.support,
-            //   title: AppStrings.support,
-            //   onTap: () {
-            //     // Navigator.pushNamed(context, routeName);
-            //   },
-            //   isSelected: false,
-            // ),
-            // SizedBox(height: MyResponsive.height(value: 18)),
-            Spacer(),
+                    MainDrawerItem(
+                      imagePath: AppAssets.history,
+                      title: AppStrings.history,
+                      onTap: () {
+                        if (selectedIndex == 0) {
+                          Navigator.pushNamed(context, HistoryView.routeName);
+                        } else {
+                          Navigator.pushReplacementNamed(
+                              context, HistoryView.routeName);
+                        }
+                      },
+                      isSelected: selectedIndex == 1,
+                    ),
+                    SizedBox(height: MyResponsive.height(value: 25)),
+
+                    MainDrawerItem(
+                      imagePath: AppAssets.compare,
+                      title: AppStrings.compare,
+                      onTap: () {
+                        if (selectedIndex == 0) {
+                          Navigator.pushNamed(context, CompareView.routeName);
+                        } else {
+                          Navigator.pushReplacementNamed(
+                              context, CompareView.routeName);
+                        }
+                      },
+                      isSelected: selectedIndex == 2,
+                    ),
+                    SizedBox(height: MyResponsive.height(value: 25)),
+
+                    MainDrawerItem(
+                      imagePath: AppAssets.favorite,
+                      title: AppStrings.favorite,
+                      onTap: () {
+                        if (selectedIndex == 0) {
+                          Navigator.pushNamed(context, FavoriteView.routeName);
+                        } else {
+                          Navigator.pushReplacementNamed(
+                              context, FavoriteView.routeName);
+                        }
+                      },
+                      isSelected: selectedIndex == 3,
+                    ),
+                    SizedBox(height: MyResponsive.height(value: 25)),
+
+                    // 👇👇 حاسبة المشوار 👇👇
+                    MainDrawerItem(
+                      imagePath:
+                          AppAssets.estimate, // لا تنس تغيير الأيقونة لاحقاً
+                      title: "حاسبة المشوار",
+                      isSelected: selectedIndex == 5,
+                      onTap: () {
+                        Navigator.pop(context); // إغلاق الـ Drawer
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const TripCostView()),
+                        );
+                      },
+                    ),
+                    SizedBox(height: MyResponsive.height(value: 25)),
+
+                    MainDrawerItem(
+                      imagePath: AppAssets.settings,
+                      title: AppStrings.settings,
+                      onTap: () {
+                        if (selectedIndex == 0) {
+                          Navigator.pushNamed(context, SettingsView.routeName);
+                        } else {
+                          Navigator.pushReplacementNamed(
+                              context, SettingsView.routeName);
+                        }
+                      },
+                      isSelected: selectedIndex == 4,
+                    ),
+
+                    // مسافة إضافية في نهاية القائمة عشان اللمس
+                    SizedBox(height: MyResponsive.height(value: 20)),
+                  ],
+                ),
+              ),
+            ),
+
+            // ✅ 2. الجزء السفلي الثابت (البروفايل) - بدون Spacer
             BlocBuilder<UserCubit, UserState>(
               builder: (context, state) {
                 final cubit = UserCubit.get(context);
@@ -137,19 +162,13 @@ class MainDrawer extends StatelessWidget {
                           maxLines: 2,
                           style: AppTextStyles.bold20,
                         ),
-                        // subtitle: Text(
-                        //   AppStrings.addUserSubtitle,
-                        //   style: AppTextStyles.regular11
-                        //       .copyWith(color: AppColors.gray),
-                        // ),
                         trailing: SvgWrapper(
                           path: AppAssets.friends,
                           fit: BoxFit.fill,
                           width: MyResponsive.fontSize(value: 30),
                         ),
                         leading: CircleAvatar(
-                          radius: MyResponsive.radius(
-                              value: 25), // نصف العرض تقريباً
+                          radius: MyResponsive.radius(value: 25),
                           backgroundColor: Colors.transparent,
                           child: ClipOval(
                             child: userModel.profileImageUrl != null

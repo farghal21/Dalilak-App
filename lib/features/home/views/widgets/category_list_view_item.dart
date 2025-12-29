@@ -22,7 +22,7 @@ class CategoryListViewItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MyResponsive.width(value: 390),
+      width: MyResponsive.width(value: 340),
       // height: MyResponsive.height(value: 175),
       padding: MyResponsive.paddingSymmetric(horizontal: 11.5, vertical: 19.5),
       decoration: BoxDecoration(
@@ -58,7 +58,7 @@ class CategoryListViewItem extends StatelessWidget {
               Expanded(
                 child: Text(
                   title,
-                  style: AppTextStyles.regular28,
+                  style: AppTextStyles.bold20,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                 ),

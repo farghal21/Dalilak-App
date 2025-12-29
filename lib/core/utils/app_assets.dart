@@ -7,9 +7,13 @@ abstract class AppAssets {
   // static const String appLoading = "${basePath}app_loading.svg";
   // static const String welcomeImage = "${basePath}welcome_image.png";
   static const String welcomeImage = "${basePath}welcome_image.jpeg";
+  static const String estimate = "${basePath}estimate.svg";
 
   static const String donePrimary = "${basePath}primary_done_image.png";
   static const String doneSecondary = "${basePath}secondary_done_image.png";
+  static const String onBoarding1 = "${basePath}onBoarding1.png";
+  static const String onBoarding2 = "${basePath}onBoarding2.png";
+  static const String onBoarding3 = "${basePath}onBoarding3.png";
 
   // home images
   static const String chatImage = "${basePath}chat_image.png";
@@ -53,6 +57,4 @@ abstract class AppAssets {
 // cars Images
   static const String car1 = "${basePath}593baca3556375a432fe5de71bf12e71.png";
   static const String car2 = "${basePath}f42a66fa6206c8da34bc72c64709cc7c.png";
-
-
 }

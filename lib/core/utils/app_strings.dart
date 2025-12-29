@@ -54,6 +54,22 @@ abstract class AppStrings {
 
   ///// onBoarding screen /////
   static const String hello = "مرحبا ";
+  static const String start = "ابدأ";
+  static const String skip = "تخطي";
+  // الصفحة الأولى
+  static const String onBoardingTitle1 = "عربيتك المناسبة في ثواني";
+  static const String onBoardingSubTitle1 =
+      "انسى الحيرة والبحث الطويل.. حدد ميزانيتك واحتياجاتك، ودع ذكاء دليلك يرشح لك السيارة المثالية لك.";
+
+  // الصفحة الثانية
+  static const String onBoardingTitle2 = "قارن واختار بثقة";
+  static const String onBoardingSubTitle2 =
+      "لا تعتمد على الشكل فقط. قارن بين السيارات من حيث الأداء، قطع الغيار، وسعر إعادة البيع لتتخذ القرار الصائب.";
+
+  // الصفحة الثالثة
+  static const String onBoardingTitle3 = "احسبها صح قبل ما تشتري";
+  static const String onBoardingSubTitle3 =
+      "بنوفرلك تقدير دقيق لتكاليف التشغيل والصيانة الشهرية، عشان تشتري العربية اللي تريحك وماتتعبش جيبك.";
 
   // static const String tellUsAboutYourself =
   //     "اخبرنا المزيد عنك للحصول على افضل تجربة";
@@ -90,15 +106,17 @@ abstract class AppStrings {
   static const String homeWelcome =
       'أهلا! 👋\n قولّي بتدور على إيه… و"دليلك" هيقودك للاختيار الصح. 😉';
   static const String chatHint = 'اكتب لي طلبك وسيب الباقي عليا...';
-  static const String recommendCar = 'ترشيح العربية المناسبة ليك ';
+  static const String recommendCar = 'محتار أشتري عربية إيه';
   static const String recommendCarSubtitle =
-      'نختار لك العربية الأنسب بناءً على استخدامك وميزانيتك.';
-  static const String cost = ' تقدير التكلفة';
+      'ممكن تساعدني أقرر؟ قولي ميزانيتك وطريقة استخدامك وأنا أبدأ معاك خطوة خطوة.';
+
+  static const String cost = 'عاوز اعرف تفاصيل عربية';
   static const String costSubtitle =
-      'نوضح لك السعر المتوقع وتكلفة التشغيل والصيانة قبل ما تشتري.';
-  static const String compareCars = 'مقارنة العربيات';
+      'ممكن تحكيلي عنها؟ زي المواصفات، الأداء، والاستخدام المناسب ليها.';
+
+  static const String compareCars = 'عندي كذا اختيار';
   static const String compareCarsSubtitle =
-      'نعملك مقارنة بسيطة بين الموديلات من ناحية المواصفات والتجهيزات. ';
+      'محتاج مساعدة في الاختيار؟ احكيلي انت محتار بين أنهي موديلات.';
 
   static const String chatLoadingTitle = 'ثواني و هدلك';
 
@@ -379,4 +397,20 @@ abstract class AppStrings {
     "ar": "انتهت مهلة الاستقبال",
     "en": "Receive timeout"
   };
+
+  ///// Trip Cost Calculator /////
+  static const String tripCostTitle = "احسبها صح";
+  static const String distanceLabel = "مسافة المشوار (كم)";
+  static const String distanceHint = "مثلاً: 200";
+  static const String consumptionLabel = "استهلاك العربية (لتر/100كم)";
+  static const String consumptionHint = "مثلاً: 7.5";
+  static const String fuelPriceLabel = "سعر لتر البنزين (جنية)";
+  static const String fuelPriceHint = "ادخل السعر الحالي";
+  static const String fuelPriceNote = "أو اختر النوع لضبط السعر تلقائياً";
+  static const String expectedCost = "التكلفة المتوقعة";
+  static const String currency = "جنية";
+  static const String litersNeeded = "كمية البنزين";
+  static const String fuelPriceApplied = "سعر اللتر المطبق";
+  static const String calcNote =
+      "💡 التكلفة تقديرية وقد تختلف حسب القيادة والتكييف";
 }

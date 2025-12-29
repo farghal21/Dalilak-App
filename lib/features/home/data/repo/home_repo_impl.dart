@@ -70,16 +70,21 @@ class HomeRepoImpl implements HomeRepo {
         isProtected: true,
       );
 
-      if (response.success == true) {
+      if (response.success == true && response.data != null) {
         SendMessageData sendMessageData =
             SendMessageData.fromJson(response.data['data']);
         return Right(sendMessageData);
       } else {
-        throw Exception(response.message);
+        // نضمن إرجاع رسالة خطأ نصية وليست null
+        return Left(
+            response.message ?? "فشل إرسال الرسالة، يرجى المحاولة لاحقاً");
       }
     } catch (e) {
+      // في حالة الكراش الأخير اللي ظهر بـ null
       ApiResponse errorResponse = ApiResponse.fromError(e);
-      return Left(errorResponse.message);
+      String errorMessage =
+          errorResponse.message ?? "حدث خطأ غير متوقع في الاتصال";
+      return Left(errorMessage);
     }
   }
 }

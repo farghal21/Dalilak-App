@@ -17,8 +17,8 @@ class ApiHelper {
 
   Dio dio = Dio(BaseOptions(
     baseUrl: EndPoints.baseUrl,
-    connectTimeout: Duration(seconds: 50),
-    receiveTimeout: Duration(seconds: 50),
+    connectTimeout: Duration(seconds: 20),
+    receiveTimeout: Duration(seconds: 20),
   ));
 
   void initDio() {

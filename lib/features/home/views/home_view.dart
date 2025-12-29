@@ -1,12 +1,11 @@
+import 'package:dalilak_app/core/helper/get_it.dart';
+import 'package:dalilak_app/core/shared_widgets/custom_scaffold.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
+import 'package:dalilak_app/features/home/data/repo/home_repo.dart';
+import 'package:dalilak_app/features/home/manager/home_cubit/home_cubit.dart';
 import 'package:dalilak_app/features/home/views/widgets/home_view_body.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../../../core/helper/get_it.dart';
-import '../../../core/shared_widgets/custom_scaffold.dart';
-import '../data/repo/home_repo.dart';
-import '../manager/home_cubit/home_cubit.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key, this.sessionId});
@@ -19,7 +18,8 @@ class HomeView extends StatelessWidget {
     return BlocProvider(
       create: (_) => HomeCubit(
         getIt<HomeRepo>(),
-        userId: UserCubit.get(context).userModel.id!,
+        // 👇 التعديل هنا: شيلنا علامة التعجب (!) وحطينا قيمة افتراضية (0)
+        userId: UserCubit.get(context).userModel.id ?? 0,
         sessionId: sessionId,
       )..init(),
       child: const CustomScaffold(

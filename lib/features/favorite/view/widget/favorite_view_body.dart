@@ -21,14 +21,7 @@ class FavoriteViewBody extends StatelessWidget {
       padding: MyResponsive.paddingSymmetric(horizontal: 20),
       child: Column(
         children: [
-          RefreshIndicator(
-            onRefresh: () async {
-              await Future.delayed(const Duration(seconds: 2));
-              FavoriteCubit.get(context)
-                  .init(UserCubit.get(context).favoriteCars);
-            },
-            child: SizedBox(height: MyResponsive.height(value: 120)),
-          ),
+          SizedBox(height: MyResponsive.height(value: 120)),
           HistoryAppBar(title: AppStrings.favorite),
           SizedBox(height: MyResponsive.height(value: 30)),
           Expanded(
@@ -45,24 +38,31 @@ class FavoriteViewBody extends StatelessWidget {
                   );
                 }
 
-                return ListView.separated(
-                  padding: EdgeInsets.zero,
-                  itemCount: cubit.favoriteCars.length,
-                  separatorBuilder: (_, __) =>
-                      SizedBox(height: MyResponsive.height(value: 20)),
-                  itemBuilder: (context, index) {
-                    final car = cubit.favoriteCars[index];
-
-                    return FavoriteItem(
-                      car: car,
-                      onRemove: () {
-                        cubit.removeFromFavorite(
-                          car: car,
-                          userCubit: userCubit,
-                        );
-                      },
-                    );
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    await Future.delayed(const Duration(seconds: 2));
+                    FavoriteCubit.get(context)
+                        .init(UserCubit.get(context).favoriteCars);
                   },
+                  child: ListView.separated(
+                    padding: EdgeInsets.zero,
+                    itemCount: cubit.favoriteCars.length,
+                    separatorBuilder: (_, __) =>
+                        SizedBox(height: MyResponsive.height(value: 20)),
+                    itemBuilder: (context, index) {
+                      final car = cubit.favoriteCars[index];
+
+                      return FavoriteItem(
+                        car: car,
+                        onRemove: () {
+                          cubit.removeFromFavorite(
+                            car: car,
+                            userCubit: userCubit,
+                          );
+                        },
+                      );
+                    },
+                  ),
                 );
               },
             ),

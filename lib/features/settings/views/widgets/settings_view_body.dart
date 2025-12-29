@@ -7,7 +7,8 @@ import '../../../../core/user/manager/user_cubit/user_state.dart';
 
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/utils/app_strings.dart';
-import '../../../../core/utils/app_text_styles.dart';
+// ✅ Import الـ AppBar الموحد
+import '../../../chat_history/views/widgets/history_app_bar.dart';
 import '../delete_account_setting_view.dart';
 import '../privacy_policy_setting_view.dart';
 import '../profile_setting_view.dart';
@@ -24,16 +25,19 @@ class SettingsViewBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
+            // ✅ المسافة العلوية الموحدة لجميع الصفحات (120)
             SizedBox(
-              height: MyResponsive.height(value: 140),
+              height: MyResponsive.height(value: 120),
             ),
-            Text(
-              AppStrings.settings,
-              style: AppTextStyles.semiBold24,
-            ),
+
+            // ✅ الـ AppBar اللي فيه الأيقونة والعنوان
+            HistoryAppBar(title: AppStrings.settings),
+
+            // ✅ المسافة بين العنوان وأول عنصر في القائمة (88)
             SizedBox(
               height: MyResponsive.height(value: 88),
             ),
+
             SettingItemRow(
               title: AppStrings.publicSettings,
               routeName: PublicSettingsView.routeName,
@@ -41,6 +45,7 @@ class SettingsViewBody extends StatelessWidget {
             SizedBox(
               height: MyResponsive.height(value: 50),
             ),
+
             SettingItemRow(
               title: AppStrings.profile,
               routeName: ProfileSettingView.routeName,
@@ -48,13 +53,7 @@ class SettingsViewBody extends StatelessWidget {
             SizedBox(
               height: MyResponsive.height(value: 50),
             ),
-            // SettingItemRow(
-            //   title: AppStrings.notifications,
-            //   routeName: NotificationSettingView.routeName,
-            // ),
-            // SizedBox(
-            //   height: MyResponsive.height(value: 50),
-            // ),
+
             SettingItemRow(
               title: AppStrings.privacyPolicy,
               routeName: PrivacyPolicySettingView.routeName,
@@ -62,6 +61,7 @@ class SettingsViewBody extends StatelessWidget {
             SizedBox(
               height: MyResponsive.height(value: 50),
             ),
+
             SettingItemRow(
               title: AppStrings.deleteAccount,
               routeName: DeleteAccountSettingView.routeName,
