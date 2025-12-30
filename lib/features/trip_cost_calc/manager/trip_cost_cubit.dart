@@ -27,20 +27,28 @@ class TripCostCubit extends Cubit<TripCostState> {
     _calculate();
   }
 
+  // ✅ التعديل هنا: دالة تحديث السعر اليدوي
   void updateFuelPrice(String value) {
     _fuelPrice = value;
+
+    // 👇 السطر ده هو الحل: بنخلي النوع 0 عشان نفصل السعر عن زراير 92 و 95
+    _selectedFuelType = 0;
+
     _calculate();
   }
 
+  // دالة اختيار نوع البنزين من الزراير
   void selectFuelType(int type, String price) {
     _selectedFuelType = type;
-    _fuelPrice = price;
+    _fuelPrice = price; // بنحدث السعر بناء على الزرار
     _calculate();
   }
 
   void _calculate() {
     final distance = double.tryParse(_distance) ?? 0.0;
     final consumption = double.tryParse(_consumption) ?? 0.0;
+
+    // هنا بنستخدم _fuelPrice اللي اتحدثت سواء من الكتابة اليدوية أو من الزرار
     final price = double.tryParse(_fuelPrice) ?? 0.0;
 
     final litersNeeded = (distance / 100) * consumption;

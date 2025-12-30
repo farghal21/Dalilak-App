@@ -17,31 +17,32 @@ class ApiResponse {
   // Factory method to handle Dio responses
   factory ApiResponse.fromResponse(Response response) {
     return ApiResponse(
-      success: response.data["success"] ?? false,
-      statusCode: response.statusCode ?? 500,
+      success: response.data is Map
+          ? (response.data["success"] ?? true)
+          : true, // افترضنا النجاح لو الداتا مش ماب
+      statusCode: response.statusCode ?? 200,
       data: response.data,
-      message: response.data["message"] ?? 'An error occurred.',
+      message: response.data is Map ? (response.data["message"] ?? '') : '',
     );
   }
 
   // Factory method to handle Dio or other exceptions
   factory ApiResponse.fromError(dynamic error) {
     // ignore: avoid_print
-    print(error.toString());
+    print("🛑 Error Caught in ApiResponse: $error");
+
     if (error is DioException) {
-      // ignore: avoid_print
       return ApiResponse(
         success: false,
         data: error.response?.data,
-        statusCode:
-        error.response != null ? error.response!.statusCode ?? 500 : 500,
-        message: _handleDioError(error),
+        statusCode: error.response?.statusCode ?? 500,
+        message: _handleDioError(error), // هنا بنجيب الرسالة الصح
       );
     } else {
       return ApiResponse(
         success: false,
         statusCode: 500,
-        message: 'An error occurred.',
+        message: error.toString(), // عرض الخطأ المباشر لو مش Dio
       );
     }
   }
@@ -68,14 +69,48 @@ class ApiResponse {
   /// Handling errors from the server response
   static String _handleServerError(Response? response) {
     if (response == null) return "No response from server.";
-    if (response.data is Map<String, dynamic>) {
-      if (response.data["message"] != null) {
-        CustomLogger.red(
-            "----- Handle Server Error ${response.data["message"]}");
-        return response.data["message"];
-      }
-      return "An error occurred.";
+
+    final data = response.data;
+    CustomLogger.red("----- Raw Server Error: $data");
+
+    // 1️⃣ الحالة الأولى: لو الرد نص مباشر (String)
+    // دي الحالة اللي بتحصل معاك في رسالة الباسورد
+    if (data is String) {
+      return data;
     }
-    return "Server error: ${response.statusMessage}";
+
+    // 2️⃣ الحالة الثانية: لو الرد JSON (Map)
+    if (data is Map<String, dynamic>) {
+      // أولوية 1: مفتاح 'message'
+      if (data['message'] != null) {
+        if (data['message'] is List) {
+          return (data['message'] as List).join('\n');
+        }
+        return data['message'].toString();
+      }
+
+      // أولوية 2: مفتاح 'error'
+      if (data['error'] != null) {
+        return data['error'].toString();
+      }
+
+      // أولوية 3: مفتاح 'errors' (ممكن يكون Map أو List)
+      if (data['errors'] != null) {
+        if (data['errors'] is Map) {
+          // تجميع القيم من الماب (مثل Laravel validation)
+          return (data['errors'] as Map)
+              .values
+              .map((e) => e.toString())
+              .join('\n');
+        }
+        if (data['errors'] is List) {
+          return (data['errors'] as List).join('\n');
+        }
+        return data['errors'].toString();
+      }
+    }
+
+    // لو فشلنا في استخراج رسالة مخصصة، نرجع رسالة الحالة
+    return response.statusMessage ?? "Unknown Error Occurred";
   }
 }

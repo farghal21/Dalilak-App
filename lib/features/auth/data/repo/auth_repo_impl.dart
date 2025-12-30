@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import '../../../../core/cache/cache_data.dart';
 import '../../../../core/cache/cache_helper.dart';
 import '../../../../core/cache/cache_key.dart';
@@ -15,6 +14,9 @@ class AuthRepoImpl implements AuthRepo {
 
   AuthRepoImpl({required this.apiHelper});
 
+  // ملحوظة: لم نعد بحاجة لدالة _extractErrorMessage هنا
+  // لأن ApiResponse الجديد يقوم بهذه المهمة بذكاء داخل ApiHelper
+
   @override
   Future<Either<String, UserModel>> login(
       {required String email, required String password}) async {
@@ -24,15 +26,16 @@ class AuthRepoImpl implements AuthRepo {
         data: {'email': email, 'password': password},
       );
 
+      // ✅ التعديل الأهم: لو فشل، رجع الرسالة علطول بدون Throw
+      if (!response.success) {
+        return Left(
+            response.message); // الرسالة هنا هتكون "Password must be..."
+      }
+
       LoginResponseModel loginResponseModel =
           LoginResponseModel.fromJson(response.data);
 
-      if (loginResponseModel.success == null ||
-          loginResponseModel.success == false) {
-        throw Exception(loginResponseModel.message!);
-      }
-
-      // store tokens
+      // تخزين التوكن
       await CacheHelper.saveData(
           key: CacheKeys.accessToken,
           value: loginResponseModel.data!.accessToken);
@@ -44,8 +47,8 @@ class AuthRepoImpl implements AuthRepo {
 
       return Right(loginResponseModel.data!.user!);
     } catch (e) {
-      ApiResponse apiResponse = ApiResponse.fromError(e);
-      return Left(apiResponse.message);
+      // الـ Catch دي هتمسك بس أخطاء الـ Parsing أو أخطاء الكود
+      return Left(e.toString());
     }
   }
 
@@ -65,14 +68,14 @@ class AuthRepoImpl implements AuthRepo {
         },
       );
 
-      if (response.success == false) {
-        throw Exception(response.message);
+      // ✅ التعديل الأهم: لو فشل، رجع الرسالة علطول
+      if (!response.success) {
+        return Left(response.message);
       }
 
       return Right(response.message);
     } catch (e) {
-      ApiResponse apiResponse = ApiResponse.fromError(e);
-      return Left(apiResponse.message);
+      return Left(e.toString());
     }
   }
 
@@ -86,14 +89,13 @@ class AuthRepoImpl implements AuthRepo {
         },
       );
 
-      if (response.success == false) {
-        throw Exception(response.message);
+      if (!response.success) {
+        return Left(response.message);
       }
 
       return Right(response.message);
     } catch (e) {
-      ApiResponse apiResponse = ApiResponse.fromError(e);
-      return Left(apiResponse.message);
+      return Left(e.toString());
     }
   }
 
@@ -109,14 +111,13 @@ class AuthRepoImpl implements AuthRepo {
         },
       );
 
-      if (response.success == false) {
-        throw Exception(response.message);
+      if (!response.success) {
+        return Left(response.message);
       }
 
       return Right(response.message);
     } catch (e) {
-      ApiResponse apiResponse = ApiResponse.fromError(e);
-      return Left(apiResponse.message);
+      return Left(e.toString());
     }
   }
 
@@ -132,14 +133,13 @@ class AuthRepoImpl implements AuthRepo {
         },
       );
 
-      if (response.success == false) {
-        throw Exception(response.message);
+      if (!response.success) {
+        return Left(response.message);
       }
 
       return Right(response.message);
     } catch (e) {
-      ApiResponse apiResponse = ApiResponse.fromError(e);
-      return Left(apiResponse.message);
+      return Left(e.toString());
     }
   }
 
@@ -153,14 +153,13 @@ class AuthRepoImpl implements AuthRepo {
         },
       );
 
-      if (response.success == false) {
-        throw Exception(response.message);
+      if (!response.success) {
+        return Left(response.message);
       }
 
       return Right(response.message);
     } catch (e) {
-      ApiResponse apiResponse = ApiResponse.fromError(e);
-      return Left(apiResponse.message);
+      return Left(e.toString());
     }
   }
 
@@ -177,14 +176,13 @@ class AuthRepoImpl implements AuthRepo {
         },
       );
 
-      if (response.success == false) {
-        throw Exception(response.message);
+      if (!response.success) {
+        return Left(response.message);
       }
 
       return Right(response.message);
     } catch (e) {
-      ApiResponse apiResponse = ApiResponse.fromError(e);
-      return Left(apiResponse.message);
+      return Left(e.toString());
     }
   }
 
@@ -196,20 +194,18 @@ class AuthRepoImpl implements AuthRepo {
         endPoint: EndPoints.deleteAccount,
         isProtected: true,
         data: {
-          'currentPassword': password, // الباسورد اللي كتبه المستخدم
-          'confirmPassword':
-              password, // 👈 لازم نكرر نفس المتغير عشان يطابقوا بعض 100%
+          'currentPassword': password,
+          'confirmPassword': password,
         },
       );
 
-      if (response.success == false) {
-        throw Exception(response.message);
+      if (!response.success) {
+        return Left(response.message);
       }
 
       return Right(response.message);
     } catch (e) {
-      ApiResponse apiResponse = ApiResponse.fromError(e);
-      return Left(apiResponse.message);
+      return Left(e.toString());
     }
   }
 }
