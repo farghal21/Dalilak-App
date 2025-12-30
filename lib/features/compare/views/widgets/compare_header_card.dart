@@ -22,95 +22,121 @@ class CompareHeaderCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: AppColors.fillColor,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Padding(
-        padding: MyResponsive.paddingAll(value: 16),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Stack(
-                    alignment: Alignment.topRight,
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: CachedNetworkImageWrapper(
-                          imagePath: leftCar.images.first,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: onRemoveLeft,
-                      ),
-                    ],
-                  ),
-                ),
-                const VsCircleWidget(),
-                Expanded(
-                  child: Stack(
-                    alignment: Alignment.topRight,
-                    children: [
-                      AspectRatio(
-                        aspectRatio: 16 / 9,
-                        child: CachedNetworkImageWrapper(
-                          imagePath: rightCar.images.first,
-                          fit: BoxFit.contain,
-                        ),
-                      ),
-                      IconButton(
-                        icon: const Icon(Icons.close),
-                        onPressed: onRemoveRight,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: MyResponsive.height(value: 16)),
-            Row(
-              children: [
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        leftCar.name,
-                        style: AppTextStyles.bold16,
-                      ),
-                      SizedBox(height: MyResponsive.height(value: 8)),
-                      Text(
-                        leftCar.price,
-                        style: AppTextStyles.semiBold16,
-                      ),
-                    ],
-                  ),
-                ),
-                const Spacer(),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        rightCar.name,
-                        style: AppTextStyles.bold16,
-                      ),
-                      SizedBox(height: MyResponsive.height(value: 8)),
-                      Text(
-                        rightCar.price,
-                        style: AppTextStyles.semiBold16,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF251640),
+            Color(0xFF1A0F2E),
           ],
+        ),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppColors.primary.withOpacity(0.3),
+          width: 1,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.primary.withOpacity(0.15),
+            blurRadius: 20,
+            offset: const Offset(0, 4),
+            spreadRadius: 0,
+          ),
+        ],
+      ),
+      padding: const EdgeInsets.all(8),
+      child: Card(
+        color: AppColors.fillColor,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(14),
+        ),
+        child: Padding(
+          padding: MyResponsive.paddingAll(value: 16),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: CachedNetworkImageWrapper(
+                            imagePath: leftCar.images.first,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: onRemoveLeft,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const VsCircleWidget(),
+                  Expanded(
+                    child: Stack(
+                      alignment: Alignment.topRight,
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 16 / 9,
+                          child: CachedNetworkImageWrapper(
+                            imagePath: rightCar.images.first,
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                        IconButton(
+                          icon: const Icon(Icons.close),
+                          onPressed: onRemoveRight,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: MyResponsive.height(value: 16)),
+              Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          leftCar.name,
+                          style: AppTextStyles.bold16,
+                        ),
+                        SizedBox(height: MyResponsive.height(value: 8)),
+                        Text(
+                          leftCar.price,
+                          style: AppTextStyles.semiBold16,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Spacer(),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          rightCar.name,
+                          style: AppTextStyles.bold16,
+                        ),
+                        SizedBox(height: MyResponsive.height(value: 8)),
+                        Text(
+                          rightCar.price,
+                          style: AppTextStyles.semiBold16,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

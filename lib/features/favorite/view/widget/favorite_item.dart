@@ -1,5 +1,6 @@
 import 'package:dalilak_app/core/helper/my_navigator.dart';
 import 'package:dalilak_app/core/helper/my_responsive.dart';
+import 'package:dalilak_app/core/shared_widgets/app_network_image.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:dalilak_app/core/utils/app_text_styles.dart';
 import 'package:dalilak_app/features/car_details/car_details_view.dart';
@@ -71,19 +72,27 @@ class FavoriteItem extends StatelessWidget {
               ClipRRect(
                 borderRadius:
                     BorderRadius.circular(MyResponsive.radius(value: 10)),
-                child: Image.network(
-                  car.images.first,
-                  width: MyResponsive.width(value: 120),
-                  height: MyResponsive.height(value: 80),
-                  fit: BoxFit.fill,
-                  // حماية إضافية لو الصورة باظت
-                  errorBuilder: (context, error, stackTrace) => Container(
-                    width: MyResponsive.width(value: 120),
-                    height: MyResponsive.height(value: 80),
-                    color: Colors.grey[800],
-                    child: const Icon(Icons.car_repair, color: Colors.white54),
-                  ),
-                ),
+                child: car.images.isNotEmpty
+                    ? AppNetworkImage(
+                        imageUrl: car.images.first,
+                        width: MyResponsive.width(value: 120),
+                        height: MyResponsive.height(value: 80),
+                        fit: BoxFit.fill,
+                        errorWidget: Container(
+                          width: MyResponsive.width(value: 120),
+                          height: MyResponsive.height(value: 80),
+                          color: Colors.grey[800],
+                          child: const Icon(Icons.car_repair,
+                              color: Colors.white54, size: 40),
+                        ),
+                      )
+                    : Container(
+                        width: MyResponsive.width(value: 120),
+                        height: MyResponsive.height(value: 80),
+                        color: Colors.grey[800],
+                        child: const Icon(Icons.car_repair,
+                            color: Colors.white54, size: 40),
+                      ),
               ),
               SizedBox(width: MyResponsive.width(value: 20)),
               Expanded(

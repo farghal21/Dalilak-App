@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:dalilak_app/core/shared_widgets/app_network_image.dart';
 import 'package:dalilak_app/core/utils/app_assets.dart';
 import 'package:dalilak_app/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
@@ -56,24 +57,30 @@ class ProfileSettingViewBody extends StatelessWidget {
                           ),
                         ),
                         // Profile Image
-                        Container(
-                          width: 130,
-                          height: 130,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: AppColors.black,
-                            image: DecorationImage(
-                              image: cubit.imageFile != null
-                                  ? FileImage(File(cubit.imageFile!.path))
-                                      as ImageProvider
-                                  : (cubit.userModel.profileImageUrl != null
-                                      ? NetworkImage(
-                                          'https://jrkmal-001-site1.jtempurl.com${cubit.userModel.profileImageUrl}')
-                                      : const AssetImage(
-                                          AppAssets.profileImage)),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
+                        ClipOval(
+                          child: cubit.imageFile != null
+                              ? Image.file(
+                                  File(cubit.imageFile!.path),
+                                  width: 130,
+                                  height: 130,
+                                  fit: BoxFit.cover,
+                                )
+                              : (cubit.userModel.profileImageUrl != null &&
+                                      cubit.userModel.profileImageUrl!
+                                          .isNotEmpty)
+                                  ? AppNetworkImage(
+                                      imageUrl:
+                                          'https://jrkmal-001-site1.jtempurl.com${cubit.userModel.profileImageUrl}',
+                                      width: 130,
+                                      height: 130,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      AppAssets.profileImage,
+                                      width: 130,
+                                      height: 130,
+                                      fit: BoxFit.cover,
+                                    ),
                         ),
                         // Camera Button
                         Positioned(
