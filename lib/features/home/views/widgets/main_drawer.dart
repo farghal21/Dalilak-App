@@ -1,9 +1,9 @@
-import 'package:dalilak_app/features/add_car/views/add_car_view.dart';
 import 'package:dalilak_app/features/car_inspection/car_inspection_view.dart';
 import 'package:dalilak_app/features/chat_history/views/history_view.dart';
 import 'package:dalilak_app/features/compare/views/compare_view.dart';
 import 'package:dalilak_app/features/favorite/view/favorite_view.dart';
 import 'package:dalilak_app/features/trip_cost_calc/views/trip_cost_view.dart';
+import 'package:dalilak_app/features/used_cars/views/add_car_view.dart';
 import 'package:flutter/material.dart';
 import '../../../../core/utils/app_assets.dart';
 import '../../../../core/utils/app_colors.dart';
@@ -113,8 +113,7 @@ class MainDrawer extends StatelessWidget {
                         Navigator.pop(context);
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                              builder: (context) => const AddCarView()),
+                          MaterialPageRoute(builder: (context) => AddCarView()),
                         );
                       },
                     ),

@@ -1,5 +1,5 @@
 import 'package:dalilak_app/core/shared_widgets/used_cars_access_card.dart';
-import 'package:dalilak_app/features/used_cars/presentation/views/used_cars_feed_view.dart';
+import 'package:dalilak_app/features/used_cars/views/used_cars_feed_view.dart';
 import 'package:dalilak_app/features/home/views/widgets/text_message_widget.dart';
 import 'package:dalilak_app/features/home/views/widgets/with_media_message_widget.dart';
 import 'package:flutter/material.dart';
@@ -161,7 +161,7 @@ class HomeViewBody extends StatelessWidget {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const UsedCarsFeedView(),
+                          builder: (context) => UsedCarsFeedView(),
                         ),
                       );
                     },

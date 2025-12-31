@@ -42,7 +42,7 @@ class CarFeedItem extends StatelessWidget {
             child: AspectRatio(
               aspectRatio: 1.6,
               child: Image.network(
-                car.image,
+                car.images.isNotEmpty ? car.images.first : '',
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
@@ -113,7 +113,7 @@ class CarFeedItem extends StatelessWidget {
                         ),
                       ),
                       child: Text(
-                        car.price,
+                        '\$${car.price.toStringAsFixed(0)}',
                         style: AppTextStyles.semiBold14.copyWith(
                           color: AppColors.primary,
                         ),
@@ -142,7 +142,7 @@ class CarFeedItem extends StatelessWidget {
                     ),
                     SizedBox(width: MyResponsive.width(value: 6)),
                     Text(
-                      car.location,
+                      car.city,
                       style: AppTextStyles.regular12.copyWith(
                         color: AppColors.gray,
                       ),
@@ -155,7 +155,7 @@ class CarFeedItem extends StatelessWidget {
                     ),
                     SizedBox(width: MyResponsive.width(value: 6)),
                     Text(
-                      car.year,
+                      car.createdAtYear.toString(),
                       style: AppTextStyles.regular12.copyWith(
                         color: AppColors.gray,
                       ),

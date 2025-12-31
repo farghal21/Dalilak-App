@@ -44,7 +44,7 @@ class CarDetailsView extends StatelessWidget {
             right: 0,
             height: MediaQuery.of(context).size.height * 0.50,
             child: Image.network(
-              car.image,
+              car.images.isNotEmpty ? car.images.first : '',
               fit: BoxFit.cover,
               errorBuilder: (context, error, stackTrace) {
                 return Container(
@@ -146,7 +146,7 @@ class CarDetailsView extends StatelessWidget {
                                   ),
                                 ),
                                 child: Text(
-                                  car.price,
+                                  car.price.toString(),
                                   style: AppTextStyles.bold18.copyWith(
                                     color: AppColors.primary,
                                   ),
@@ -164,7 +164,7 @@ class CarDetailsView extends StatelessWidget {
                                 child: _buildSpecItem(
                                   icon: Icons.location_on_outlined,
                                   label: 'الموقع',
-                                  value: car.location,
+                                  value: car.city,
                                 ),
                               ),
                               SizedBox(width: MyResponsive.width(value: 16)),
@@ -172,7 +172,7 @@ class CarDetailsView extends StatelessWidget {
                                 child: _buildSpecItem(
                                   icon: Icons.calendar_today_outlined,
                                   label: 'السنة',
-                                  value: car.year,
+                                  value: car.createdAtYear.toString(),
                                 ),
                               ),
                             ],
@@ -209,7 +209,7 @@ class CarDetailsView extends StatelessWidget {
                       width: double.infinity,
                       height: MyResponsive.height(value: 56),
                       child: ElevatedButton.icon(
-                        onPressed: () => _makePhoneCall('01012345678'),
+                        onPressed: () => _makePhoneCall(car.buyerPhoneNumber),
                         icon: const Icon(
                           Icons.call,
                           color: Colors.white,
