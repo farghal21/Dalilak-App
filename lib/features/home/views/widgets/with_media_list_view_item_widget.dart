@@ -21,196 +21,241 @@ class WithMediaListViewItemWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color(0xff290f4c), // Dark purple background
-        borderRadius: BorderRadius.circular(MyResponsive.radius(value: 20)),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF1B0034),
+            Color(0xFF2D1B4E),
+          ],
+        ),
+        borderRadius: BorderRadius.circular(MyResponsive.radius(value: 24)),
+        border: Border.all(
+          color: AppColors.white.withValues(alpha: .08),
+          width: MyResponsive.width(value: 1.5),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.black.withValues(alpha: .4),
+            blurRadius: 20,
+            offset: Offset(0, 8),
+          ),
+        ],
       ),
-      padding: MyResponsive.paddingAll(value: 12),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Top Row: Images and Details
-          Row(
-            children: [
-              // Left: Stacked Images
-              SizedBox(
-                width: MyResponsive.width(value: 140),
-                height: MyResponsive.height(value: 150),
-                child: Stack(
-                  children: [
-                    // Bottom card (back)
-                    if (car.images.length >= 3)
-                      Positioned(
-                        left: MyResponsive.width(value: 14),
-                        top: MyResponsive.height(value: 13),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              MyResponsive.radius(value: 10)),
-                          child: CachedNetworkImageWrapper(
-                            imagePath: car.images[2],
-                            width: MyResponsive.width(value: 112),
-                            height: MyResponsive.height(value: 124),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    // Middle card
-                    if (car.images.length >= 2)
-                      Positioned(
-                        left: MyResponsive.width(value: 7),
-                        top: MyResponsive.height(value: 7),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(
-                              MyResponsive.radius(value: 10)),
-                          child: CachedNetworkImageWrapper(
-                            imagePath: car.images[1],
-                            width: MyResponsive.width(value: 119),
-                            height: MyResponsive.height(value: 131),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                    // Top card (front)
-                    Positioned(
-                      left: 0,
-                      top: 0,
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(
-                            MyResponsive.radius(value: 10)),
-                        child: car.images.isNotEmpty
-                            ? CachedNetworkImageWrapper(
-                                imagePath: car.images.first,
-                                width: MyResponsive.width(value: 126),
-                                height: MyResponsive.height(value: 138),
-                                fit: BoxFit.cover,
-                              )
-                            : Image.asset(
-                                AppAssets.testImage,
-                                width: MyResponsive.width(value: 126),
-                                height: MyResponsive.height(value: 138),
-                                fit: BoxFit.cover,
-                              ),
-                      ),
-                    ),
+          // Car Image Section - More Prominent
+          ClipRRect(
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(MyResponsive.radius(value: 24)),
+              topRight: Radius.circular(MyResponsive.radius(value: 24)),
+            ),
+            child: Container(
+              height: MyResponsive.height(value: 200),
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColors.black.withValues(alpha: .3),
+                    Colors.transparent,
                   ],
                 ),
               ),
-              SizedBox(width: MyResponsive.width(value: 12)),
-              // Right: Car Details
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      car.name,
-                      style:
-                          AppTextStyles.bold16.copyWith(color: AppColors.white),
-                      maxLines: 2,
-                      overflow: TextOverflow.visible,
+              child: Stack(
+                fit: StackFit.expand,
+                children: [
+                  car.images.isNotEmpty
+                      ? CachedNetworkImageWrapper(
+                          imagePath: car.images.first,
+                          fit: BoxFit.cover,
+                        )
+                      : Image.asset(
+                          AppAssets.testImage,
+                          fit: BoxFit.cover,
+                        ),
+                  // Gradient Overlay for better text visibility
+                  Positioned(
+                    bottom: 0,
+                    left: 0,
+                    right: 0,
+                    child: Container(
+                      height: MyResponsive.height(value: 80),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [
+                            Colors.transparent,
+                            AppColors.black.withValues(alpha: .85),
+                          ],
+                        ),
+                      ),
                     ),
-                    SizedBox(height: MyResponsive.height(value: 8)),
-                    // Feature 1: Transmission
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          color: AppColors.white,
-                          size: MyResponsive.width(value: 6),
-                        ),
-                        SizedBox(width: MyResponsive.width(value: 8)),
-                        Expanded(
-                          child: Text(
-                            'ناقل الحركة: ${car.specs.transmission ?? 'غير محدد'}',
-                            style: AppTextStyles.regular12
-                                .copyWith(color: AppColors.white),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: MyResponsive.height(value: 8)),
-                    // Feature 2: Horsepower
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          color: AppColors.white,
-                          size: MyResponsive.width(value: 6),
-                        ),
-                        SizedBox(width: MyResponsive.width(value: 8)),
-                        Expanded(
-                          child: Text(
-                            'القوة: ${car.specs.horsepower ?? 'غير محدد'} حصان',
-                            style: AppTextStyles.regular12
-                                .copyWith(color: AppColors.white),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: MyResponsive.height(value: 8)),
-                    // Feature 3: Engine
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.circle,
-                          color: AppColors.white,
-                          size: MyResponsive.width(value: 6),
-                        ),
-                        SizedBox(width: MyResponsive.width(value: 8)),
-                        Expanded(
-                          child: Text(
-                            'المحرك: ${car.specs.engineCapacity ?? car.specs.turbo ?? car.specs.fuelType ?? 'غير محدد'}',
-                            style: AppTextStyles.regular12
-                                .copyWith(color: AppColors.white),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: MyResponsive.height(value: 8)),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        //
-                        SizedBox(width: MyResponsive.width(value: 8)),
-                        Text(
-                          'السعر: ${car.price}',
-                          style: AppTextStyles.semiBold14
-                              .copyWith(color: AppColors.primary),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: MyResponsive.height(value: 16)),
-          // Bottom: Custom Button
-          Container(
-            decoration: BoxDecoration(
-              color: Color(0xff232138).withValues(alpha: .7),
-              borderRadius:
-                  BorderRadius.circular(MyResponsive.radius(value: 10)),
-              border: Border.all(
-                color: AppColors.white.withValues(alpha: .2),
-                width: MyResponsive.width(value: 1),
+                  ),
+                ],
               ),
             ),
-            child: CustomButton(
-              title: AppStrings.details,
-              onPressed: () {
-                UserCubit.get(context).selectedCar = car;
-                MyNavigator.goTo(screen: () => const CarDetailsView());
-              },
-              height: MyResponsive.height(value: 50),
-              backgroundColor: Colors.transparent,
+          ),
+
+          // Content Section
+          Padding(
+            padding: MyResponsive.paddingSymmetric(
+              horizontal: 16,
+              vertical: 16,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Car Name - Primary Text
+                Text(
+                  car.name,
+                  style: AppTextStyles.bold20.copyWith(
+                    color: AppColors.white,
+                    height: 1.3,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+
+                SizedBox(height: MyResponsive.height(value: 16)),
+
+                // Specs Grid - Cleaner Layout
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildSpecItem(
+                        icon: Icons.settings_outlined,
+                        label: car.specs.transmission ?? 'غير محدد',
+                      ),
+                    ),
+                    SizedBox(width: MyResponsive.width(value: 12)),
+                    Expanded(
+                      child: _buildSpecItem(
+                        icon: Icons.speed_outlined,
+                        label: '${car.specs.horsepower ?? '---'} حصان',
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: MyResponsive.height(value: 12)),
+
+                Row(
+                  children: [
+                    Expanded(
+                      child: _buildSpecItem(
+                        icon: Icons.local_gas_station_outlined,
+                        label: car.specs.engineCapacity ??
+                            car.specs.fuelType ??
+                            'غير محدد',
+                      ),
+                    ),
+                    SizedBox(width: MyResponsive.width(value: 12)),
+                    // Price Badge - Elegant Integration
+                    Expanded(
+                      child: Container(
+                        padding: MyResponsive.paddingSymmetric(
+                          horizontal: 12,
+                          vertical: 8,
+                        ),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              AppColors.primary.withValues(alpha: .15),
+                              AppColors.secondary.withValues(alpha: .15),
+                            ],
+                          ),
+                          borderRadius: BorderRadius.circular(
+                            MyResponsive.radius(value: 12),
+                          ),
+                          border: Border.all(
+                            color: AppColors.primary.withValues(alpha: .3),
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          car.price,
+                          style: AppTextStyles.semiBold15.copyWith(
+                            color: AppColors.primary,
+                          ),
+                          textAlign: TextAlign.center,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                SizedBox(height: MyResponsive.height(value: 20)),
+
+                // Modern Glassmorphism Button
+                Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      colors: [
+                        AppColors.white.withValues(alpha: .05),
+                        AppColors.white.withValues(alpha: .02),
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(
+                      MyResponsive.radius(value: 14),
+                    ),
+                    border: Border.all(
+                      color: AppColors.white.withValues(alpha: .15),
+                      width: 1.5,
+                    ),
+                  ),
+                  child: CustomButton(
+                    title: AppStrings.details,
+                    onPressed: () {
+                      UserCubit.get(context).selectedCar = car;
+                      MyNavigator.goTo(screen: () => const CarDetailsView());
+                    },
+                    height: MyResponsive.height(value: 48),
+                    backgroundColor: Colors.transparent,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSpecItem({required IconData icon, required String label}) {
+    return Container(
+      padding: MyResponsive.paddingSymmetric(
+        horizontal: 10,
+        vertical: 10,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.white.withValues(alpha: .05),
+        borderRadius: BorderRadius.circular(MyResponsive.radius(value: 10)),
+        border: Border.all(
+          color: AppColors.white.withValues(alpha: .1),
+          width: 1,
+        ),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: AppColors.white.withValues(alpha: .7),
+            size: MyResponsive.fontSize(value: 16),
+          ),
+          SizedBox(width: MyResponsive.width(value: 8)),
+          Expanded(
+            child: Text(
+              label,
+              style: AppTextStyles.regular12.copyWith(
+                color: AppColors.white.withValues(alpha: .85),
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ],

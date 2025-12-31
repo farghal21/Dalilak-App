@@ -1,3 +1,4 @@
+import 'package:dalilak_app/features/add_car/views/add_car_view.dart';
 import 'package:dalilak_app/features/car_inspection/car_inspection_view.dart';
 import 'package:dalilak_app/features/chat_history/views/history_view.dart';
 import 'package:dalilak_app/features/compare/views/compare_view.dart';
@@ -104,6 +105,21 @@ class MainDrawer extends StatelessWidget {
                     const SizedBox(height: 20),
 
                     // Tools
+                    MainDrawerItem(
+                      imagePath: AppAssets.cartPlus,
+                      title: AppStrings.sellYourCar,
+                      isSelected: selectedIndex == 7,
+                      onTap: () {
+                        Navigator.pop(context);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const AddCarView()),
+                        );
+                      },
+                    ),
+                    const SizedBox(height: 20),
+
                     MainDrawerItem(
                       imagePath: AppAssets.estimate,
                       title: "حاسبة المشوار",

@@ -1,4 +1,4 @@
-abstract class AppStrings {
+﻿abstract class AppStrings {
   ///// login screen /////
 
   static const String welcomeBack =
@@ -71,11 +71,7 @@ abstract class AppStrings {
   static const String onBoardingSubTitle3 =
       "بنوفرلك تقدير دقيق لتكاليف التشغيل والصيانة الشهرية، عشان تشتري العربية اللي تريحك وماتتعبش جيبك.";
 
-  // static const String tellUsAboutYourself =
-  //     "اخبرنا المزيد عنك للحصول على افضل تجربة";
   static const String priorityQuestion = 'إيه أهم صفة بتدور عليها في عربيتك؟';
-
-  // static const String iAm = "أنا";
 
   static const String goalQuestion = "إيه المشكلة اللي ";
   static const String appName = 'دليلك ';
@@ -83,7 +79,7 @@ abstract class AppStrings {
   static const String how = 'عرفت ';
   static const String where = 'منين ؟';
 
-  // user types (more expressive constant names)
+  // user types
   static const String userTypePerformance = "الأداء والقوة";
   static const String userTypeFuelSaving = "توفير البنزين";
   static const String userTypeReliability = "الاعتمادية";
@@ -132,9 +128,9 @@ abstract class AppStrings {
 
   static const String faz3a = 'الفزعة';
   static const String settings = 'الاعدادات';
-  static const String wallet = 'الاعدادات';
+  static const String wallet = 'المحفظة';
   static const String support = 'الدعم الفني';
-  static const String bills = 'الدعم الفني';
+  static const String bills = 'الفواتير';
 
   static const String addUserSubtitle = 'يمكنك تعديل حسابك من هنا';
   static const String addUser = 'اضافة حساب';
@@ -307,35 +303,35 @@ abstract class AppStrings {
   // ================= Privacy Policy Screen =================
   static const String introTitle = 'مقدمة';
   static const String introBody =
-      'نحن ملتزمون بحماية خصوصيتك. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك الشخصية عند استخدام تطبيقنا.';
+      "نحن ملتزمون بحماية خصوصيتك. توضح سياسة الخصوصية هذه كيفية جمع واستخدام وحماية معلوماتك الشخصية عند استخدام تطبيقنا.";
 
   static const String infoCollectionTitle = 'المعلومات التي نقوم بجمعها';
   static const String infoCollectionBody =
-      'قد نجمع معلومات شخصية مثل اسمك، عنوان بريدك الإلكتروني، ورقم هاتفك عند التسجيل أو التواصل معنا. كما قد نجمع بيانات الاستخدام لتحسين التطبيق.';
+      "قد نجمع معلومات شخصية مثل اسمك، عنوان بريدك الإلكتروني، ورقم هاتفك عند التسجيل أو التواصل معنا. كما قد نجمع بيانات الاستخدام لتحسين التطبيق.";
 
   static const String usageInfoTitle = 'كيفية استخدام المعلومات';
   static const String usageInfoBody =
-      'نستخدم المعلومات لتقديم الخدمات، تحسين التطبيق، والتواصل معك. لن نستخدم معلوماتك لأغراض تجارية دون موافقتك.';
+      "نستخدم المعلومات لتقديم الخدمات، تحسين التطبيق، والتواصل معك. لن نستخدم معلوماتك لأغراض تجارية دون موافقتك.";
 
   static const String dataSharingTitle = 'مشاركة البيانات';
   static const String dataSharingBody =
-      'لن نشارك معلوماتك الشخصية مع أطراف ثالثة إلا في الحالات المطلوبة قانونياً أو لتقديم الخدمات الأساسية.';
+      "لن نشارك معلوماتك الشخصية مع أطراف ثالثة إلا في الحالات المطلوبة قانونياً أو لتقديم الخدمات الأساسية.";
 
   static const String dataSecurityTitle = 'أمان البيانات';
   static const String dataSecurityBody =
-      'نتخذ إجراءات أمنية مناسبة لحماية معلوماتك من الوصول غير المصرح به أو التغيير أو الكشف.';
+      "نتخذ إجراءات أمنية مناسبة لحماية معلوماتك من الوصول غير المصرح به أو التغيير أو الكشف.";
 
   static const String userRightsTitle = 'حقوق المستخدم';
   static const String userRightsBody =
-      'لديك الحق في الوصول إلى معلوماتك، تصحيحها، أو حذفها. يمكنك التواصل معنا لممارسة هذه الحقوق.';
+      "لديك الحق في الوصول إلى معلوماتك، تصحيحها، أو حذفها. يمكنك التواصل معنا لممارسة هذه الحقوق.";
 
   static const String policyChangesTitle = 'التغييرات على سياسة الخصوصية';
   static const String policyChangesBody =
-      'قد نحدث سياسة الخصوصية هذه من وقت لآخر. سنخطرك بأي تغييرات جوهرية عبر التطبيق أو البريد الإلكتروني.';
+      "قد نحدث سياسة الخصوصية هذه من وقت لآخر. سنخطرك بأي تغييرات جوهرية عبر التطبيق أو البريد الإلكتروني.";
 
   static const String contactInfoTitle = 'معلومات التواصل';
   static const String contactInfoBody =
-      'إذا كان لديك أي أسئلة حول سياسة الخصوصية، يرجى التواصل معنا عبر البريد الإلكتروني: support@dalilak.com';
+      "إذا كان لديك أي أسئلة حول سياسة الخصوصية، يرجى التواصل معنا عبر البريد الإلكتروني: support@dalilak.com";
 
   ///// Fields validators ////
   // الاسم
@@ -349,12 +345,12 @@ abstract class AppStrings {
   // كلمة المرور
   static const String passwordRequired = "من فضلك أدخل كلمة المرور";
   static const String passwordTooShort =
-      "كلمة المرور يجب أن تحتوي على 6 أحرف على الأقل";
+      "كلمة المرور يجب أن تحتوي على 8 أحرف على الأقل";
 
   // تأكيد كلمة المرور
   static const String confirmPasswordRequired =
       "من فضلك أدخل تأكيد كلمة المرور";
-  static const String passwordsNotMatch = "كلمتا المرور غير متطابقتان";
+  static const String passwordsNotMatch = "كلمتا المرور غير متطابقتين";
 
   // الحقول الفارغة
   static const String emptyField = "هذا الحقل مطلوب";
@@ -418,7 +414,7 @@ abstract class AppStrings {
   static const String carInspectionTitle = "فحص السيارة المستعملة";
   static const String carInspectionDrawerTitle = "ورقة فحص المستعمل";
   static const String carInspectionDescription =
-      "اتبع النصائح المكتوبة تحت كل بند للحصول على تقييم دقيق";
+      "اتباع النصائح المكتوبة تحت كل بند للحصول على تقييم دقيق";
   static const String inspectionItemsTitle = "بنود الفحص الأساسية";
   static const String inspectionDisclaimer =
       "هذا الفحص للإرشاد فقط ولا يغني عن الفحص الفني المتخصص";
@@ -433,43 +429,84 @@ abstract class AppStrings {
   static const String statusNotInspected = "لم يتم الفحص";
 
   // Inspection Items
-  static const String inspectionItem1Title = "حالة زيت المحرك";
+  static const String inspectionItem1Title = "شوف اللون والرش";
   static const String inspectionItem1Hint =
-      "ارفع مقياس الزيت وشوف لونه، لو أسود محروق أو ناقص كتير ده مش كويس";
+      "دور على فرق في درجة اللون بين الأجزاء، أي اختلاف معناه العربية اتصدمت واترضت تاني";
 
-  static const String inspectionItem2Title = "رش الصاج والصدأ";
+  static const String inspectionItem2Title = "افحص الصدى";
   static const String inspectionItem2Hint =
-      "دور على أي صدأ أو رش مختلف في اللون، ده معناه إن العربية اتصلحت قبل كده";
+      "شوف الأبواب والشاسيه والصندوق كويس، الصدى المخبي ممكن يكلفك فلوس كتير بعدين";
 
-  static const String inspectionItem3Title = "صوت المحرك";
+  static const String inspectionItem3Title = "الزجاج والأنوار";
   static const String inspectionItem3Hint =
-      "شغل العربية واسمع صوت المحرك، لو فيه صوت طقطقة أو خبط ده علامة سيئة";
+      "تأكد إن الزجاج مفيهوش شروخ وكل الأنوار (قدام وورا والفرامل والغماز) شغالة";
 
-  static const String inspectionItem4Title = "كفاءة التكييف";
+  static const String inspectionItem4Title = "تشغيل الموتور على البارد";
   static const String inspectionItem4Hint =
-      "شغل التكييف على أعلى درجة، لازم يطلع هوا بارد خالص في دقيقتين";
+      "شغل العربية من غير ما تسخنها، لو فيه طقطقة أو دخان أزرق أو أبيض من الشكمان يبقى فيه مشكلة";
 
-  static const String inspectionItem5Title = "حالة الإطارات";
+  static const String inspectionItem5Title = "شوف لون الزيت";
   static const String inspectionItem5Hint =
-      "شوف عمق المداس، لو أقل من 3 مم يبقى محتاج تغيير، وشوف تاريخ الصنع على الجنب";
+      "اسحب عصاية الزيت وشوف لونه، المفروض يكون دهبي لحد بني، لو أسود يبقى الصيانة متأخرة";
 
-  static const String inspectionItem6Title = "الفرامل";
+  static const String inspectionItem6Title = "شوف التسريب";
   static const String inspectionItem6Hint =
-      "جرب الفرامل وانت واقف، لازم تكون قوية ومافيش صوت صرير";
+      "حط ورقة بيضا تحت الموتور 10 دقايق والعربية شغالة، لو فيه بقع زيت يبقى لازم تفحصها";
 
-  static const String inspectionItem7Title = "البطارية";
+  static const String inspectionItem7Title = "جرب الفتيس";
   static const String inspectionItem7Hint =
-      "شوف أقطاب البطارية، لو عليها صدأ أخضر أو أبيض يبقى محتاجة تنضيف أو تغيير";
+      "اتأكد إن الجير بينقل ناعم من سرعة لسرعة، لو فيه تأخير أو رجة ممكن تكون مشكلة غالية";
 
-  static const String inspectionItem8Title = "الإضاءة";
+  static const String inspectionItem8Title = "جرب الفرامل";
   static const String inspectionItem8Hint =
-      "جرب كل الأنوار (أمامي، خلفي، فرامل، إشارات)، لازم كلها تشتغل";
+      "دوس فرامل بقوة، المفروض ميطلعش صوت ومايرجش الإسكان، وبلاش العربية تشد على ناحية";
 
-  static const String inspectionItem9Title = "التعليق والمساعدين";
+  static const String inspectionItem9Title = "شوف المساعدين";
   static const String inspectionItem9Hint =
-      "زق العربية من فوق، لو فضلت تهتز كتير يبقى المساعدين ضعيفة";
+      "زق العربية من فوق، لو فضلت تنط كتير يبقى المساعدين ضعيفة، واسمع صوت تخبيط على المطبات";
 
-  static const String inspectionItem10Title = "الأوراق والرخصة";
+  static const String inspectionItem10Title = "افحص الكاوتش";
   static const String inspectionItem10Hint =
-      "تأكد إن الرخصة سارية والعربية مش عليها مخالفات أو حجز";
+      "شوف تآكل الكاوتش، لازم يكون على الأقل 3 مم، واقرا تاريخ الصنع، لو أكثر من 6 سنين يبقى خطر";
+
+  static const String inspectionItem11Title = "شوف الداخلية والكيلومترات";
+  static const String inspectionItem11Hint =
+      "لو الكراسي والإسكان متآكلين جدا والكيلومترات قليلة، ممكن العداد يكون متغير";
+
+  static const String inspectionItem12Title = "شوف لمبات التحذير";
+  static const String inspectionItem12Hint =
+      "شغل العربية وراقب الطبلون، أي لمبة فاضلة مولعة (موتور، ABS، إيرباج) لازم تفحصها";
+
+  static const String inspectionItem13Title = "جرب تسوق - السرعة والفرامل";
+  static const String inspectionItem13Hint =
+      "سوق العربية ربع ساعة على الأقل، اتأكد إنها بتسرع كويس والإسكان مابيرجش لما تفرمل";
+
+  static const String inspectionItem14Title = "جرب تسوق - اسمع أصوات غريبة";
+  static const String inspectionItem14Hint =
+      "خلي بالك من أي صوت مش طبيعي وانت سايق (طقطقة، صفارة، طحن) خصوصا لما تسرع أو تلف";
+
+  ///// Add Car Feature /////
+  static const String sellYourCar = "بيع عربيتك";
+  static const String carName = "اسم العربيه";
+  static const String carNameHint = "مثال: BMW X5 2020";
+  static const String price = "السعر";
+  static const String priceHint = "مثال: 150000";
+  static const String description = "الوصف";
+  static const String descriptionHint =
+      "اكتب وصف تفصيلي العربيه (20 حرف على الأقل)";
+  static const String addImages = "إضافة صور";
+  static const String submit = "نشر الإعلان";
+  static const String selectAtLeastOneImage =
+      "يرجى اختيار صورة واحدة على الأقل";
+  static const String adSubmittedSuccessfully = "تم نشر الإعلان بنجاح";
+
+  // Add Car Validators
+  static const String carNameRequired = "من فضلك أدخل اسم السيارة";
+  static const String priceRequired = "من فضلك أدخل السعر";
+  static const String priceInvalid = "السعر يجب أن يكون رقماً صحيحاً";
+  static const String descriptionRequired = "من فضلك أدخل وصف العربيه";
+  static const String descriptionTooShort =
+      "الوصف يجب أن يحتوي على 20 حرفاً على الأقل";
+  static const String phoneNumberRequired = "من فضلك أدخل رقم التلفون";
+  static const String phoneNumberInvalid = "رقم التلفون يجب أن يكون 11 رقماً";
 }

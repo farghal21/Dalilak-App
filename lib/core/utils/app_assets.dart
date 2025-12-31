@@ -15,6 +15,7 @@ abstract class AppAssets {
   static const String onBoarding2 = "${basePath}onBoarding2.png";
   static const String onBoarding3 = "${basePath}onBoarding3.png";
   static const String checklist = "${basePath}checklist.svg";
+  static const String cartPlus = "${basePath}cart_plus.svg";
 
   // home images
   static const String chatImage = "${basePath}chat_image.png";

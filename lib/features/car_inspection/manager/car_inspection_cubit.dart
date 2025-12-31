@@ -11,20 +11,19 @@ class CarInspectionCubit extends Cubit<CarInspectionState> {
   }
 
   // مفتاح الحفظ في SharedPreferences
-  static const String _storageKey = 'car_inspection_data';
+  static const String _storageKey = 'car_inspection_data_v2';
 
-  // قائمة بنود الفحص مع النصائح
+  // قائمة بنود الفحص
   final List<InspectionItem> _inspectionItems = [];
 
   void _initializeInspectionItems() async {
-    // محاولة تحميل البيانات المحفوظة
     final savedData = await _loadSavedData();
 
     if (savedData != null && savedData.isNotEmpty) {
-      // استخدام البيانات المحفوظة
+      // لو فيه داتا محفوظة نستخدمها
       _inspectionItems.addAll(savedData);
     } else {
-      // إنشاء البيانات الافتراضية من AppStrings
+      // الداتا الافتراضية من AppStrings
       _inspectionItems.addAll([
         InspectionItem(
           title: AppStrings.inspectionItem1Title,
@@ -66,13 +65,29 @@ class CarInspectionCubit extends Cubit<CarInspectionState> {
           title: AppStrings.inspectionItem10Title,
           hint: AppStrings.inspectionItem10Hint,
         ),
+        InspectionItem(
+          title: AppStrings.inspectionItem11Title,
+          hint: AppStrings.inspectionItem11Hint,
+        ),
+        InspectionItem(
+          title: AppStrings.inspectionItem12Title,
+          hint: AppStrings.inspectionItem12Hint,
+        ),
+        InspectionItem(
+          title: AppStrings.inspectionItem13Title,
+          hint: AppStrings.inspectionItem13Hint,
+        ),
+        InspectionItem(
+          title: AppStrings.inspectionItem14Title,
+          hint: AppStrings.inspectionItem14Hint,
+        ),
       ]);
     }
 
     _emitUpdatedState();
   }
 
-  // تحميل البيانات المحفوظة من SharedPreferences
+  // تحميل البيانات المحفوظة
   Future<List<InspectionItem>?> _loadSavedData() async {
     try {
       final prefs = await SharedPreferences.getInstance();
@@ -86,20 +101,17 @@ class CarInspectionCubit extends Cubit<CarInspectionState> {
             .toList();
       }
     } catch (e) {
-      // في حالة حدوث خطأ، نرجع null ونستخدم البيانات الافتراضية
       print('Error loading saved data: $e');
     }
     return null;
   }
 
-  // حفظ البيانات في SharedPreferences
+  // حفظ البيانات
   Future<void> _saveData() async {
     try {
       final prefs = await SharedPreferences.getInstance();
-      final List<Map<String, dynamic>> jsonList =
-          _inspectionItems.map((item) => item.toJson()).toList();
-      final String jsonString = json.encode(jsonList);
-      await prefs.setString(_storageKey, jsonString);
+      final jsonList = _inspectionItems.map((item) => item.toJson()).toList();
+      await prefs.setString(_storageKey, json.encode(jsonList));
     } catch (e) {
       print('Error saving data: $e');
     }
@@ -112,11 +124,11 @@ class CarInspectionCubit extends Cubit<CarInspectionState> {
         isChecked: !_inspectionItems[index].isChecked,
       );
       _emitUpdatedState();
-      _saveData(); // حفظ البيانات بعد كل تغيير
+      _saveData();
     }
   }
 
-  // حساب النسبة المئوية وإرسال الحالة المحدثة
+  // إرسال الحالة المحدثة
   void _emitUpdatedState() {
     final checkedCount =
         _inspectionItems.where((item) => item.isChecked).length;
@@ -131,16 +143,16 @@ class CarInspectionCubit extends Cubit<CarInspectionState> {
     ));
   }
 
-  // إعادة تعيين جميع البنود
+  // إعادة تعيين الكل
   void resetAll() {
     for (int i = 0; i < _inspectionItems.length; i++) {
       _inspectionItems[i] = _inspectionItems[i].copyWith(isChecked: false);
     }
     _emitUpdatedState();
-    _saveData(); // حفظ البيانات بعد الإعادة
+    _saveData();
   }
 
-  // مسح البيانات المحفوظة (اختياري - للتطوير أو إعادة التعيين الكاملة)
+  // مسح الداتا المحفوظة (للتطوير)
   Future<void> clearSavedData() async {
     try {
       final prefs = await SharedPreferences.getInstance();

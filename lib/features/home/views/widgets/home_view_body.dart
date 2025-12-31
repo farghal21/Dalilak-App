@@ -1,8 +1,9 @@
+import 'package:dalilak_app/core/shared_widgets/used_cars_access_card.dart';
+import 'package:dalilak_app/features/used_cars/presentation/views/used_cars_feed_view.dart';
 import 'package:dalilak_app/features/home/views/widgets/text_message_widget.dart';
 import 'package:dalilak_app/features/home/views/widgets/with_media_message_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/utils/app_assets.dart';
@@ -11,7 +12,6 @@ import '../../../../core/utils/app_text_styles.dart';
 import '../../data/models/message_model.dart';
 import '../../manager/home_cubit/home_cubit.dart';
 import '../../manager/home_cubit/home_state.dart';
-import 'category_list_view_item.dart';
 import 'chat_error_widget.dart';
 import 'chat_loading_widget.dart';
 import 'chat_text_field.dart';
@@ -120,30 +120,12 @@ class HomeViewBody extends StatelessWidget {
   }
 
   Widget _buildEmptyState(HomeCubit cubit) {
-    final categories = [
-      {
-        'title': AppStrings.recommendCar,
-        'subtitle': AppStrings.recommendCarSubtitle,
-        'iconPath': AppAssets.dateImage,
-      },
-      {
-        'title': AppStrings.cost,
-        'subtitle': AppStrings.costSubtitle,
-        'iconPath': AppAssets.orderImage,
-      },
-      {
-        'title': AppStrings.compareCars,
-        'subtitle': AppStrings.compareCarsSubtitle,
-        'iconPath': AppAssets.shopImage,
-      },
-    ];
-
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: MyResponsive.height(value: 72)),
+          SizedBox(height: MyResponsive.height(value: 50)),
           Image.asset(AppAssets.chatImage),
-          SizedBox(height: MyResponsive.height(value: 22)),
+          SizedBox(height: MyResponsive.height(value: 40)),
           Padding(
             padding: MyResponsive.paddingSymmetric(horizontal: 14),
             child: Text(
@@ -154,37 +136,38 @@ class HomeViewBody extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(height: MyResponsive.height(value: 27)),
-          SizedBox(
-            height: MyResponsive.height(value: 175),
-            child: AnimationLimiter(
-              child: ListView.separated(
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (context, index) {
-                  final category = categories[index];
-                  return AnimationConfiguration.staggeredList(
-                    position: index,
-                    duration: const Duration(milliseconds: 500),
-                    child: SlideAnimation(
-                      horizontalOffset: 50.0,
-                      child: FadeInAnimation(
-                        child: GestureDetector(
-                          onTap: () =>
-                              cubit.sendUserMessage(category['title']!),
-                          child: CategoryListViewItem(
-                            title: category['title']!,
-                            subtitle: category['subtitle']!,
-                            // iconPath: category['iconPath']!,
-                          ),
-                        ),
+          SizedBox(height: MyResponsive.height(value: 40)),
+
+          // UsedCarsAccessCard with smooth animation
+          Padding(
+            padding: MyResponsive.paddingSymmetric(horizontal: 20),
+            child: Builder(
+              builder: (context) {
+                return TweenAnimationBuilder<double>(
+                  duration: const Duration(milliseconds: 800),
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  curve: Curves.easeOutQuart,
+                  builder: (context, value, child) {
+                    return Transform.translate(
+                      offset: Offset(0, 30 * (1 - value)),
+                      child: Opacity(
+                        opacity: value,
+                        child: child,
                       ),
-                    ),
-                  );
-                },
-                separatorBuilder: (context, index) =>
-                    SizedBox(width: MyResponsive.width(value: 20)),
-                itemCount: categories.length,
-              ),
+                    );
+                  },
+                  child: UsedCarsAccessCard(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const UsedCarsFeedView(),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              },
             ),
           ),
         ],

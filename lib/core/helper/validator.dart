@@ -1,3 +1,5 @@
+import 'package:dalilak_app/core/utils/app_strings.dart';
+
 import '../utils/app_strings.dart';
 
 abstract class Validator {
@@ -51,6 +53,56 @@ abstract class Validator {
 
     if (!phoneRegex.hasMatch(value)) {
       return AppStrings.phoneInvalid;
+    }
+
+    return null;
+  }
+
+  // Add Car Feature Validators
+  static String? carName(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.carNameRequired;
+    }
+    return null;
+  }
+
+  static String? price(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.priceRequired;
+    }
+
+    // Check if the value is numeric
+    final numericRegex = RegExp(r'^\d+$');
+    if (!numericRegex.hasMatch(value.trim())) {
+      return AppStrings.priceInvalid;
+    }
+
+    return null;
+  }
+
+  static String? description(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.descriptionRequired;
+    }
+
+    if (value.trim().length < 20) {
+      return AppStrings.descriptionTooShort;
+    }
+
+    return null;
+  }
+
+  static String? phoneNumber(String? value) {
+    if (value == null || value.isEmpty) {
+      return AppStrings.phoneNumberRequired;
+    }
+
+    value = value.trim();
+
+    // Check if the value is numeric and exactly 11 digits
+    final phoneRegex = RegExp(r'^\d{11}$');
+    if (!phoneRegex.hasMatch(value)) {
+      return AppStrings.phoneNumberInvalid;
     }
 
     return null;
