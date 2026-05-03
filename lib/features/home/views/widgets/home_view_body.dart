@@ -104,7 +104,7 @@ class HomeViewBody extends StatelessWidget {
             ),
             SizedBox(height: MyResponsive.height(value: 10)),
             ChatTextField(
-              onSend: (text) => cubit.sendUserMessage(text),
+              onSend:  (text) => cubit.sendUserMessage(text),
             ),
             SizedBox(height: MyResponsive.height(value: 20)),
           ],
