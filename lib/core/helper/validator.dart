@@ -1,7 +1,5 @@
 import 'package:dalilak_app/core/utils/app_strings.dart';
 
-import '../utils/app_strings.dart';
-
 abstract class Validator {
   static String? name(String? value) {
     if (value == null || value.isEmpty) {
