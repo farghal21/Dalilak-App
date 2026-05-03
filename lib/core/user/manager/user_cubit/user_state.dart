@@ -1,4 +1,3 @@
-
 import 'package:dalilak_app/core/user/data/models/user_model.dart';
 
 abstract class UserState {}
@@ -52,3 +51,13 @@ class UserDeleteLoading extends UserState {}
 
 // change language state
 class UserChangeLanguageState extends UserState {}
+
+class UserImageSelectedState extends UserState {}
+
+// ضيف الحالة دي في ملف user_state.dart
+class UserUpdateNeedsVerification extends UserState {
+  final String email;
+  UserUpdateNeedsVerification({required this.email});
+}
+
+class UserChangePasswordVisibilityState extends UserState {}

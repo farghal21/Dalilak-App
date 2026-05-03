@@ -34,8 +34,12 @@ class RegisterCubit extends Cubit<RegisterState> {
     );
 
     result.fold(
-      (error) => emit(RegisterFailure(error)),
-      (message) => emit(RegisterSuccess(message, emailController.text)),
+      (error) {
+        if (!isClosed) emit(RegisterFailure(error));
+      },
+      (message) {
+        if (!isClosed) emit(RegisterSuccess(message, emailController.text));
+      },
     );
   }
 

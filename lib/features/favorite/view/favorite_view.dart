@@ -1,3 +1,4 @@
+import 'package:dalilak_app/core/helper/get_it.dart';
 import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
 import 'package:dalilak_app/features/favorite/manager/favorite_cubit.dart';
 import 'package:dalilak_app/features/favorite/view/widget/favorite_view_body.dart';
@@ -13,10 +14,9 @@ class FavoriteView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) =>
-          FavoriteCubit()..init(UserCubit.get(context).favoriteCars),
-      child: CustomScaffold(
+    return BlocProvider.value(
+      value: getIt<FavoriteCubit>()..init(UserCubit.get(context).favoriteCars),
+      child: const CustomScaffold(
         isHomeScreen: true,
         drawerSelectedIndex: 3,
         body: FavoriteViewBody(),

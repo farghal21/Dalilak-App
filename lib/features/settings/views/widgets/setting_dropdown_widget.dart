@@ -34,10 +34,7 @@ class SettingDropdownWidget extends StatelessWidget {
               color: AppColors.fillColor,
               borderRadius:
                   BorderRadius.circular(MyResponsive.radius(value: 10)),
-              border: Border.all(
-                color: AppColors.gray,
-                width: 1,
-              ),
+              // Removed Border for cleaner look
             ),
             child: DropdownButton<String>(
               value: selectedValue,

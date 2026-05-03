@@ -44,6 +44,7 @@ enum MessageType {
   hasData,
   loading,
   error,
+  recommendation,
 }
 
 enum MessageSender {

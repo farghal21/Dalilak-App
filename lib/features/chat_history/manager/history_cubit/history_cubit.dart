@@ -18,14 +18,15 @@ class HistoryCubit extends Cubit<HistoryState> {
     final result = await repo.fetchChatHistory();
     result.fold(
       (error) {
-        emit(HistoryError(error: error));
+        if (!isClosed) emit(HistoryError(error: error));
       },
       (data) {
         _allHistory
           ..clear()
           ..addAll(data);
 
-        emit(HistoryLoadSuccess(history: List.from(_allHistory)));
+        if (!isClosed)
+          emit(HistoryLoadSuccess(history: List.from(_allHistory)));
       },
     );
   }
@@ -33,7 +34,7 @@ class HistoryCubit extends Cubit<HistoryState> {
   // ---------- Search (local) ----------
   void historySearch(String query) {
     if (query.isEmpty) {
-      emit(HistoryLoadSuccess(history: List.from(_allHistory)));
+      if (!isClosed) emit(HistoryLoadSuccess(history: List.from(_allHistory)));
       return;
     }
 
@@ -43,7 +44,7 @@ class HistoryCubit extends Cubit<HistoryState> {
         )
         .toList();
 
-    emit(HistoryLoadSuccess(history: filtered));
+    if (!isClosed) emit(HistoryLoadSuccess(history: filtered));
   }
 
   // ---------- Rename (API) ----------
@@ -60,10 +61,10 @@ class HistoryCubit extends Cubit<HistoryState> {
 
     result.fold(
       (error) {
-        emit(HistoryError(error: error));
+        if (!isClosed) emit(HistoryError(error: error));
       },
       (message) {
-        emit(HistoryAction(message: message));
+        if (!isClosed) emit(HistoryAction(message: message));
         fetchChatHistory();
       },
     );
@@ -76,10 +77,10 @@ class HistoryCubit extends Cubit<HistoryState> {
     final result = await repo.removeSession(sessionId: sessionId);
     result.fold(
       (error) {
-        emit(HistoryError(error: error));
+        if (!isClosed) emit(HistoryError(error: error));
       },
       (message) {
-        emit(HistoryAction(message: message));
+        if (!isClosed) emit(HistoryAction(message: message));
         fetchChatHistory();
       },
     );

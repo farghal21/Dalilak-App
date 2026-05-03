@@ -9,6 +9,7 @@ abstract class UserRepo {
   Future<Either<String, String>> updateUserData({
     required String name,
     required String email,
+    String? password, // 👈 ضيف السطر ده ضروري جداً
     required XFile? imageFile,
   });
 }

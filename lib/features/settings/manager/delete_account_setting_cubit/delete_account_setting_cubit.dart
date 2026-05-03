@@ -1,10 +1,17 @@
+import 'package:dalilak_app/core/cache/cache_helper.dart';
+import 'package:dalilak_app/core/cache/cache_key.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../auth/data/repo/auth_repo.dart';
 
 import 'delete_account_setting_state.dart';
 
 class DeleteAccountSettingCubit extends Cubit<DeleteAccountSettingState> {
-  DeleteAccountSettingCubit() : super(DeleteAccountSettingInitial());
+  final AuthRepo authRepo;
+
+  DeleteAccountSettingCubit(this.authRepo)
+      : super(DeleteAccountSettingInitial());
 
   static DeleteAccountSettingCubit get(context) =>
       BlocProvider.of<DeleteAccountSettingCubit>(context);
@@ -15,26 +22,47 @@ class DeleteAccountSettingCubit extends Cubit<DeleteAccountSettingState> {
   bool isPasswordVisible = true;
   bool isConfirmPasswordVisible = true;
 
-  void deleteAccount() {
-    // if (!formKey.currentState!.validate()) {
-    //   return;
-    // }
+  Future<void> deleteAccount() async {
+    // 1. تحقق أن الحقلين في الشاشة متطابقين قبل الإرسال
+    if (passwordController.text != confirmPasswordController.text) {
+      emit(DeleteAccountSettingError(
+          errMessage: "كلمات المرور غير متطابقة في الشاشة"));
+      return;
+    }
 
-    // Simulate a delay for deleting account
     emit(DeleteAccountSettingLoading());
 
-    Future.delayed(const Duration(seconds: 3), () {
-      emit(DeleteAccountSettingSuccess());
-    });
+    // 2. إرسال الباسورد للـ Repo
+    final result = await authRepo.deleteAccount(
+      password: passwordController.text,
+    );
+
+    result.fold(
+      (error) async {
+        emit(DeleteAccountSettingError(errMessage: error));
+      },
+      (success) async {
+        await CacheHelper.removeData(key: CacheKeys.accessToken);
+        await CacheHelper.removeData(key: CacheKeys.refreshToken);
+        emit(DeleteAccountSettingSuccess(message: success));
+      },
+    );
   }
 
   void changePasswordVisibility() {
     isPasswordVisible = !isPasswordVisible;
-    emit(DeleteAccountSettingVisibilityToggled());
+    emit(ChangePasswordVisibilityState());
   }
 
   void changeConfirmPasswordVisibility() {
     isConfirmPasswordVisible = !isConfirmPasswordVisible;
-    emit(DeleteAccountSettingVisibilityToggled());
+    emit(ChangeConfirmPasswordVisibilityState());
+  }
+
+  @override
+  Future<void> close() {
+    passwordController.dispose();
+    confirmPasswordController.dispose();
+    return super.close();
   }
 }

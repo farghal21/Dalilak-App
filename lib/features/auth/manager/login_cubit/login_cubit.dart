@@ -26,8 +26,13 @@ class LoginCubit extends Cubit<LoginState> {
     );
 
     result.fold(
-      (error) => emit(LoginFailure(error)),
-      (user) => emit(LoginSuccess(user)),
+      (error) {
+        // التأكد إن الـ Cubit لم يغلق قبل تحديث الحالة
+        if (!isClosed) emit(LoginFailure(error));
+      },
+      (user) {
+        if (!isClosed) emit(LoginSuccess(user));
+      },
     );
   }
 

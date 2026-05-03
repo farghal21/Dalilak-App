@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lottie/lottie.dart';
 
 import '../../../../core/helper/my_responsive.dart';
 import '../../../../core/shared_widgets/custom_button.dart';
@@ -31,8 +32,8 @@ class DoneWidget extends StatelessWidget {
           isHaveImage!
               ? MainImageWidget()
               : SizedBox(
-            height: MyResponsive.height(value: 250),
-          ),
+                  height: MyResponsive.height(value: 250),
+                ),
           SizedBox(
             height: MyResponsive.height(value: 46),
           ),
@@ -48,9 +49,31 @@ class DoneWidget extends StatelessWidget {
                 SizedBox(
                   height: MyResponsive.height(value: 34),
                 ),
-                Image.asset(
-                  imagePath,
-                  height: MyResponsive.height(value: 228),
+                // Lottie success animation with fallback
+                TweenAnimationBuilder<double>(
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  duration: const Duration(milliseconds: 800),
+                  curve: Curves.elasticOut,
+                  builder: (context, value, child) {
+                    return Transform.scale(
+                      scale: value,
+                      child: child,
+                    );
+                  },
+                  child: Lottie.network(
+                    'https://lottie.host/embed/b7f3e3e0-5e0a-4e3a-8e3a-5e0a4e3a8e3b/success-checkmark.json',
+                    width: MyResponsive.width(value: 228),
+                    height: MyResponsive.height(value: 228),
+                    fit: BoxFit.contain,
+                    repeat: false,
+                    errorBuilder: (context, error, stackTrace) {
+                      // Fallback to original image
+                      return Image.asset(
+                        imagePath,
+                        height: MyResponsive.height(value: 228),
+                      );
+                    },
+                  ),
                 ),
                 SizedBox(
                   height: MyResponsive.height(value: 250),
@@ -58,7 +81,7 @@ class DoneWidget extends StatelessWidget {
                 CustomButton(
                   title: AppStrings.next,
                   backgroundColor:
-                  isResetPass! ? AppColors.secondary : AppColors.primary,
+                      isResetPass! ? AppColors.secondary : AppColors.primary,
                   onPressed: onPressed,
                 ),
               ],

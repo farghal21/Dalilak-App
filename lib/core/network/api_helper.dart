@@ -17,8 +17,8 @@ class ApiHelper {
 
   Dio dio = Dio(BaseOptions(
     baseUrl: EndPoints.baseUrl,
-    connectTimeout: Duration(seconds: 50),
-    receiveTimeout: Duration(seconds: 50),
+    connectTimeout: Duration(seconds: 35),
+    receiveTimeout: Duration(seconds: 35),
   ));
 
   void initDio() {
@@ -31,6 +31,7 @@ class ApiHelper {
       return handler.next(response);
     }, onError: (DioException error, handler) async {
       CustomLogger.red("--- Error : ${error.response?.data.toString()}");
+      CustomLogger.red("--- Status Code : ${error.response?.statusCode}");
 
       if (error.response?.data['message'].contains('User not found')) {
         ApiHelper apiHelper = getIt<ApiHelper>();
@@ -95,16 +96,24 @@ class ApiHelper {
     Map<String, dynamic>? data,
     bool isProtected = false,
   }) async {
-    return ApiResponse.fromResponse(
-      await dio.post(
-        endPoint,
-        data: data,
-        options: Options(headers: {
-          'Content-Type': 'application/json',
-          if (isProtected) 'Authorization': 'Bearer ${CacheData.accessToken}',
-        }),
-      ),
-    );
+    try {
+      return ApiResponse.fromResponse(
+        await dio.post(
+          endPoint,
+          data: data,
+          options: Options(headers: {
+            'Content-Type': 'application/json',
+            if (isProtected) 'Authorization': 'Bearer ${CacheData.accessToken}',
+          }),
+        ),
+      );
+    } on DioException catch (e) {
+      // تحويل أي DioException (Timeout, 500 Error, etc.) إلى ApiResponse
+      return ApiResponse.fromError(e);
+    } catch (e) {
+      // التعامل مع أي أخطاء أخرى غير متوقعة
+      return ApiResponse.fromError(e);
+    }
   }
 
   Future<ApiResponse> getRequest({
@@ -112,30 +121,50 @@ class ApiHelper {
     Map<String, dynamic>? data,
     bool isProtected = false,
   }) async {
-    return ApiResponse.fromResponse(
-      await dio.get(
-        endPoint,
-        data: data,
-        options: Options(headers: {
-          if (isProtected) 'Authorization': 'Bearer ${CacheData.accessToken}',
-        }),
-      ),
-    );
+    try {
+      return ApiResponse.fromResponse(
+        await dio.get(
+          endPoint,
+          data: data,
+          options: Options(headers: {
+            if (isProtected) 'Authorization': 'Bearer ${CacheData.accessToken}',
+          }),
+        ),
+      );
+    } on DioException catch (e) {
+      // تحويل أي DioException (Timeout, 500 Error, etc.) إلى ApiResponse
+      return ApiResponse.fromError(e);
+    } catch (e) {
+      // التعامل مع أي أخطاء أخرى غير متوقعة
+      return ApiResponse.fromError(e);
+    }
   }
 
-  Future<ApiResponse> putRequest(
-      {required String endPoint,
-      Map<String, dynamic>? data,
-      bool isProtected = false}) async {
-    return ApiResponse.fromResponse(
-      await dio.put(
-        endPoint,
-        data: data,
-        options: Options(headers: {
-          if (isProtected) 'Authorization': 'Bearer ${CacheData.accessToken}',
-        }),
-      ),
-    );
+  Future<ApiResponse> putRequest({
+    required String endPoint,
+    dynamic data, // 👈 التعديل هنا: غيرناها من Map<String, dynamic>? لـ dynamic
+    bool isProtected = false,
+  }) async {
+    try {
+      return ApiResponse.fromResponse(
+        await dio.put(
+          endPoint,
+          data: data,
+          options: Options(
+            headers: {
+              if (isProtected)
+                'Authorization': 'Bearer ${CacheData.accessToken}',
+            },
+          ),
+        ),
+      );
+    } on DioException catch (e) {
+      // تحويل أي DioException (Timeout, 500 Error, etc.) إلى ApiResponse
+      return ApiResponse.fromError(e);
+    } catch (e) {
+      // التعامل مع أي أخطاء أخرى غير متوقعة
+      return ApiResponse.fromError(e);
+    }
   }
 
   Future<ApiResponse> deleteRequest({
@@ -143,16 +172,34 @@ class ApiHelper {
     Map<String, dynamic>? data,
     bool isProtected = false,
   }) async {
-    return ApiResponse.fromResponse(
-      await dio.delete(
+    try {
+      // 👇 التعديل هنا: لو الداتا null، خليها خريطة فاضية {}
+      // ده هيخلي الـ Dio يبعت "{}" للسيرفر، فالسيرفر هيفهم إن ده JSON صحيح بس فاضي
+      data ??= {};
+
+      final response = await dio.delete(
         endPoint,
         data: data,
         options: Options(
           headers: {
+            'Content-Type': 'application/json',
             if (isProtected) 'Authorization': 'Bearer ${CacheData.accessToken}',
           },
         ),
-      ),
-    );
+      );
+
+      // معالجة الرد الفاضي (في حالة النجاح 200 أو 204)
+      if (response.data == null || response.data.toString().isEmpty) {
+        response.data = {'success': true, 'message': 'تم حذف الحساب بنجاح'};
+      }
+
+      return ApiResponse.fromResponse(response);
+    } on DioException catch (e) {
+      // تحويل أي DioException (Timeout, 500 Error, etc.) إلى ApiResponse
+      return ApiResponse.fromError(e);
+    } catch (e) {
+      // التعامل مع أي أخطاء أخرى غير متوقعة
+      return ApiResponse.fromError(e);
+    }
   }
 }

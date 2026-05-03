@@ -18,14 +18,12 @@ class HomeCubit extends Cubit<HomeState> {
   final List<MessageModel> messages = [];
   final ScrollController scrollController = ScrollController();
 
-  // ---------------- INIT ----------------
   void init() {
     if (sessionId != null) {
       fetchOldMessages();
     }
   }
 
-  // ---------------- OLD CHAT ----------------
   Future<void> fetchOldMessages() async {
     emit(HomeLoading());
 
@@ -33,7 +31,7 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       (error) {
-        emit(HomeError(error: error));
+        if (!isClosed) emit(HomeError(error: error));
       },
       (response) {
         var model = response.messages;
@@ -43,9 +41,11 @@ class HomeCubit extends Cubit<HomeState> {
           messages.add(
             MessageModel(
               message: message.message,
-              messageType: message.data == null || message.data!.cars.isEmpty
-                  ? MessageType.text
-                  : MessageType.hasData,
+              // حماية ضد الـ Null في البيانات القادمة من السيرفر
+              messageType:
+                  (message.data == null || (message.data?.cars.isEmpty ?? true))
+                      ? MessageType.text
+                      : MessageType.hasData,
               sender: message.sender == 'user'
                   ? MessageSender.user
                   : MessageSender.bot,
@@ -54,58 +54,64 @@ class HomeCubit extends Cubit<HomeState> {
           );
         }
 
-        emit(HomeMessagesUpdated());
+        if (!isClosed) emit(HomeMessagesUpdated());
         _scrollToBottom();
       },
     );
   }
 
-  // ---------------- SEND MESSAGE ----------------
-  Future<void> sendUserMessage(String message) async {
-    // 1️⃣ لو أول رسالة وشات جديد
+  Future<void> sendUserMessage(String messageText) async {
+    // 1️⃣ حماية: لو النص فاضي متعملش حاجة
+    if (messageText.trim().isEmpty) return;
+
+    // 2️⃣ لو أول رسالة وشات جديد
     if (sessionId == null) {
       final startResult = await repo.startChat();
+      bool isStarted = false;
 
       startResult.fold(
         (error) {
-          emit(HomeError(error: error));
-          return;
+          if (!isClosed) emit(HomeError(error: error));
+          isStarted = false;
         },
         (startResponse) {
           sessionId = startResponse;
+          isStarted = true;
         },
       );
+      // لو مقدرش يبدأ الجلسة (sessionId بقى null)، نوقف هنا عشان ميعملش كراش
+      if (!isStarted || sessionId == null) return;
     }
 
-    // 2️⃣ رسالة المستخدم
+    // 3️⃣ إضافة رسالة المستخدم للـ UI
     messages.add(
       MessageModel(
-        message: message,
+        message: messageText,
         messageType: MessageType.text,
         sender: MessageSender.user,
       ),
     );
-    emit(HomeMessagesUpdated());
+    if (!isClosed) emit(HomeMessagesUpdated());
     _scrollToBottom();
 
-    // Loading bubble
+    // إضافة فقاعة الـ Loading
     final loadingMessage = MessageModel(
       message: '',
       messageType: MessageType.loading,
       sender: MessageSender.bot,
     );
     messages.add(loadingMessage);
-    emit(HomeMessagesUpdated());
+    if (!isClosed) emit(HomeMessagesUpdated());
     _scrollToBottom();
 
-    // 3️⃣ إرسال الرسالة
+    // 4️⃣ إرسال الرسالة للسيرفر (استخدام sessionId! آمن هنا بسبب التحقق فوق)
     final result = await repo.sendMessage(
       sessionId: sessionId!,
-      message: message,
+      message: messageText,
       userId: userId,
     );
 
-    // شيل الـ loading
+    // إزالة فقاعة الـ Loading قبل معالجة النتيجة
     messages.remove(loadingMessage);
 
     result.fold(
@@ -117,12 +123,13 @@ class HomeCubit extends Cubit<HomeState> {
             sender: MessageSender.bot,
           ),
         );
-        emit(HomeMessagesUpdated());
+        if (!isClosed) emit(HomeMessagesUpdated());
       },
       (chatResponse) {
         messages.add(
           MessageModel(
             message: chatResponse.message,
+            // استخدام حماية الـ Null-aware لضمان عدم حدوث TypeError
             messageType: chatResponse.cars.isEmpty
                 ? MessageType.text
                 : MessageType.hasData,
@@ -130,7 +137,7 @@ class HomeCubit extends Cubit<HomeState> {
             cars: chatResponse.cars,
           ),
         );
-        emit(HomeMessagesUpdated());
+        if (!isClosed) emit(HomeMessagesUpdated());
       },
     );
 
@@ -142,8 +149,8 @@ class HomeCubit extends Cubit<HomeState> {
       if (scrollController.hasClients) {
         scrollController.animateTo(
           scrollController.position.maxScrollExtent + 100,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
+          duration: const Duration(milliseconds: 400),
+          curve: Curves.easeInOutCubic,
         );
       }
     });

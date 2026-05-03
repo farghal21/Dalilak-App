@@ -1,5 +1,6 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+
+import 'app_network_image.dart';
 
 class CachedNetworkImageWrapper extends StatelessWidget {
   final String imagePath;
@@ -17,12 +18,8 @@ class CachedNetworkImageWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CachedNetworkImage(
+    return AppNetworkImage(
       imageUrl: imagePath,
-      placeholder: (context, url) => const Center(
-        child: CircularProgressIndicator(),
-      ),
-      errorWidget: (context, url, error) => const Icon(Icons.error),
       width: width,
       height: height,
       fit: fit,

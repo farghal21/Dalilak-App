@@ -1,3 +1,5 @@
+import 'package:dalilak_app/core/shared_widgets/used_cars_access_card.dart';
+import 'package:dalilak_app/features/used_cars/views/used_cars_feed_view.dart';
 import 'package:dalilak_app/features/home/views/widgets/text_message_widget.dart';
 import 'package:dalilak_app/features/home/views/widgets/with_media_message_widget.dart';
 import 'package:flutter/material.dart';
@@ -10,7 +12,6 @@ import '../../../../core/utils/app_text_styles.dart';
 import '../../data/models/message_model.dart';
 import '../../manager/home_cubit/home_cubit.dart';
 import '../../manager/home_cubit/home_state.dart';
-import 'category_list_view_item.dart';
 import 'chat_error_widget.dart';
 import 'chat_loading_widget.dart';
 import 'chat_text_field.dart';
@@ -28,12 +29,17 @@ class HomeViewBody extends StatelessWidget {
         padding: MyResponsive.paddingSymmetric(horizontal: 20),
         child: Column(
           children: [
-            SizedBox(height: MyResponsive.height(value: 100)),
+            SizedBox(height: MyResponsive.height(value: 120)),
             Expanded(
               child: BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
                   final cubit = context.read<HomeCubit>();
                   final messages = cubit.messages;
+
+                  // عرض Skeleton عند تحميل الرسائل القديمة
+                  if (state is HomeLoading && messages.isEmpty) {
+                    return _buildLoadingSkeleton();
+                  }
 
                   if (messages.isEmpty) return _buildEmptyState(cubit);
 
@@ -114,30 +120,12 @@ class HomeViewBody extends StatelessWidget {
   }
 
   Widget _buildEmptyState(HomeCubit cubit) {
-    final categories = [
-      {
-        'title': AppStrings.recommendCar,
-        'subtitle': AppStrings.recommendCarSubtitle,
-        'iconPath': AppAssets.dateImage,
-      },
-      {
-        'title': AppStrings.cost,
-        'subtitle': AppStrings.costSubtitle,
-        'iconPath': AppAssets.orderImage,
-      },
-      {
-        'title': AppStrings.compareCars,
-        'subtitle': AppStrings.compareCarsSubtitle,
-        'iconPath': AppAssets.shopImage,
-      },
-    ];
-
     return SingleChildScrollView(
       child: Column(
         children: [
-          SizedBox(height: MyResponsive.height(value: 72)),
+          SizedBox(height: MyResponsive.height(value: 50)),
           Image.asset(AppAssets.chatImage),
-          SizedBox(height: MyResponsive.height(value: 22)),
+          SizedBox(height: MyResponsive.height(value: 40)),
           Padding(
             padding: MyResponsive.paddingSymmetric(horizontal: 14),
             child: Text(
@@ -148,29 +136,77 @@ class HomeViewBody extends StatelessWidget {
               textAlign: TextAlign.center,
             ),
           ),
-          SizedBox(height: MyResponsive.height(value: 27)),
-          SizedBox(
-            height: MyResponsive.height(value: 175),
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (context, index) {
-                final category = categories[index];
-                return GestureDetector(
-                  onTap: () => cubit.sendUserMessage(category['title']!),
-                  child: CategoryListViewItem(
-                    title: category['title']!,
-                    subtitle: category['subtitle']!,
-                    // iconPath: category['iconPath']!,
+          SizedBox(height: MyResponsive.height(value: 40)),
+
+          // UsedCarsAccessCard with smooth animation
+          Padding(
+            padding: MyResponsive.paddingSymmetric(horizontal: 20),
+            child: Builder(
+              builder: (context) {
+                return TweenAnimationBuilder<double>(
+                  duration: const Duration(milliseconds: 800),
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  curve: Curves.easeOutQuart,
+                  builder: (context, value, child) {
+                    return Transform.translate(
+                      offset: Offset(0, 30 * (1 - value)),
+                      child: Opacity(
+                        opacity: value,
+                        child: child,
+                      ),
+                    );
+                  },
+                  child: UsedCarsAccessCard(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => UsedCarsFeedView(),
+                        ),
+                      );
+                    },
                   ),
                 );
               },
-              separatorBuilder: (context, index) =>
-                  SizedBox(width: MyResponsive.width(value: 20)),
-              itemCount: categories.length,
             ),
           ),
         ],
       ),
+    );
+  }
+
+  Widget _buildLoadingSkeleton() {
+    return ListView.separated(
+      padding: EdgeInsets.zero,
+      itemCount: 3,
+      separatorBuilder: (_, __) =>
+          SizedBox(height: MyResponsive.height(value: 16)),
+      itemBuilder: (_, index) {
+        return Align(
+          alignment: index.isEven
+              ? AlignmentDirectional.centerStart
+              : AlignmentDirectional.centerEnd,
+          child: Container(
+            width: MyResponsive.width(value: 250),
+            height: MyResponsive.height(value: 60),
+            decoration: BoxDecoration(
+              color: const Color(0xFF2A1A4D).withOpacity(0.3),
+              borderRadius:
+                  BorderRadius.circular(MyResponsive.radius(value: 12)),
+            ),
+            child: Center(
+              child: SizedBox(
+                width: MyResponsive.width(value: 20),
+                height: MyResponsive.height(value: 20),
+                child: const CircularProgressIndicator(
+                  strokeWidth: 2,
+                  valueColor: AlwaysStoppedAnimation<Color>(Color(0xFF6C5CE7)),
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

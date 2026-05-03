@@ -13,18 +13,18 @@ class CompareCubit extends Cubit<CompareState> {
 
   void saveComparedCars(List<CarModel> cars) {
     comparedCars = List.from(cars);
-    emit(CompareUpdated());
+    if (!isClosed) emit(CompareUpdated());
   }
 
   void removeCar(CarModel car, UserCubit userCubit) {
     comparedCars.removeWhere((c) => c.id == car.id);
     userCubit.comparedCars.removeWhere((c) => c.id == car.id);
-    emit(CompareUpdated());
+    if (!isClosed) emit(CompareUpdated());
   }
 
   void clear(UserCubit userCubit) {
     userCubit.comparedCars.clear();
     comparedCars.clear();
-    emit(CompareUpdated());
+    if (!isClosed) emit(CompareUpdated());
   }
 }

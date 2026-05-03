@@ -12,8 +12,13 @@ abstract class EndPoints {
   static const String startChat = 'Chat/start';
   static const String sendMessage = 'Chat/send';
   static const String updateProfile = 'Auth/profile';
+  static const String deleteAccount = 'Auth/me';
 
   static const String getChatHistory = 'Chat/sessions';
+
+  // Used Cars endpoints
+  static const String addUsedCar = 'AddYourUsedCar';
+  static const String getAllUsedCars = 'GetAllUsedCars';
 
   static String renameSession(String sessionId) => 'Chat/rename/$sessionId';
   static String removeSession(String sessionId) => 'Chat/$sessionId';

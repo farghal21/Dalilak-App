@@ -1,151 +1,251 @@
-import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
+import 'dart:io';
+import 'package:dalilak_app/core/shared_widgets/app_network_image.dart';
+import 'package:dalilak_app/core/utils/app_assets.dart';
+import 'package:dalilak_app/core/utils/app_colors.dart';
 import 'package:flutter/material.dart';
-import 'package:image_picker/image_picker.dart';
-
-import '../../../../core/helper/my_responsive.dart';
-import '../../../../core/shared_widgets/custom_button.dart';
-import '../../../../core/shared_widgets/custom_text_form_field.dart';
-import '../../../../core/shared_widgets/image_manager/image_manager_view.dart';
-import '../../../../core/shared_widgets/profile_image_widget.dart';
-import '../../../../core/shared_widgets/svg_wrapper.dart';
-import '../../../../core/utils/app_assets.dart';
-import '../../../../core/utils/app_colors.dart';
-import '../../../../core/utils/app_strings.dart';
-import '../../../../core/utils/app_text_styles.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:dalilak_app/core/helper/my_responsive.dart';
+import 'package:dalilak_app/core/shared_widgets/custom_button.dart';
+import 'package:dalilak_app/core/shared_widgets/custom_text_form_field.dart';
+import 'package:dalilak_app/core/utils/app_strings.dart';
+import 'package:dalilak_app/core/utils/app_text_styles.dart';
+import 'package:dalilak_app/core/user/manager/user_cubit/user_cubit.dart';
+import 'package:dalilak_app/core/user/manager/user_cubit/user_state.dart';
 
 class ProfileSettingViewBody extends StatelessWidget {
   const ProfileSettingViewBody({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var cubit = UserCubit.get(context);
-    return Padding(
-      padding: MyResponsive.paddingSymmetric(horizontal: 20),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            SizedBox(
-              height: MyResponsive.height(value: 140),
-            ),
-            Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: Text(
-                AppStrings.profile,
-                style: AppTextStyles.semiBold24,
-              ),
-            ),
-            SizedBox(
-              height: MyResponsive.height(value: 42),
-            ),
-            Stack(
+    return BlocBuilder<UserCubit, UserState>(
+      builder: (context, state) {
+        var cubit = UserCubit.get(context);
+        return SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
+          padding:
+              EdgeInsets.symmetric(horizontal: MyResponsive.width(value: 20)),
+          child: Form(
+            key: cubit.formKey,
+            child: Column(
               children: [
-                ImageManagerView(
-                  onPicked: (XFile imageFile) {
-                    cubit.imageFile = imageFile;
-                  },
-                  pickedBody: (XFile imageFile) {
-                    return ProfileImageWidget(
-                      imagePath: imageFile.path,
-                      isLocalFile: true,
-                      width: MyResponsive.width(value: 126),
+                SizedBox(height: MyResponsive.height(value: 140)),
+
+                // --- 1. Enhanced Profile Image with Animation ---
+                TweenAnimationBuilder<double>(
+                  duration: const Duration(milliseconds: 600),
+                  tween: Tween(begin: 0.0, end: 1.0),
+                  builder: (context, value, child) {
+                    return Transform.scale(
+                      scale: value,
+                      child: Opacity(
+                        opacity: value,
+                        child: child,
+                      ),
                     );
                   },
-                  unPickedBody: ProfileImageWidget(
-                    imagePath: cubit.userModel.profileImageUrl,
-                    width: MyResponsive.width(value: 126),
+                  child: Center(
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        // Gradient Ring
+                        Container(
+                          width: 140,
+                          height: 140,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            gradient: AppColors.horizontalGradient,
+                          ),
+                        ),
+                        // Profile Image
+                        ClipOval(
+                          child: cubit.imageFile != null
+                              ? Image.file(
+                                  File(cubit.imageFile!.path),
+                                  width: 130,
+                                  height: 130,
+                                  fit: BoxFit.cover,
+                                )
+                              : (cubit.userModel.profileImageUrl != null &&
+                                      cubit.userModel.profileImageUrl!
+                                          .isNotEmpty)
+                                  ? AppNetworkImage(
+                                      imageUrl:
+                                          'https://jrkmal-001-site1.jtempurl.com${cubit.userModel.profileImageUrl}',
+                                      width: 130,
+                                      height: 130,
+                                      fit: BoxFit.cover,
+                                    )
+                                  : Image.asset(
+                                      AppAssets.profileImage,
+                                      width: 130,
+                                      height: 130,
+                                      fit: BoxFit.cover,
+                                    ),
+                        ),
+                        // Camera Button
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: GestureDetector(
+                            onTap: () => cubit.pickProfileImage(),
+                            child: Container(
+                              width: 40,
+                              height: 40,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                gradient: AppColors.horizontalGradient,
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.primary.withOpacity(0.4),
+                                    blurRadius: 12,
+                                    spreadRadius: 2,
+                                  ),
+                                ],
+                              ),
+                              child: const Icon(
+                                Icons.camera_alt,
+                                size: 20,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-                PositionedDirectional(
-                  bottom: 0,
-                  end: 0,
-                  child: SvgWrapper(
-                    path: AppAssets.cameraIcon,
-                    width: MyResponsive.width(value: 35),
-                    fit: BoxFit.fill,
+
+                SizedBox(height: MyResponsive.height(value: 50)),
+
+                // --- 2. Animated Form Fields ---
+                _buildAnimatedField(
+                  delay: 100,
+                  child: CustomTextFormField(
+                    controller: cubit.nameController,
+                    type: TextFieldType.name,
                   ),
                 ),
-              ],
-            ),
-            SizedBox(
-              height: MyResponsive.height(value: 4),
-            ),
-            Text(
-              cubit.userModel.fullName ?? '',
-              style: AppTextStyles.semiBold24,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Text(
-                  'ID: ${cubit.userModel.id}',
-                  style:
-                      AppTextStyles.semiBold20.copyWith(color: AppColors.gray),
-                ),
-                IconButton(
-                  onPressed: cubit.copyUserId,
-                  icon: SvgWrapper(
-                    path: AppAssets.copyIcon,
-                    color: AppColors.gray,
-                    width: MyResponsive.width(value: 24),
+                SizedBox(height: MyResponsive.height(value: 20)),
+
+                _buildAnimatedField(
+                  delay: 200,
+                  child: CustomTextFormField(
+                    controller: cubit.emailController,
+                    type: TextFieldType.email,
                   ),
                 ),
-              ],
-            ),
-            SizedBox(
-              width: MyResponsive.height(value: 12),
-            ),
-            SizedBox(
-              height: MyResponsive.height(value: 40),
-            ),
-            CustomTextFormField(
-              type: TextFieldType.name,
-              controller: cubit.nameController,
-            ),
-            SizedBox(
-              height: MyResponsive.height(value: 20),
-            ),
-            CustomTextFormField(
-              type: TextFieldType.email,
-              controller: cubit.emailController,
-            ),
-            SizedBox(
-              height: MyResponsive.height(value: 50),
-            ),
-            // CustomTextFormField(
-            //   type: TextFieldType.phone,
-            //   controller: cubit.phoneController,
-            // ),
-            // SizedBox(
-            //   height: MyResponsive.height(value: 140),
-            // ),
-            Row(
-              children: [
-                Expanded(
+                SizedBox(height: MyResponsive.height(value: 20)),
+
+                // Password Info Text
+                _buildAnimatedField(
+                  delay: 300,
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: MyResponsive.width(value: 12),
+                        vertical: MyResponsive.height(value: 8),
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.fillColor,
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(
+                          color: AppColors.gray.withOpacity(0.3),
+                          width: 1,
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            size: 16,
+                            color: AppColors.gray,
+                          ),
+                          SizedBox(width: MyResponsive.width(value: 8)),
+                          Flexible(
+                            child: Text(
+                              "كلمة المرور مطلوبة فقط عند تغيير البريد الإلكتروني",
+                              style: AppTextStyles.regular12.copyWith(
+                                color: AppColors.gray,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: MyResponsive.height(value: 12)),
+
+                _buildAnimatedField(
+                  delay: 400,
+                  child: CustomTextFormField(
+                    controller: cubit.passwordController,
+                    type: TextFieldType.password,
+                    obsecure: cubit.obsecure,
+                    onSuffixTapped: () {
+                      cubit.togglePasswordVisibility();
+                    },
+                  ),
+                ),
+
+                SizedBox(height: MyResponsive.height(value: 50)),
+
+                // --- 3. Animated Save Button ---
+                _buildAnimatedField(
+                  delay: 500,
                   child: CustomButton(
                     title: AppStrings.save,
-                    onPressed: cubit.saveProfileData,
-                  ),
-                ),
-                SizedBox(
-                  width: MyResponsive.width(value: 29),
-                ),
-                Expanded(
-                  child: CustomButton(
-                    title: AppStrings.cancel,
                     onPressed: () {
-                      Navigator.pop(context);
+                      String currentEmail = cubit.emailController.text;
+                      String? oldEmail = cubit.userModel.email;
+                      String password = cubit.passwordController.text;
+
+                      bool isEmailChanged = currentEmail != oldEmail;
+
+                      if (isEmailChanged && password.isEmpty) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                                "يرجى إدخال كلمة المرور لتأكيد تغيير البريد الإلكتروني"),
+                            backgroundColor: Colors.orange,
+                          ),
+                        );
+                        return;
+                      }
+
+                      cubit.saveProfileData();
                     },
-                    backgroundColor: AppColors.fillColor,
                   ),
                 ),
+                SizedBox(height: MyResponsive.height(value: 40)),
               ],
             ),
-            SizedBox(
-              height: MyResponsive.height(value: 20),
-            )
-          ],
-        ),
-      ),
+          ),
+        );
+      },
+    );
+  }
+
+  /// Animated Field Widget
+  Widget _buildAnimatedField({
+    required int delay,
+    required Widget child,
+  }) {
+    return TweenAnimationBuilder<double>(
+      duration: Duration(milliseconds: 400 + delay),
+      tween: Tween(begin: 0.0, end: 1.0),
+      curve: Curves.easeOut,
+      builder: (context, value, _) {
+        return Transform.translate(
+          offset: Offset(0, 20 * (1 - value)),
+          child: Opacity(
+            opacity: value,
+            child: child,
+          ),
+        );
+      },
     );
   }
 }
